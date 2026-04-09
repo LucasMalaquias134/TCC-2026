@@ -1,0 +1,12 @@
+git init                \para inicializar o repositório
+git add
+git commit -m "texto"
+git branch -M "texto"                            \para alterar o nome da branch
+git remote add origin <link do repositório>                \para passar o commit do meu repositório local (da minha máquina) para um repositório na plataforma do Github
+git push -u origin branch
+git push origin branch 
+git checkout -b "branchNova"
+git checkout branch
+git merge branch
+git clone <link do repositório>
+git pull
