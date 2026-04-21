@@ -1,0 +1,147 @@
+*{
+    margin: 0;
+    padding: 0;
+}
+
+/*
+background-image: url("../../../fotos/fitflowBackgroundhorinzotal.jpg");
+background-size: cover;
+*/
+@media (min-width: 376px){
+    body{
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        height: 100vh;
+        width: 100vw;
+        
+    }
+
+    .fotoLateral{
+        background-position: center; 
+        background-repeat: no-repeat;
+
+        background-image: url("../../fotos/fitflowBackgroundhorinzotal.jpg");
+        background-size: contain;
+        height: 100vh;
+        width: 50vw;
+    }
+}
+@media (max-width: 375px){
+    body{
+
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: flex-start;
+        height: 100vh;
+        width: 100vw;
+        background-color: blue;
+        
+        background-position: center; 
+        background-repeat: no-repeat;
+
+        background-image: url("../../fotos/fitflowBackgroundvertical.jpg");
+        background-size: cover;
+    }
+    .divisao{
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: flex-start;
+        height: 100vh;
+        width: 100vw;
+    }
+    main{
+        position: fixed;
+        top: 0;
+        width: 100vw;
+        text-align: center;
+    }
+    h1{
+        color: white;
+        margin-top:2.5vh;
+        font-size: 8.5vw;
+    }
+    footer{
+        position: fixed;
+        bottom: 0;
+        width: 100vw;
+        background-color: rgba(255, 255, 255 , 0.7);
+        height: 25vh;
+        border-radius: 0px 50px 0px 0px;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        box-shadow: 0px 0px 20px 1px black;
+    }
+    .texto{
+        width: 80%;
+        height: 20%;
+        text-align: left;
+        margin-bottom: 2vh;
+    }
+    .texto p{
+        font-size: 6vw;
+        font-family:system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif ;
+        font-weight: 300;
+        text-decoration: underline 1px;
+    }
+    .conteudo{
+        width: 90%;
+        height: 40%;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+    }
+    .conteudo a{
+        text-decoration: none;
+        background-color: #001f65;
+        width: 100%;
+        height: 80%;
+        border-radius: 20px;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        color: white;
+        box-shadow: 0px 0px 20px 1px black;
+        font-size: 19px;
+        transition: 250ms;
+    }
+    .conteudo a:hover{
+        box-shadow: 0px 0px 20px 5px black;
+        transition: 250ms;
+    }
+    .embaixo{
+        width: 80%;
+        height: 20%;
+        display: flex;
+        justify-content: space-between;
+        align-items: flex-end;
+        
+    }
+    .cad{
+        font-family:system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif ;
+        text-decoration: none;
+        color: black;
+        display: flex;
+        justify-content: center;
+        align-items: flex-end;
+    }
+    .cad *{
+        color: #001f65;
+    }
+    .sobre{
+        text-decoration: none;
+        color: black;
+        font-family:system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif ;
+    }
+    .sobre:hover , .cad:hover{
+        color: #001f65;
+    }
+    
+}
+
+/*#001f65, #6895fd*/
