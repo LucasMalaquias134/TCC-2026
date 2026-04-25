@@ -1,0 +1,19 @@
+[90m= [39m[34;4mIlluminate\Database\Eloquent\Collection[39;24m {#7826
+    [34mall[39m: [
+      [34;4mApp\Models\User[39;24m {#7824
+        [34mid[39m: [35m2[39m,
+        [34mname[39m: [32m"[39m[32msla[39m[32m"[39m,
+        [34memail[39m: [32m"[39m[32mtlsk@a.com[39m[32m"[39m,
+        [34memail_verified_at[39m: [36mnull[39m,
+        #[33mpassword[39m: [32m"[39m\$[32m2y[39m\$[32m12[39m\$[32m.f8kHQOeBtmX0OslyWtDDu4OOsnX2HkziaYDKbIKzawfRAVKAMGTO[39m[32m"[39m,
+        #[33mremember_token[39m: [36mnull[39m,
+        [34midade[39m: [35m21[39m,
+        [34mcidadeMora[39m: [32m"[39m[32mmg[39m[32m"[39m,
+        [34mtelefone[39m: [36mnull[39m,
+        [34muser_name[39m: [32m"[39m[32mrassss[39m[32m"[39m,
+        [34mdeleted_at[39m: [36mnull[39m,
+        [34mcreated_at[39m: [32m"[39m[32m2026-04-24 19:52:11[39m[32m"[39m,
+        [34mupdated_at[39m: [32m"[39m[32m2026-04-24 19:52:11[39m[32m"[39m,
+      },
+    ],
+  }

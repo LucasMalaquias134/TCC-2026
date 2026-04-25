@@ -1,0 +1,15 @@
+[90m= [39m[34;4mApp\Models\User[39;24m {#7805
+    [34mid[39m: [35m1[39m,
+    [34mname[39m: [32m"[39m[32mNome de Exemplo[39m[32m"[39m,
+    [34memail[39m: [32m"[39m[32mexemplo@email.com[39m[32m"[39m,
+    [34memail_verified_at[39m: [36mnull[39m,
+    #[33mpassword[39m: [32m"[39m\$[32m2y[39m\$[32m12[39m\$[32mp.Aj2NmYcP4zkvph9838r.703IGWRcqObik1E4X/Gbe25XzmppKLy[39m[32m"[39m,
+    #[33mremember_token[39m: [36mnull[39m,
+    [34midade[39m: [35m50[39m,
+    [34mcidadeMora[39m: [32m"[39m[32mformiga[39m[32m"[39m,
+    [34mtelefone[39m: [36mnull[39m,
+    [34muser_name[39m: [32m"[39m[32mteste[39m[32m"[39m,
+    [34mdeleted_at[39m: [32m"[39m[32m2026-04-24 19:45:07[39m[32m"[39m,
+    [34mcreated_at[39m: [32m"[39m[32m2026-04-24 19:43:03[39m[32m"[39m,
+    [34mupdated_at[39m: [32m"[39m[32m2026-04-24 19:45:07[39m[32m"[39m,
+  }
