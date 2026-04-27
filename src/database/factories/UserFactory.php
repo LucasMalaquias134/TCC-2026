@@ -32,6 +32,7 @@ class UserFactory extends Factory
             'remember_token' => Str::random(10),
             //idade , cidadeMora, telefone user_name
             'idade' => fake()->numberBetween(1 , 100),
+            'urlImage' => fake()->name(),
             'cidadeMora' => fake()->name(),
             'telefone' => fake()->optional()->numerify('###############'),
             'user_name' => fake()->name()

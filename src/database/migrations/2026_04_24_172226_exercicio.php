@@ -18,7 +18,7 @@ return new class extends Migration
             $table->integer('qntdSeries');
             $table->integer('qtndRep');
             $table->decimal('peso' , 6 , 2)->nullable();
-            $table->text('descricao')->nullable();
+            $table->string('descricao' , 100)->nullable();
             $table->softDeletes();
             $table->timestamps();
         });
