@@ -38,6 +38,7 @@ class Tabela extends StatelessWidget {
             ),
             Container(
               //cada linha é 30
+              width: 400,
               height: 150,
               color: Colors.transparent,
               child: ListView(
