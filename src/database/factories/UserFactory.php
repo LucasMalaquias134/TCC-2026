@@ -34,7 +34,6 @@ class UserFactory extends Factory
             'idade' => fake()->numberBetween(1 , 100),
             'urlImage' => fake()->name(),
             'cidadeMora' => fake()->name(),
-            'telefone' => fake()->optional()->numerify('###############'),
             'user_name' => fake()->name()
         ];
     }

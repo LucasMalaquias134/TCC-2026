@@ -21,7 +21,6 @@ return new class extends Migration
             $table->rememberToken();
             $table->integer('idade')->unsigned()->nullable();
             $table->string('cidadeMora' , 100)->nullable();
-            $table->string('telefone' , 15)->nullable()->unique();
             $table->string('user_name' , 45)->unique();
             $table->softDeletes();
             $table->timestamps();
