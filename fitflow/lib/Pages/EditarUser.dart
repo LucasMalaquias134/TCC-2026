@@ -28,6 +28,7 @@ class Editaruser extends StatelessWidget {
                       width: 100,
                       height: 100,
                       padding: EdgeInsets.all(15),
+                      margin: EdgeInsets.only(left: 25),
                       decoration: BoxDecoration(
                         shape: BoxShape.circle,
                         color: Colors.white,
@@ -51,7 +52,6 @@ class Editaruser extends StatelessWidget {
                         fontSize: 20,
                       ),
                     ),
-                    Icon(Icons.edit, color: Color(0xFF301c41)),
                   ],
                 ),
                 Divider(
@@ -65,56 +65,17 @@ class Editaruser extends StatelessWidget {
           ),
           Container(
             color: Colors.transparent,
-            height: 200,
             child: Column(
               mainAxisAlignment: MainAxisAlignment.start,
               crossAxisAlignment: CrossAxisAlignment.center,
               children: [
-                //email , telefone , nome , idade , mora , senha
+                //email , nome , idade , mora , senha
+                Textfieldsdouseredit('Usuário', false),
                 Textfieldsdouseredit('Email', false),
-                Textfieldsdouseredit('Telefone', false),
                 Textfieldsdouseredit('Nome', false),
                 Textfieldsdouseredit('Idade', false),
-                Textfieldsdouseredit('Mora', false),
+                Textfieldsdouseredit('Cidade', false),
                 Textfieldsdouseredit('Senha', true),
-              ],
-            ),
-          ),
-          Container(
-            color: Colors.transparent,
-            height: 100,
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.spaceAround,
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                WelcomeContainers(
-                  Color(0xFF5C65C0),
-                  30,
-                  110,
-                  'Sair do app',
-                  '',
-                  false,
-                  5,
-                  Editaruser(),
-                  false,
-                  0,
-                  false,
-                  true,
-                ),
-                WelcomeContainers(
-                  Color(0xFF5C65C0),
-                  30,
-                  110,
-                  'Log out',
-                  '',
-                  false,
-                  5,
-                  Login(),
-                  true,
-                  5,
-                  false,
-                  false,
-                ),
               ],
             ),
           ),

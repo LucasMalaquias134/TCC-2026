@@ -18,7 +18,7 @@ class _HomeState extends State<Home> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBarTodos('assets/img/userProfile.png', 7),
+      appBar: Appbartodos('assets/img/userProfile.png', 7),
       backgroundColor: Color(0xFF413B6B),
       body: classes[selecionado],
       bottomNavigationBar: BottomNavigationBar(

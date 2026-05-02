@@ -8,7 +8,7 @@ Row Textfieldsdouseredit(String texto, bool eSenha) => Row(
       child: Container(
         padding: EdgeInsets.symmetric(horizontal: 10),
         color: Colors.transparent,
-        height: 30,
+        height: 50,
         child: Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           crossAxisAlignment: CrossAxisAlignment.center,
@@ -34,12 +34,12 @@ Row Textfieldsdouseredit(String texto, bool eSenha) => Row(
                     color: Colors.transparent,
                     alignment: Alignment.center,
                     width: 166,
-                    height: 20,
+                    height: 30,
                     child: TextField(
                       textAlign: TextAlign.start,
                       textAlignVertical: TextAlignVertical.top,
                       decoration: InputDecoration(
-                        contentPadding: EdgeInsets.only(bottom: 14),
+                        contentPadding: EdgeInsets.only(bottom: 18),
                         filled: true,
                         fillColor: Colors.white,
                         border: InputBorder.none,
