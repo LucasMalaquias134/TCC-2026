@@ -24,6 +24,7 @@ class ExercicioFactory extends Factory
             'qntdSeries' => fake()->numberBetween(1 , 12),
             'qtndRep' => fake()->numberBetween(1 , 30),
             'peso' => fake()->optional()->randomFloat(2 , 1 , 9999),
+            'descanso'=>fake()->numberBetween(1 , 60),
             'descricao' => fake()->optional()->sentence()
         ];
     }
