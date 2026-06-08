@@ -96,6 +96,21 @@
 
             <div class="app-content">
                 <div class="container-fluid">
+
+                    @if(session()->has('msg'))
+                    <div class="alert alert-success alert-dismissible fade show mb-5" role="alert">
+                        {{ session()->get('msg') }}
+                        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                    </div>
+                    @endif
+                    
+                    @if(session()->has('errors'))
+                        <div class="alert alert-danger alert-dismissible fade show mb-5" role="alert">
+                            {{ session()->get('errors') }}
+                            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                        </div>
+                    @endif
+                    
                     @yield('corpo')
                 </div>
             </div>

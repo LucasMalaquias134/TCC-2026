@@ -10,7 +10,8 @@
             <ul class="nav sidebar-menu flex-column" data-lte-toggle="treeview" role="menu">
                 
                 <li class="nav-item">
-                    <a href="{{ route('user_profile') }}" class="nav-link text-white" >
+                    {{-- depois da autenticação tem que colocar o id aqui: --}}
+                    <a href="{{ route('user_profile',['id'=>encrypt(51)]) }}" class="nav-link text-white" >
                         <i class="nav-icon bi bi-person"></i>
                         <p>Configurações do usuário</p>
                     </a>

@@ -6,7 +6,7 @@
 @section('corpo')
 
     <div class="d-flex justify-content-center mb-2">
-        <img src="{{asset('assets/userProfile.png')}}" class="rounded-circle" width="150" height="150">
+        <img src="{{($usuario->urlImage ? asset('assets/photos/' . $usuario->urlImage) : asset('assets/userProfile.png'))}}" onerror="this.onerror=null; this.src='{{ asset('assets/userProfile.png') }}';" class="rounded-circle" width="150" height="150" style="object-fit: cover;">
     </div>
 
     <div class="d-flex justify-content-center mb-2">
@@ -20,46 +20,50 @@
         <h1 class='text-white'>Mude suas informações</h1>
     </div>
 
-
-    <form>
-
+    <form method="post" action="{{route('updateUser',['id'=>$usuario->id])}}" enctype="multipart/form-data">
+        @csrf
         <div class="mb-3">
-            <label for="UserName" class="form-label text-white">Nome do Usuário :</label>
-            <input type="text" class="form-control" id="UserName" style="background-color: rgb(28, 11, 43) !important;" placeholder='Nome do Usuário'>
+            <label for="user_name" class="form-label text-white">Nome do Usuário :</label>
+            <input type="text" class="form-control" id="user_name" name="user_name" value="{{ old('user_name', $usuario->user_name) }}" style="background-color: rgb(28, 11, 43) !important;" placeholder='Nome do Usuário'>
         </div>
 
         <div class="mb-3">
-            <label for="Nome" class="form-label text-white">Nome :</label>
-            <input type="text" class="form-control" id="Nome" style="background-color: rgb(28, 11, 43) !important;" placeholder='Nome'>
+            <label for="name" class="form-label text-white">Nome :</label>
+            <input type="text" class="form-control" id="name" name="name" value="{{ old('name', $usuario->name) }}" style="background-color: rgb(28, 11, 43) !important;" placeholder='Nome'>
         </div>
         
         <div class="mb-3">
-            <label for="Email" class="form-label text-white">Email :</label>
-            <input type="email" class="form-control" id="Email" style="background-color: rgb(28, 11, 43) !important;" placeholder='Email'>
+            <label for="email" class="form-label text-white">Email :</label>
+            <input type="email" class="form-control" id="email" name="email" value="{{ old('email', $usuario->email) }}" style="background-color: rgb(28, 11, 43) !important;" placeholder='Email'>
         </div>
 
         <div class="mb-3">
-            <label for="Idade" class="form-label text-white">Idade :</label>
-            <input type="number" class="form-control" id="Idade" style="background-color: rgb(28, 11, 43) !important;" placeholder='Idade'>
+            <label for="idade" class="form-label text-white">Idade :</label>
+            <input type="number" class="form-control" id="idade" name="idade" value="{{ old('idade', $usuario->idade) }}" style="background-color: rgb(28, 11, 43) !important;" placeholder='Idade'>
         </div>
 
         <div class="mb-3">
-            <label for="Cidade" class="form-label text-white">Cidade que nasceu :</label>
-            <input type="text" class="form-control" id="Cidade" style="background-color: rgb(28, 11, 43) !important;" placeholder='Cidade que nasceu'>
+            <label for="cidadeMora" class="form-label text-white">Cidade que mora :</label>
+            <input type="text" class="form-control" id="cidadeMora" name="cidadeMora" value="{{ old('cidadeMora', $usuario->cidadeMora) }}" style="background-color: rgb(28, 11, 43) !important;" placeholder='Cidade que mora'>
+        </div>
+
+        <div class="mb-3">
+            <label for="fotoPerfil" class="form-label text-white">Foto de Perfil :</label>
+            <input type="file" class="form-control" id="fotoPerfil" name="fotoPerfil" value="{{ old('fotoPerfil', $usuario->urlImage) }}" style="background-color: rgb(28, 11, 43) !important;" placeholder='Foto de Perfil'>
         </div>
 
         <div class="mb-5">
-            <label for="FotoPerfil" class="form-label text-white">Foto de Perfil :</label>
-            <input type="file" class="form-control" id="FotoPerfil" style="background-color: rgb(28, 11, 43) !important;" placeholder='Foto de Perfil'>
+            <label for="password" class="form-label text-white">Mudar a senha :</label>
+            <input type="password" class="form-control" id="password" name="password" style="background-color: rgb(28, 11, 43) !important;" placeholder='Nova senha' >
         </div>
 
         <div class="mb-3">
-            <label for="Senha" class="form-label text-white">Senha :</label>
-            <input type="password" class="form-control" id="Senha" style="background-color: rgb(28, 11, 43) !important;" placeholder='Senha'>
+            <label for="senhaConfirma" class="form-label text-white">Confirme sua senha antiga :</label>
+            <input type="password" class="form-control" id="senhaConfirma" name="senhaConfirma" style="background-color: rgb(28, 11, 43) !important;" required>
         </div>
 
         
-        <button type="submit" class="btn" style="background-color: rgb(92, 101, 192) !important;" >Salvar</button>
+        <button type="submit" class="btn" style="background-color: rgb(92, 101, 192) !important;" onclick="return confirm('Todas as informações estão corretas?')">Salvar</button>
     </form>
 
 @endsection

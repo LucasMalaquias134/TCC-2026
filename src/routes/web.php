@@ -1,7 +1,7 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
-use App\Http\Controllers\homeUserprofileCT;
+use App\Http\Controllers\userProfileController;
 use App\Http\Controllers\listaCT;
 use App\Http\Controllers\AuthController;
 
@@ -25,8 +25,12 @@ Route::get('/cadastro',[AuthController::class,'cadastroView'])->name('cadastro')
 Route::get('/logout',[AuthController::class,'logout'])->name('logout');
 Route::get('/deleted',[AuthController::class,'deleted'])->name('deleted');
 
-//===================
+//========UserProfile===============================
 
+Route::get('/user_profile{id}',[userProfileController::class,'index'])->name('user_profile');
 
-Route::get('/user_profile',[homeUserprofileCT::class,'index'])->name('user_profile');
+Route::post('/user_profile{id}',[userProfileController::class,'update'])->name('updateUser');
+
+//=====================
+
 Route::get('/lista/{numeroFicha}',[listaCT::class,'index'])->name('lista');
