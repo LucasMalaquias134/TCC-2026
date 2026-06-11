@@ -1,3 +1,5 @@
+import 'package:fitflow/Pages/Cadastro.dart';
+import 'package:fitflow/Pages/HelpSenhaView.dart';
 import 'package:fitflow/WidgetsPersonalizados/ContainersWelcome.dart';
 import 'package:fitflow/WidgetsPersonalizados/TextFieldsDoLogin.dart';
 import 'package:flutter/material.dart';
@@ -11,10 +13,8 @@ class Login extends StatefulWidget {
 }
 
 class _LoginState extends State<Login> {
-  @override
-  void initState() {
-    super.initState();
-  }
+  TextEditingController nomeController = TextEditingController();
+  TextEditingController senhaController = TextEditingController();
 
   @override
   Widget build(BuildContext context) {
@@ -38,31 +38,31 @@ class _LoginState extends State<Login> {
                 ),
                 SizedBox(height: 80),
                 Textfieldsdologin(
-                  'assets/img/userProfile.png',
-                  40,
-                  330,
-                  'Nome do usuário ou telefone ou email',
-                  false,
-                  true,
+                  largura: 330,
+                  altura: 50,
+                  icone: Icon(Icons.person_outline),
+                  placeHolder: 'Nome do usuário ou telefone ou email',
+                  eSenha: false,
+                  texto: nomeController,
                 ),
                 SizedBox(height: 20),
                 Textfieldsdologin(
-                  'assets/img/senhaIcone.png',
-                  40,
-                  330,
-                  'Senha',
-                  true,
-                  true,
+                  largura: 330,
+                  altura: 50,
+                  icone: Icon(Icons.lock_outline),
+                  placeHolder: 'Senha',
+                  eSenha: true,
+                  texto: senhaController,
                 ),
-                SizedBox(height: 30),
-                WelcomeContainers(
+                SizedBox(height: 40),
+                ContainersWelcome(
                   Color(0xFF5C65C0),
-                  40,
+                  60,
                   330,
                   'Realizar login',
                   '',
                   false,
-                  0,
+                  15,
                   Home(),
                   true,
                   5,
@@ -70,29 +70,29 @@ class _LoginState extends State<Login> {
                   false,
                 ),
                 SizedBox(height: 14),
-                WelcomeContainers(
+                ContainersWelcome(
                   Color(0xFF1C0B2B),
                   40,
                   330,
                   'Criar uma conta',
-                  'http://127.0.0.1:8000/',
-                  true,
+                  '',
+                  false,
                   0,
-                  Login(),
+                  Cadastro(),
                   false,
                   0,
                   true,
                   false,
                 ),
-                WelcomeContainers(
+                ContainersWelcome(
                   Colors.transparent,
                   40,
                   330,
                   "Esqueci minha senha",
-                  'http://127.0.0.1:8000/',
-                  true,
+                  '',
+                  false,
                   0,
-                  Login(),
+                  Helpsenhaview(),
                   false,
                   0,
                   true,

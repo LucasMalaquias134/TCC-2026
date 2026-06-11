@@ -23,69 +23,48 @@ class Fichasbloco extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      height: 150,
-      padding: EdgeInsets.symmetric(horizontal: 20, vertical: 15),
-      color: Color(0xFF413B6B),
-      child: GestureDetector(
-        onTap: () {
-          Navigator.push(
-            context,
-            MaterialPageRoute(
-              builder: (context) => Splashentrouaplicativo(segs, tela),
-            ),
-          );
-        },
-        child: Container(
-          color: Color(0xFF301C41),
-          padding: EdgeInsets.symmetric(horizontal: 10),
-          child: Row(
-            mainAxisAlignment: MainAxisAlignment.start,
-            crossAxisAlignment: CrossAxisAlignment.center,
-            children: [
-              Image(
-                image: AssetImage('assets/img/LogoMaisSombreada.png'),
-                height: 60,
+      margin: EdgeInsets.only(bottom: 10, left: 10, right: 10),
+      child: Card(
+        color: Color(0xFF301C41),
+        elevation: 4,
+        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
+        child: InkWell(
+          borderRadius: BorderRadius.circular(12),
+          onTap: () {
+            Navigator.push(
+              context,
+              MaterialPageRoute(
+                builder: (context) => Splashentrouaplicativo(segs, tela),
               ),
-              VerticalDivider(
-                thickness: 2,
-                color: Colors.white,
-                endIndent: 10,
-                indent: 10,
-              ),
-              Expanded(
-                child: Padding(
-                  padding: EdgeInsets.symmetric(vertical: 10),
-                  child: Column(
-                    mainAxisAlignment: MainAxisAlignment.start,
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Text(
-                        titulo,
-                        style: TextStyle(
-                          color: Colors.white,
-                          fontFamily: 'fredoka',
-                        ),
-                      ),
-                      Text(
-                        '$dataInicio - $dataFim',
-                        style: TextStyle(
-                          color: Colors.white,
-                          fontFamily: 'fredoka',
-                        ),
-                      ),
-                      Divider(thickness: 2, height: 20, color: Colors.white),
-                      Text(
-                        '$desc',
-                        style: TextStyle(
-                          color: Colors.white,
-                          fontFamily: 'fredoka',
-                        ),
-                      ),
-                    ],
+            );
+          },
+          child: Padding(
+            padding: const EdgeInsets.all(16.0),
+            child: Column(
+              mainAxisSize: MainAxisSize.min,
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Text(
+                  titulo,
+                  style: TextStyle(
+                    color: Colors.white,
+                    fontFamily: 'fredoka',
+                    fontSize: 20,
                   ),
                 ),
-              ),
-            ],
+                Text(
+                  '$dataInicio - $dataFim',
+                  style: TextStyle(color: Colors.white, fontFamily: 'fredoka'),
+                ),
+                SizedBox(height: 5),
+                Divider(thickness: 2, height: 20, color: Colors.white),
+                SizedBox(height: 5),
+                Text(
+                  '$desc',
+                  style: TextStyle(color: Colors.white, fontFamily: 'fredoka'),
+                ),
+              ],
+            ),
           ),
         ),
       ),

@@ -1,11 +1,15 @@
-import 'package:fitflow/WidgetsPersonalizados/LinhaPersonalizada.dart';
 import 'package:flutter/material.dart';
 
-class Tabela extends StatelessWidget {
-  const Tabela(this.titulo, {super.key});
+class Tabela extends StatefulWidget {
+  final String dia;
 
-  final String titulo;
+  const Tabela(this.dia, {super.key});
 
+  @override
+  State<Tabela> createState() => _TabelaState();
+}
+
+class _TabelaState extends State<Tabela> {
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -23,9 +27,9 @@ class Tabela extends StatelessWidget {
               height: 50,
               child: Container(
                 color: Color(0xFF301C41),
-                width: 400,
+                width: 2000,
                 child: Text(
-                  titulo,
+                  widget.dia,
                   textAlign: TextAlign.center,
                   style: TextStyle(
                     fontSize: 30,
@@ -36,19 +40,195 @@ class Tabela extends StatelessWidget {
                 ),
               ),
             ),
-            Container(
-              //cada linha é 30
-              width: 400,
-              height: 150,
-              color: Colors.transparent,
-              child: ListView(
-                scrollDirection: Axis.horizontal,
-                children: [
-                  LinhaPersonalizada(
-                    "Lorem",
-                    "Lorem IpsumNeque porro quisquam est qui dolorem ipsum quia dolor sit amet, consectetur, adipisci velit",
-                    "10",
-                    "12x3",
+            SingleChildScrollView(
+              scrollDirection: Axis.horizontal,
+              child: DataTable(
+                headingRowColor: WidgetStateProperty.all(Color(0xFF301C41)),
+                dataRowColor: WidgetStateProperty.all(Color(0xFF5C65C0)),
+                columns: const [
+                  DataColumn(
+                    label: Text(
+                      'Exercício',
+                      style: TextStyle(
+                        color: Colors.white,
+                        fontFamily: 'fredoka',
+                      ),
+                    ),
+                  ),
+                  DataColumn(
+                    label: Text(
+                      'Peso',
+                      style: TextStyle(
+                        color: Colors.white,
+                        fontFamily: 'fredoka',
+                      ),
+                    ),
+                  ),
+                  DataColumn(
+                    label: Text(
+                      'Repetições',
+                      style: TextStyle(
+                        color: Colors.white,
+                        fontFamily: 'fredoka',
+                      ),
+                    ),
+                  ),
+                  DataColumn(
+                    label: Text(
+                      'Series',
+                      style: TextStyle(
+                        color: Colors.white,
+                        fontFamily: 'fredoka',
+                      ),
+                    ),
+                  ),
+                  DataColumn(
+                    label: Text(
+                      'Descanso',
+                      style: TextStyle(
+                        color: Colors.white,
+                        fontFamily: 'fredoka',
+                      ),
+                    ),
+                  ),
+                  DataColumn(
+                    label: Text(
+                      'Descrição',
+                      style: TextStyle(
+                        color: Colors.white,
+                        fontFamily: 'fredoka',
+                      ),
+                    ),
+                  ),
+                ],
+                rows: [
+                  DataRow(
+                    cells: [
+                      DataCell(
+                        //-------------------------------treino
+                        Text(
+                          'Supino Reto',
+                          style: TextStyle(
+                            color: Colors.white,
+                            fontFamily: 'fredoka',
+                          ),
+                        ),
+                      ),
+                      DataCell(
+                        //-------------------------------peso
+                        Text(
+                          '30 kg',
+                          style: TextStyle(
+                            color: Colors.white,
+                            fontFamily: 'fredoka',
+                          ),
+                        ),
+                      ),
+                      DataCell(
+                        //-------------------------------reps
+                        Text(
+                          '12',
+                          style: TextStyle(
+                            color: Colors.white,
+                            fontFamily: 'fredoka',
+                          ),
+                        ),
+                      ),
+                      DataCell(
+                        //-------------------------------series
+                        Text(
+                          '4',
+                          style: TextStyle(
+                            color: Colors.white,
+                            fontFamily: 'fredoka',
+                          ),
+                        ),
+                      ),
+                      DataCell(
+                        //-------------------------------descanso
+                        Text(
+                          '60 segs',
+                          style: TextStyle(
+                            color: Colors.white,
+                            fontFamily: 'fredoka',
+                          ),
+                        ),
+                      ),
+                      DataCell(
+                        Text(
+                          //-------------------------------desc
+                          'Lorem ipsun kkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkk',
+                          style: TextStyle(
+                            color: Colors.white,
+                            fontFamily: 'fredoka',
+                          ),
+                        ),
+                      ),
+                    ],
+                  ),
+                  DataRow(
+                    cells: [
+                      DataCell(
+                        //-------------------------------treino
+                        Text(
+                          'Abdomen',
+                          style: TextStyle(
+                            color: Colors.white,
+                            fontFamily: 'fredoka',
+                          ),
+                        ),
+                      ),
+                      DataCell(
+                        //-------------------------------peso
+                        Text(
+                          '5 kg',
+                          style: TextStyle(
+                            color: Colors.white,
+                            fontFamily: 'fredoka',
+                          ),
+                        ),
+                      ),
+                      DataCell(
+                        //-------------------------------reps
+                        Text(
+                          '15',
+                          style: TextStyle(
+                            color: Colors.white,
+                            fontFamily: 'fredoka',
+                          ),
+                        ),
+                      ),
+                      DataCell(
+                        //-------------------------------series
+                        Text(
+                          '5',
+                          style: TextStyle(
+                            color: Colors.white,
+                            fontFamily: 'fredoka',
+                          ),
+                        ),
+                      ),
+                      DataCell(
+                        //-------------------------------descanso
+                        Text(
+                          '60 segs',
+                          style: TextStyle(
+                            color: Colors.white,
+                            fontFamily: 'fredoka',
+                          ),
+                        ),
+                      ),
+                      DataCell(
+                        Text(
+                          //-------------------------------desc
+                          'Lorem ipsun jsjsjsjsjjsjsjdksdjskdsj',
+                          style: TextStyle(
+                            color: Colors.white,
+                            fontFamily: 'fredoka',
+                          ),
+                        ),
+                      ),
+                    ],
                   ),
                 ],
               ),

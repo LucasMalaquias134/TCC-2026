@@ -13,12 +13,12 @@ class Home extends StatefulWidget {
 class _HomeState extends State<Home> {
   int selecionado = 0;
 
-  List<Widget> classes = [Fichas(), Editaruser()];
+  List<Widget> classes = [Fichas(), Editaruser('assets/img/Imagemcolada.png')];
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: Appbartodos('assets/img/userProfile.png', 7),
+      appBar: Appbartodos('assets/img/Imagemcolada.png'),
       backgroundColor: Color(0xFF413B6B),
       body: classes[selecionado],
       bottomNavigationBar: BottomNavigationBar(

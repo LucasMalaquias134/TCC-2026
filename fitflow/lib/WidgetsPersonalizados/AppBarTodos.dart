@@ -1,22 +1,16 @@
-import 'package:fitflow/Pages/Login.dart';
+import 'package:fitflow/Pages/Welcome.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:fitflow/Splashes/SplashEntrouAplicativo.dart';
 
-class Appbartodos extends StatefulWidget implements PreferredSizeWidget {
+class Appbartodos extends StatelessWidget implements PreferredSizeWidget {
   final String urlDaImage;
-  final double paddingExiste;
 
-  const Appbartodos(this.urlDaImage, this.paddingExiste, {super.key});
+  const Appbartodos(this.urlDaImage, {super.key});
 
   @override
   Size get preferredSize => const Size.fromHeight(70);
 
-  @override
-  State<Appbartodos> createState() => _AppbartodosState();
-}
-
-class _AppbartodosState extends State<Appbartodos> {
   @override
   Widget build(BuildContext context) {
     return AppBar(
@@ -30,17 +24,19 @@ class _AppbartodosState extends State<Appbartodos> {
               mainAxisAlignment: MainAxisAlignment.start,
               crossAxisAlignment: CrossAxisAlignment.center,
               children: [
-                Container(
-                  width: 50,
-                  height: 50,
-                  padding: EdgeInsets.all(widget.paddingExiste),
-                  decoration: BoxDecoration(
-                    shape: BoxShape.circle,
-                    color: Colors.white,
-                  ),
-                  child: Image(image: AssetImage(widget.urlDaImage)),
+                CircleAvatar(
+                  radius: 40,
+                  backgroundImage: urlDaImage.isNotEmpty
+                      ? AssetImage(urlDaImage)
+                      : null,
+                  child: urlDaImage.isEmpty
+                      ? const Icon(
+                          Icons.person_outline,
+                          size: 40,
+                          color: Colors.black,
+                        )
+                      : null,
                 ),
-                SizedBox(width: 10),
                 Text(
                   'Usuario',
                   style: TextStyle(
@@ -60,14 +56,14 @@ class _AppbartodosState extends State<Appbartodos> {
                         context,
                         MaterialPageRoute(
                           builder: (context) =>
-                              Splashentrouaplicativo(5, Login()),
+                              Splashentrouaplicativo(5, Welcome()),
                         ),
                         (route) => false,
                       );
-                      // Sua lógica para deslogar aqui
+                      //lógica para deslogar aqui
                     } else if (valor == 'sair') {
                       SystemNavigator.pop();
-                      // Sua lógica para fechar o app aqui
+                      //lógica para fechar o app aqui
                     }
                   },
                   itemBuilder: (BuildContext context) =>
@@ -114,6 +110,5 @@ class _AppbartodosState extends State<Appbartodos> {
         ),
       ],
     );
-    ;
   }
 }

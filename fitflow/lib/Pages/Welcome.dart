@@ -1,15 +1,11 @@
+import 'package:fitflow/Pages/Cadastro.dart';
 import 'package:fitflow/Pages/Login.dart';
 import 'package:flutter/material.dart';
 import 'package:fitflow/WidgetsPersonalizados/ContainersWelcome.dart';
 
-class Welcome extends StatefulWidget {
+class Welcome extends StatelessWidget {
   const Welcome({super.key});
 
-  @override
-  State<Welcome> createState() => _WelcomeState();
-}
-
-class _WelcomeState extends State<Welcome> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -33,20 +29,20 @@ class _WelcomeState extends State<Welcome> {
                   color: Color(0xFF5c65c0),
                   fontSize: 40,
                   fontWeight: FontWeight(200),
-                  fontFamily: 'fedroka',
+                  fontFamily: 'fredoka',
                 ),
                 textAlign: TextAlign.center,
               ),
             ),
             SizedBox(height: 100),
-            WelcomeContainers(
+            ContainersWelcome(
               Color(0xFF5C65C0),
-              40,
+              60,
               300,
               'Já tenho uma conta',
               '',
               false,
-              20,
+              15,
               Login(),
               false,
               0,
@@ -54,16 +50,16 @@ class _WelcomeState extends State<Welcome> {
               false,
             ),
 
-            SizedBox(height: 30),
-            WelcomeContainers(
+            SizedBox(height: 20),
+            ContainersWelcome(
               Color(0xFF301C41),
-              40,
+              60,
               260,
               'Não tenho conta',
-              'http://127.0.0.1:8000/',
-              true,
-              20,
-              Welcome(),
+              '',
+              false,
+              15,
+              Cadastro(),
               false,
               0,
               true,

@@ -1,49 +1,51 @@
 import 'package:flutter/material.dart';
 
 class Textfieldsdologin extends StatelessWidget {
-  const Textfieldsdologin(
-    this.caminhoImg,
-    this.altura,
-    this.largura,
-    this.placeHolder,
-    this.eSenha,
-    this.temFoto, {
-    super.key,
-  });
-
-  final String caminhoImg;
-  final double altura;
   final double largura;
+  final double altura;
+  final Icon icone;
   final String placeHolder;
   final bool eSenha;
-  final bool temFoto;
+  final TextEditingController texto;
+
+  const Textfieldsdologin({
+    super.key,
+    required this.largura,
+    required this.altura,
+    required this.icone,
+    required this.placeHolder,
+    required this.eSenha,
+    required this.texto,
+  });
+
+  String textoDigitado() {
+    return texto.text;
+  }
 
   @override
   Widget build(BuildContext context) {
     return Container(
+      decoration: BoxDecoration(
+        borderRadius: BorderRadius.circular(15),
+        color: Colors.white,
+      ),
       width: largura,
       height: altura,
-      color: Colors.white,
       child: Row(
-        mainAxisAlignment: MainAxisAlignment.start,
+        mainAxisAlignment: MainAxisAlignment.spaceAround,
         crossAxisAlignment: CrossAxisAlignment.center,
         children: [
-          if (temFoto)
-            Image(
-              image: AssetImage(caminhoImg),
-              width: 50,
-              height: (altura - 5),
-            ),
+          icone,
           Container(
-            height: (altura),
             width: (largura - 50),
             child: TextField(
               decoration: InputDecoration(
                 hintText: placeHolder,
-                hintStyle: TextStyle(fontFamily: 'fedroka', fontSize: 14),
+                hintStyle: TextStyle(fontFamily: 'fredoka', fontSize: 14),
                 border: InputBorder.none,
               ),
-              style: TextStyle(color: Colors.black, fontFamily: 'fedroka'),
+              controller: texto,
+              style: TextStyle(color: Colors.black, fontFamily: 'fredoka'),
               textAlignVertical: TextAlignVertical.top,
               textAlign: TextAlign.start,
               obscureText: eSenha,

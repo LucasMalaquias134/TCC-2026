@@ -1,17 +1,22 @@
 import 'package:fitflow/WidgetsPersonalizados/Tabela.dart';
 import 'package:flutter/material.dart';
 
-class Verfichas extends StatelessWidget {
-  const Verfichas(this.titulo, {super.key});
-
+class Verfichas extends StatefulWidget {
   final String titulo;
 
+  const Verfichas(this.titulo, {super.key});
+
+  @override
+  State<Verfichas> createState() => _VerfichasState();
+}
+
+class _VerfichasState extends State<Verfichas> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
         title: Text(
-          titulo,
+          widget.titulo,
           style: TextStyle(fontFamily: 'fredoka', color: Colors.white),
         ),
         backgroundColor: Color(0xFF1C0B2B),

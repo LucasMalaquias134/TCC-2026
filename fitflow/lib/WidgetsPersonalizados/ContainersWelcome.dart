@@ -3,8 +3,8 @@ import 'package:flutter/material.dart';
 import 'package:url_launcher/url_launcher.dart';
 import 'package:flutter/services.dart';
 
-class WelcomeContainers extends StatelessWidget {
-  const WelcomeContainers(
+class ContainersWelcome extends StatelessWidget {
+  const ContainersWelcome(
     this.cor,
     this.altura,
     this.comprimento,
@@ -24,28 +24,28 @@ class WelcomeContainers extends StatelessWidget {
   final Color cor;
   final double altura;
   final double comprimento;
-  final bool webOrMob;
+  final bool? webOrMob;
   final String url;
   final double radius;
   final Widget classe;
-  final bool splash;
+  final bool? splash;
   final int segs;
-  final bool volta;
-  final bool saiApp;
+  final bool? volta;
+  final bool? saiApp;
 
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
       onTap: () {
-        if (saiApp) {
+        if (saiApp == true) {
           SystemNavigator.pop();
         } else {
-          if (webOrMob) {
+          if (webOrMob == true) {
             Uri minhaUrl = Uri.parse(url);
             launchUrl(minhaUrl, mode: LaunchMode.externalApplication);
           } else {
             if (segs > 0) {
-              if (volta) {
+              if (volta == true) {
                 Navigator.push(
                   context,
                   MaterialPageRoute(
@@ -92,7 +92,7 @@ class WelcomeContainers extends StatelessWidget {
             color: Color.fromARGB(255, 255, 255, 255),
             fontSize: 20,
             fontWeight: FontWeight(200),
-            fontFamily: 'fedroka',
+            fontFamily: 'fredoka',
           ),
         ),
       ),
