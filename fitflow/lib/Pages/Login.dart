@@ -1,9 +1,11 @@
 import 'package:fitflow/Pages/Cadastro.dart';
 import 'package:fitflow/Pages/HelpSenhaView.dart';
+import 'package:fitflow/Splashes/Splash2.dart';
 import 'package:fitflow/WidgetsPersonalizados/ContainersWelcome.dart';
 import 'package:fitflow/WidgetsPersonalizados/TextFieldsDoLogin.dart';
+import 'package:fitflow/controle/authController.dart';
+import 'package:fitflow/modelo/classes/user.dart';
 import 'package:flutter/material.dart';
-import 'package:fitflow/Pages/Home.dart';
 
 class Login extends StatefulWidget {
   const Login({super.key});
@@ -15,6 +17,26 @@ class Login extends StatefulWidget {
 class _LoginState extends State<Login> {
   TextEditingController nomeController = TextEditingController();
   TextEditingController senhaController = TextEditingController();
+
+  void erroShowDialog() {
+    showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return AlertDialog(
+          title: Text('Atenção'),
+          content: Text('Usuario ou senha incorretos!'),
+          actions: [
+            TextButton(
+              onPressed: () {
+                Navigator.pop(context);
+              },
+              child: Text('OK'),
+            ),
+          ],
+        );
+      },
+    );
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -31,19 +53,15 @@ class _LoginState extends State<Login> {
               mainAxisAlignment: MainAxisAlignment.center,
               crossAxisAlignment: CrossAxisAlignment.center,
               children: [
-                Image(
-                  image: AssetImage('assets/img/LogoMaisSombreada.png'),
-                  width: 250,
-                  height: 145,
-                ),
-                SizedBox(height: 80),
+                SizedBox(height: 225),
                 Textfieldsdologin(
                   largura: 330,
                   altura: 50,
                   icone: Icon(Icons.person_outline),
-                  placeHolder: 'Nome do usuário ou telefone ou email',
+                  placeHolder: 'Nome do usuário ou email',
                   eSenha: false,
                   texto: nomeController,
+                  numerico: false,
                 ),
                 SizedBox(height: 20),
                 Textfieldsdologin(
@@ -53,50 +71,74 @@ class _LoginState extends State<Login> {
                   placeHolder: 'Senha',
                   eSenha: true,
                   texto: senhaController,
+                  numerico: false,
                 ),
                 SizedBox(height: 40),
-                ContainersWelcome(
-                  Color(0xFF5C65C0),
-                  60,
-                  330,
-                  'Realizar login',
-                  '',
-                  false,
-                  15,
-                  Home(),
-                  true,
-                  5,
-                  false,
-                  false,
+                GestureDetector(
+                  onTap: () async {
+                    if (nomeController.text.isEmpty ||
+                        senhaController.text.isEmpty) {
+                      erroShowDialog();
+                    } else {
+                      User? usuario = await Authcontroller.login(
+                        nomeController.text,
+                        nomeController.text,
+                        senhaController.text,
+                      );
+
+                      if (usuario != null) {
+                        Navigator.pushReplacement(
+                          context,
+                          MaterialPageRoute(
+                            builder: (context) => Splash2(5, usuario),
+                          ),
+                        );
+                      } else {
+                        erroShowDialog();
+                      }
+                    }
+                  },
+                  child: AbsorbPointer(
+                    child: ContainersWelcome(
+                      cor: Color(0xFF5C65C0),
+                      altura: 60,
+                      comprimento: 330,
+                      texto: 'Realizar login',
+                      radius: 15,
+                      notOnlyDecoracao: false,
+                    ),
+                  ),
                 ),
                 SizedBox(height: 14),
                 ContainersWelcome(
-                  Color(0xFF1C0B2B),
-                  40,
-                  330,
-                  'Criar uma conta',
-                  '',
-                  false,
-                  0,
-                  Cadastro(),
-                  false,
-                  0,
-                  true,
-                  false,
+                  cor: Color(0xFF1C0B2B),
+                  altura: 40,
+                  comprimento: 330,
+                  texto: 'Criar uma conta',
+                  url: '',
+                  webOrMob: false,
+                  radius: 0,
+                  classe: Cadastro(),
+                  splash: false,
+                  segs: 0,
+                  volta: true,
+                  saiApp: false,
+                  notOnlyDecoracao: true,
                 ),
                 ContainersWelcome(
-                  Colors.transparent,
-                  40,
-                  330,
-                  "Esqueci minha senha",
-                  '',
-                  false,
-                  0,
-                  Helpsenhaview(),
-                  false,
-                  0,
-                  true,
-                  false,
+                  cor: Colors.transparent,
+                  altura: 40,
+                  comprimento: 330,
+                  texto: "Esqueci minha senha",
+                  url: '',
+                  webOrMob: false,
+                  radius: 0,
+                  classe: Helpsenhaview(),
+                  splash: false,
+                  segs: 0,
+                  volta: true,
+                  saiApp: false,
+                  notOnlyDecoracao: true,
                 ),
               ],
             ),

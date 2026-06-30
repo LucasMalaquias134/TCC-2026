@@ -1,10 +1,12 @@
 import 'package:fitflow/Pages/EditarUser.dart';
 import 'package:fitflow/Pages/Fichas.dart';
-import 'package:fitflow/WidgetsPersonalizados/AppBarTodos.dart';
+import 'package:fitflow/modelo/classes/user.dart';
 import 'package:flutter/material.dart';
 
 class Home extends StatefulWidget {
-  const Home({super.key});
+  final User usuario;
+
+  const Home({required this.usuario, super.key});
 
   @override
   State<Home> createState() => _HomeState();
@@ -13,12 +15,13 @@ class Home extends StatefulWidget {
 class _HomeState extends State<Home> {
   int selecionado = 0;
 
-  List<Widget> classes = [Fichas(), Editaruser('assets/img/Imagemcolada.png')];
-
   @override
   Widget build(BuildContext context) {
+    final List<Widget> classes = [
+      Fichas(usuario: widget.usuario),
+      Editaruser(usuario: widget.usuario),
+    ];
     return Scaffold(
-      appBar: Appbartodos('assets/img/Imagemcolada.png'),
       backgroundColor: Color(0xFF413B6B),
       body: classes[selecionado],
       bottomNavigationBar: BottomNavigationBar(

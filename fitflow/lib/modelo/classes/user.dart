@@ -14,14 +14,14 @@ class User {
   */
 
   final int id;
-  final String name;
-  final String email;
-  final String? urlImage;
-  final String password;
-  final String? token;
-  final int? idade;
-  final String? cidadeMora;
-  final String user_name;
+  String name;
+  String email;
+  String? urlImage;
+  String password;
+  String? token;
+  int? idade;
+  String? cidadeMora;
+  String user_name;
 
   User({
     required this.id,
@@ -57,8 +57,8 @@ class User {
       urlImage: map['urlImage'] ?? '',
       password: map['password'] ?? '',
       token: map['token'] ?? '',
-      idade: map['idade'] ?? 0,
-      cidadeMora: map['cidadeMora'] ?? '',
+      idade: map['idade'] ?? null,
+      cidadeMora: map['cidadeMora'] ?? null,
       user_name: map['user_name'] ?? '',
     );
   }

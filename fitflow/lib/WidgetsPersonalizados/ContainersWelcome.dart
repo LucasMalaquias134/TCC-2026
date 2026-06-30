@@ -4,19 +4,20 @@ import 'package:url_launcher/url_launcher.dart';
 import 'package:flutter/services.dart';
 
 class ContainersWelcome extends StatelessWidget {
-  const ContainersWelcome(
-    this.cor,
-    this.altura,
-    this.comprimento,
-    this.texto,
+  const ContainersWelcome({
+    required this.cor,
+    required this.altura,
+    required this.comprimento,
+    required this.texto,
     this.url,
     this.webOrMob,
-    this.radius,
+    required this.radius,
     this.classe,
     this.splash,
     this.segs,
     this.volta,
-    this.saiApp, {
+    this.saiApp,
+    required this.notOnlyDecoracao,
     super.key,
   });
 
@@ -25,54 +26,59 @@ class ContainersWelcome extends StatelessWidget {
   final double altura;
   final double comprimento;
   final bool? webOrMob;
-  final String url;
+  final String? url;
   final double radius;
-  final Widget classe;
+  final Widget? classe;
   final bool? splash;
-  final int segs;
+  final int? segs;
   final bool? volta;
   final bool? saiApp;
+  final bool notOnlyDecoracao;
 
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
       onTap: () {
-        if (saiApp == true) {
-          SystemNavigator.pop();
-        } else {
-          if (webOrMob == true) {
-            Uri minhaUrl = Uri.parse(url);
-            launchUrl(minhaUrl, mode: LaunchMode.externalApplication);
+        if (notOnlyDecoracao) {
+          if (saiApp == true) {
+            SystemNavigator.pop();
           } else {
-            if (segs > 0) {
-              if (volta == true) {
-                Navigator.push(
-                  context,
-                  MaterialPageRoute(
-                    builder: (context) => Splashentrouaplicativo(segs, classe),
-                  ),
-                );
-              } else {
-                Navigator.pushAndRemoveUntil(
-                  context,
-                  MaterialPageRoute(
-                    builder: (context) => Splashentrouaplicativo(segs, classe),
-                  ),
-                  (route) => false,
-                );
-              }
+            if (webOrMob == true) {
+              Uri minhaUrl = Uri.parse(url!);
+              launchUrl(minhaUrl, mode: LaunchMode.externalApplication);
             } else {
-              if (volta == true) {
-                Navigator.push(
-                  context,
-                  MaterialPageRoute(builder: (context) => classe),
-                );
-              } else if (volta == false) {
-                Navigator.pushAndRemoveUntil(
-                  context,
-                  MaterialPageRoute(builder: (context) => classe),
-                  (route) => false,
-                );
+              if (segs! > 0) {
+                if (volta == true) {
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                      builder: (context) =>
+                          Splashentrouaplicativo(segs!, classe!),
+                    ),
+                  );
+                } else {
+                  Navigator.pushAndRemoveUntil(
+                    context,
+                    MaterialPageRoute(
+                      builder: (context) =>
+                          Splashentrouaplicativo(segs!, classe!),
+                    ),
+                    (route) => false,
+                  );
+                }
+              } else {
+                if (volta == true) {
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(builder: (context) => classe!),
+                  );
+                } else if (volta == false) {
+                  Navigator.pushAndRemoveUntil(
+                    context,
+                    MaterialPageRoute(builder: (context) => classe!),
+                    (route) => false,
+                  );
+                }
               }
             }
           }

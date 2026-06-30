@@ -1,19 +1,29 @@
+import 'dart:io';
+
 import 'package:fitflow/Pages/Welcome.dart';
+import 'package:fitflow/Splashes/SplashEntrouAplicativo.dart';
+import 'package:fitflow/controle/authController.dart';
+import 'package:fitflow/modelo/classes/user.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:fitflow/Splashes/SplashEntrouAplicativo.dart';
 
-class Appbartodos extends StatelessWidget implements PreferredSizeWidget {
-  final String urlDaImage;
+class Appbartodos extends StatefulWidget implements PreferredSizeWidget {
+  final User usuario;
 
-  const Appbartodos(this.urlDaImage, {super.key});
+  const Appbartodos({required this.usuario, super.key});
 
   @override
-  Size get preferredSize => const Size.fromHeight(70);
+  Size get preferredSize => Size.fromHeight(70);
 
+  @override
+  State<Appbartodos> createState() => _AppbartodosState();
+}
+
+class _AppbartodosState extends State<Appbartodos> {
   @override
   Widget build(BuildContext context) {
     return AppBar(
+      automaticallyImplyLeading: false,
       toolbarHeight: 70,
       backgroundColor: Color(0xFF1C0B2B),
       actions: [
@@ -26,31 +36,39 @@ class Appbartodos extends StatelessWidget implements PreferredSizeWidget {
               children: [
                 CircleAvatar(
                   radius: 40,
-                  backgroundImage: urlDaImage.isNotEmpty
-                      ? AssetImage(urlDaImage)
-                      : null,
-                  child: urlDaImage.isEmpty
-                      ? const Icon(
-                          Icons.person_outline,
-                          size: 40,
-                          color: Colors.black,
-                        )
-                      : null,
+                  backgroundColor: Color(0xFF6C63FF).withValues(alpha: 0.3),
+                  child:
+                      widget.usuario.urlImage == null ||
+                          widget.usuario.urlImage!.isEmpty
+                      ? const Icon(Icons.person, size: 30, color: Colors.white)
+                      : ClipOval(
+                          child: SizedBox(
+                            width: 49,
+                            height: 49,
+                            child: Image.file(
+                              File(widget.usuario.urlImage!),
+                              fit: BoxFit.cover,
+                            ),
+                          ),
+                        ),
                 ),
-                Text(
-                  'Usuario',
-                  style: TextStyle(
-                    fontFamily: 'fredoka',
-                    fontWeight: FontWeight(200),
-                    color: Colors.white,
-                    fontSize: 30,
+                Expanded(
+                  child: Text(
+                    widget.usuario.user_name,
+                    style: TextStyle(
+                      fontFamily: 'fredoka',
+                      fontWeight: FontWeight(200),
+                      color: Colors.white,
+                      fontSize: 30,
+                    ),
+                    overflow: TextOverflow.ellipsis,
+                    maxLines: 1,
                   ),
                 ),
-                Spacer(),
                 PopupMenuButton<String>(
                   icon: const Icon(Icons.more_vert, color: Colors.white),
                   color: Color(0xFF6F95FF),
-                  onSelected: (String valor) {
+                  onSelected: (String valor) async {
                     if (valor == 'deslogar') {
                       Navigator.pushAndRemoveUntil(
                         context,
@@ -60,6 +78,7 @@ class Appbartodos extends StatelessWidget implements PreferredSizeWidget {
                         ),
                         (route) => false,
                       );
+                      await Authcontroller.deslogarUsuario();
                       //lógica para deslogar aqui
                     } else if (valor == 'sair') {
                       SystemNavigator.pop();

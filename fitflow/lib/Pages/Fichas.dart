@@ -1,9 +1,12 @@
 import 'package:fitflow/Pages/VerFichas.dart';
+import 'package:fitflow/WidgetsPersonalizados/AppBarTodos.dart';
 import 'package:fitflow/WidgetsPersonalizados/FichasBloco.dart';
+import 'package:fitflow/modelo/classes/user.dart';
 import 'package:flutter/material.dart';
 
 class Fichas extends StatefulWidget {
-  const Fichas({super.key});
+  final User usuario;
+  const Fichas({required this.usuario, super.key});
 
   @override
   State<Fichas> createState() => _FichasState();
@@ -34,6 +37,7 @@ class _FichasState extends State<Fichas> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      appBar: Appbartodos(usuario: widget.usuario),
       body: Center(
         child: Container(
           padding: EdgeInsets.symmetric(vertical: 20),

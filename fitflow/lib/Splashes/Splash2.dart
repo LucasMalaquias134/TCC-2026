@@ -1,21 +1,27 @@
-import 'package:fitflow/controle/authController.dart';
+import 'package:fitflow/Pages/Home.dart';
+import 'package:fitflow/modelo/classes/user.dart';
 import 'package:flutter/material.dart';
 
-class Splashentrouaplicativo extends StatefulWidget {
-  const Splashentrouaplicativo(this.segs, this.classe, {super.key});
+class Splash2 extends StatefulWidget {
+  const Splash2(this.segs, this.usuario, {super.key});
 
   final int segs;
-  final Widget classe;
+  final User usuario;
 
   @override
-  State<Splashentrouaplicativo> createState() => _SplashentrouaplicativoState();
+  State<Splash2> createState() => _Splash2State();
 }
 
-class _SplashentrouaplicativoState extends State<Splashentrouaplicativo> {
+class _Splash2State extends State<Splash2> {
   @override
   void initState() {
     super.initState();
-    Authcontroller.verificaSessao(context);
+    Future.delayed(Duration(seconds: widget.segs), () {
+      Navigator.pushReplacement(
+        context,
+        MaterialPageRoute(builder: (context) => Home(usuario: widget.usuario)),
+      );
+    });
   }
 
   @override
