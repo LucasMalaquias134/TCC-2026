@@ -12,10 +12,10 @@ class Ficha {
 
   final int id;
   final int user_id;
-  final String name;
-  final DateTime data_inicio;
-  final DateTime data_fim;
-  final String? descricao;
+  String name;
+  String data_inicio;
+  String data_fim;
+  String? descricao;
 
   Ficha({
     required this.id,

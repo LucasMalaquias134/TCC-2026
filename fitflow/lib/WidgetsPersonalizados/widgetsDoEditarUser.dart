@@ -144,57 +144,75 @@ class textfieldsDoEditarUser extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Expanded(
-      child: Container(
-        height: 40,
-        decoration: BoxDecoration(
-          borderRadius: BorderRadius.circular(10),
-          color: Color(0xFF4E4B7C),
-        ),
-        child: numerico
-            ? TextField(
-                textAlignVertical: TextAlignVertical.center,
-                style: TextStyle(
-                  color: Colors.white,
-                  fontFamily: 'fredoka',
-                  fontSize: 24,
-                ),
-                decoration: InputDecoration(
-                  isDense: true,
-                  contentPadding: EdgeInsets.only(left: 10, top: 0, bottom: 0),
-                  border: InputBorder.none,
-                  hintText: titulo,
-                  hintStyle: TextStyle(
-                    color: Colors.white.withValues(alpha: 0.5),
-                    fontFamily: 'fredoka',
-                    fontSize: 24,
-                  ),
-                ),
-                keyboardType: TextInputType.number,
-                inputFormatters: [FilteringTextInputFormatter.digitsOnly],
-                controller: controller,
-              )
-            : TextField(
-                textAlignVertical: TextAlignVertical.center,
-                style: TextStyle(
-                  color: Colors.white,
-                  fontFamily: 'fredoka',
-                  fontSize: 24,
-                ),
-                decoration: InputDecoration(
-                  isDense: true,
-                  contentPadding: EdgeInsets.only(left: 10, top: 0, bottom: 0),
-                  border: InputBorder.none,
-                  hintText: titulo,
-                  hintStyle: TextStyle(
-                    color: Colors.white.withValues(alpha: 0.5),
-                    fontFamily: 'fredoka',
-                    fontSize: 24,
-                  ),
-                ),
-                controller: controller,
+    return Row(
+      mainAxisAlignment: MainAxisAlignment.center,
+      crossAxisAlignment: CrossAxisAlignment.center,
+      children: [
+        Expanded(
+          child: Container(
+            padding: EdgeInsets.symmetric(horizontal: 16, vertical: 8),
+            decoration: BoxDecoration(
+              color: Color(0xFF433E75),
+              borderRadius: BorderRadius.circular(15),
+              border: Border.all(
+                color: Colors.white.withValues(alpha: 0.15),
+                width: 1.5,
               ),
-      ),
+            ),
+            child: numerico
+                ? TextField(
+                    style: TextStyle(
+                      color: Colors.white,
+                      fontFamily: 'fredoka',
+                      fontSize: 14,
+                    ),
+                    decoration: InputDecoration(
+                      labelText: titulo,
+                      labelStyle: TextStyle(
+                        color: Colors.white,
+                        fontFamily: 'fredoka',
+                        fontSize: 18,
+                      ),
+                      hintText: titulo,
+                      hintStyle: TextStyle(
+                        color: Colors.white.withValues(alpha: 0.4),
+                        fontFamily: 'fredoka',
+                        fontSize: 14,
+                      ),
+                      border: InputBorder.none,
+                      floatingLabelBehavior: FloatingLabelBehavior.always,
+                    ),
+                    controller: controller,
+                    keyboardType: TextInputType.number,
+                    inputFormatters: [FilteringTextInputFormatter.digitsOnly],
+                  )
+                : TextField(
+                    style: TextStyle(
+                      color: Colors.white,
+                      fontFamily: 'fredoka',
+                      fontSize: 15,
+                    ),
+                    decoration: InputDecoration(
+                      labelText: titulo,
+                      labelStyle: TextStyle(
+                        color: Colors.white,
+                        fontFamily: 'fredoka',
+                        fontSize: 20,
+                      ),
+                      hintText: titulo,
+                      hintStyle: TextStyle(
+                        color: Colors.white.withValues(alpha: 0.4),
+                        fontFamily: 'fredoka',
+                        fontSize: 15,
+                      ),
+                      border: InputBorder.none,
+                      floatingLabelBehavior: FloatingLabelBehavior.always,
+                    ),
+                    controller: controller,
+                  ),
+          ),
+        ),
+      ],
     );
   }
 }

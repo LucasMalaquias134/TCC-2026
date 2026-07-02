@@ -3,85 +3,44 @@ import 'package:fitflow/modelo/local_storage_service.dart';
 
 class Usercontroller {
   //================================================================================
-  static Future<bool> atualizarNome(String name, int id) async {
-    List<User> usuariosExistentes =
-        await LocalStorageService.carregarUsuarios();
+  static Future<bool> atualizarUsuario(
+    int id,
+    String name,
+    String userName,
+    int? idade,
+    String? cidade,
+  ) async {
+    try {
+      List<User> usuariosExistentes =
+          await LocalStorageService.carregarUsuarios();
 
-    int index = usuariosExistentes.indexWhere((usuario) => usuario.id == id);
+      int index = usuariosExistentes.indexWhere((usuario) => usuario.id == id);
+      if (index == -1) return false;
 
-    if (index != -1 && !(name.trim().isEmpty)) {
-      usuariosExistentes[id].name = name;
+      User usuario = usuariosExistentes[index];
+
+      if (name.trim().isEmpty) return false;
+      usuario.name = name;
+
+      if (userName.trim().isEmpty) return false;
+
+      bool userNameJaExiste = usuariosExistentes.any(
+        (usuario) =>
+            usuario.user_name.trim() == userName.trim() && usuario.id != id,
+      );
+      if (userNameJaExiste) return false;
+
+      usuario.user_name = userName;
+
+      usuario.idade = idade;
+
+      usuario.cidadeMora = cidade;
+
+      usuariosExistentes[index] = usuario;
       await LocalStorageService.salvarUsuarios(usuariosExistentes);
       return true;
-    } else {
-      return false;
-    }
-  }
-
-  //================================================================================
-  static Future<bool> atualizarUserName(String userName, int id) async {
-    List<User> usuariosExistentes =
-        await LocalStorageService.carregarUsuarios();
-
-    int index = usuariosExistentes.indexWhere((usuario) => usuario.id == id);
-
-    if (index != -1 &&
-        !(usuariosExistentes.any((usuario) => usuario.user_name == userName)) &&
-        !(userName.trim().isEmpty)) {
-      usuariosExistentes[id].user_name = userName;
-      await LocalStorageService.salvarUsuarios(usuariosExistentes);
-      return true;
-    } else {
-      return false;
-    }
-  }
-
-  //================================================================================
-  static Future<bool> atualizarEmail(String email, int id) async {
-    List<User> usuariosExistentes =
-        await LocalStorageService.carregarUsuarios();
-
-    int index = usuariosExistentes.indexWhere((usuario) => usuario.id == id);
-
-    if (index != -1 &&
-        !(usuariosExistentes.any((usuario) => usuario.email == email)) &&
-        !(email.trim().isEmpty)) {
-      usuariosExistentes[id].email = email;
-      await LocalStorageService.salvarUsuarios(usuariosExistentes);
-      return true;
-    } else {
-      return false;
-    }
-  }
-
-  //================================================================================
-  static Future<bool> atualizarIdade(int? idade, int id) async {
-    List<User> usuariosExistentes =
-        await LocalStorageService.carregarUsuarios();
-
-    int index = usuariosExistentes.indexWhere((usuario) => usuario.id == id);
-
-    if (index != -1) {
-      usuariosExistentes[id].idade = idade;
-      await LocalStorageService.salvarUsuarios(usuariosExistentes);
-      return true;
-    } else {
-      return false;
-    }
-  }
-
-  //================================================================================
-  static Future<bool> atualizarCidade(String? cidade, int id) async {
-    List<User> usuariosExistentes =
-        await LocalStorageService.carregarUsuarios();
-
-    int index = usuariosExistentes.indexWhere((usuario) => usuario.id == id);
-
-    if (index != -1) {
-      usuariosExistentes[id].cidadeMora = cidade;
-      await LocalStorageService.salvarUsuarios(usuariosExistentes);
-      return true;
-    } else {
+    } catch (e) {
+      print("Erro ao atualizar usuário: $e");
       return false;
     }
   }

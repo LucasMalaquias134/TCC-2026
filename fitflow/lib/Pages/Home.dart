@@ -5,7 +5,6 @@ import 'package:flutter/material.dart';
 
 class Home extends StatefulWidget {
   final User usuario;
-
   const Home({required this.usuario, super.key});
 
   @override

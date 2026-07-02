@@ -1,10 +1,11 @@
 import 'package:fitflow/WidgetsPersonalizados/Tabela.dart';
+import 'package:fitflow/modelo/classes/ficha.dart';
 import 'package:flutter/material.dart';
 
 class Verfichas extends StatefulWidget {
-  final String titulo;
+  final Ficha ficha;
 
-  const Verfichas(this.titulo, {super.key});
+  const Verfichas({required this.ficha, super.key});
 
   @override
   State<Verfichas> createState() => _VerfichasState();
@@ -15,12 +16,21 @@ class _VerfichasState extends State<Verfichas> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text(
-          widget.titulo,
-          style: TextStyle(fontFamily: 'fredoka', color: Colors.white),
+        backgroundColor: Colors.transparent,
+        leading: IconButton(
+          icon: Icon(Icons.arrow_back_ios_new, color: Colors.white),
+          onPressed: () {
+            Navigator.pop(context);
+          },
         ),
-        backgroundColor: Color(0xFF1C0B2B),
-        iconTheme: IconThemeData(color: Colors.white),
+        title: Text(
+          widget.ficha.name,
+          style: TextStyle(
+            color: Colors.white,
+            fontFamily: 'fredoka',
+            fontSize: 22,
+          ),
+        ),
       ),
       backgroundColor: Color(0xFF413B6B),
       body: ListView(

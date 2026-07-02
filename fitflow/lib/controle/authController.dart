@@ -50,7 +50,7 @@ class Authcontroller {
     if (userNameJaExiste) return null;
 
     User novoUser = User(
-      id: usuariosExistentes.length,
+      id: DateTime.now().millisecondsSinceEpoch,
       name: name,
       email: email,
       urlImage: urlImage,

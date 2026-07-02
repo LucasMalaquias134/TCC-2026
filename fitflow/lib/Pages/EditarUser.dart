@@ -207,6 +207,19 @@ class _EditaruserState extends State<Editaruser> {
   }
 
   @override
+  void initState() {
+    super.initState();
+    nameController.text = widget.usuario.name;
+    userNameController.text = widget.usuario.user_name;
+    idadeController.text =
+        widget.usuario.idade.toString().isNotEmpty &&
+            widget.usuario.idade?.toString() != null
+        ? widget.usuario.idade.toString()
+        : '';
+    cidadeController.text = widget.usuario.cidadeMora ?? '';
+  }
+
+  @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: Appbartodos(usuario: widget.usuario),
@@ -386,294 +399,125 @@ class _EditaruserState extends State<Editaruser> {
                                   ],
                                 ),
                                 SizedBox(height: 10),
-                                Row(
-                                  mainAxisAlignment: MainAxisAlignment.center,
-                                  crossAxisAlignment: CrossAxisAlignment.center,
-                                  children: [
-                                    textfieldsDoEditarUser(
-                                      controller: nameController,
-                                      titulo: 'Nome',
-                                      numerico: false,
-                                    ),
-                                    SizedBox(width: 5),
-                                    Container(
-                                      height: 40,
-                                      decoration: BoxDecoration(
-                                        color: Color(0xFF3F3D6B),
-                                        borderRadius: BorderRadius.circular(
-                                          10.0,
-                                        ),
-                                      ),
-                                      child: IconButton(
-                                        padding: EdgeInsets.zero,
-                                        tooltip: 'Atualizar nome',
-                                        onPressed: () async {
-                                          bool? resultado = await pedirSenha();
-
-                                          switch (resultado) {
-                                            case true:
-                                              senhaSegura =
-                                                  senhaController.text;
-                                              senhaController.clear();
-                                              bool resultado2 =
-                                                  await Usercontroller.atualizarNome(
-                                                    nameController.text,
-                                                    widget.usuario.id,
-                                                  );
-
-                                              if (resultado2) {
-                                                setState(() {
-                                                  widget.usuario.name =
-                                                      nameController.text;
-                                                });
-                                                mensagemSnackBar();
-                                              } else {
-                                                erroShowDialog(
-                                                  'Algo deu errado tente novamente',
-                                                );
-                                              }
-                                              senhaSegura = '';
-                                              nameController.clear();
-                                              break;
-                                            case false:
-                                              senhaController.clear();
-                                              erroShowDialog(
-                                                'Senha errada tente novamente',
-                                              );
-                                              senhaSegura = '';
-                                              break;
-                                            default:
-                                              senhaController.clear();
-                                              senhaSegura = '';
-                                          }
-                                        },
-                                        icon: Icon(
-                                          Icons.save,
-                                          color: Color(0xFF6C63FF),
-                                          size: 24,
-                                        ),
-                                      ),
-                                    ),
-                                  ],
+                                textfieldsDoEditarUser(
+                                  controller: nameController,
+                                  titulo: 'Nome',
+                                  numerico: false,
+                                ),
+                                SizedBox(height: 10),
+                                textfieldsDoEditarUser(
+                                  controller: userNameController,
+                                  titulo: 'Nome de usuário',
+                                  numerico: false,
+                                ),
+                                SizedBox(height: 10),
+                                textfieldsDoEditarUser(
+                                  controller: idadeController,
+                                  titulo: 'Idade',
+                                  numerico: true,
+                                ),
+                                SizedBox(height: 10),
+                                textfieldsDoEditarUser(
+                                  controller: cidadeController,
+                                  titulo: 'Cidade que mora',
+                                  numerico: false,
                                 ),
                                 SizedBox(height: 10),
                                 Row(
                                   mainAxisAlignment: MainAxisAlignment.center,
                                   crossAxisAlignment: CrossAxisAlignment.center,
                                   children: [
-                                    textfieldsDoEditarUser(
-                                      controller: userNameController,
-                                      titulo: 'Nome de usuário',
-                                      numerico: false,
-                                    ),
-                                    SizedBox(width: 5),
-                                    Container(
-                                      height: 40,
-                                      decoration: BoxDecoration(
-                                        color: Color(0xFF3F3D6B),
-                                        borderRadius: BorderRadius.circular(
-                                          10.0,
-                                        ),
-                                      ),
-                                      child: IconButton(
-                                        padding: EdgeInsets.zero,
-                                        tooltip: 'Atualizar nome de usuário',
-                                        onPressed: () async {
-                                          bool? resultado = await pedirSenha();
-
-                                          switch (resultado) {
-                                            case true:
-                                              senhaSegura =
-                                                  senhaController.text;
-                                              senhaController.clear();
-                                              bool resultado2 =
-                                                  await Usercontroller.atualizarUserName(
-                                                    userNameController.text,
-                                                    widget.usuario.id,
-                                                  );
-
-                                              if (resultado2) {
-                                                setState(() {
-                                                  widget.usuario.user_name =
-                                                      userNameController.text;
-                                                });
-                                                mensagemSnackBar();
-                                              } else {
-                                                erroShowDialog(
-                                                  'Algo deu errado tente novamente',
-                                                );
-                                              }
-                                              senhaSegura = '';
-                                              userNameController.clear();
-                                              break;
-                                            case false:
-                                              senhaController.clear();
-                                              erroShowDialog(
-                                                'Senha errada tente novamente',
-                                              );
-                                              senhaSegura = '';
-                                              break;
-                                            default:
-                                              senhaController.clear();
-                                              senhaSegura = '';
-                                          }
-                                        },
-                                        icon: Icon(
-                                          Icons.save,
+                                    Expanded(
+                                      child: Container(
+                                        height: 40,
+                                        decoration: BoxDecoration(
                                           color: Color(0xFF6C63FF),
-                                          size: 24,
+                                          borderRadius: BorderRadius.circular(
+                                            10.0,
+                                          ),
                                         ),
-                                      ),
-                                    ),
-                                  ],
-                                ),
-                                SizedBox(height: 10),
-                                Row(
-                                  mainAxisAlignment: MainAxisAlignment.center,
-                                  crossAxisAlignment: CrossAxisAlignment.center,
-                                  children: [
-                                    textfieldsDoEditarUser(
-                                      controller: idadeController,
-                                      titulo: 'Idade',
-                                      numerico: true,
-                                    ),
-                                    SizedBox(width: 5),
-                                    Container(
-                                      height: 40,
-                                      decoration: BoxDecoration(
-                                        color: Color(0xFF3F3D6B),
-                                        borderRadius: BorderRadius.circular(
-                                          10.0,
-                                        ),
-                                      ),
-                                      child: IconButton(
-                                        padding: EdgeInsets.zero,
-                                        tooltip: 'Atualizar idade',
-                                        onPressed: () async {
-                                          bool? resultado = await pedirSenha();
+                                        child: TextButton(
+                                          child: Text(
+                                            'Atualizar Informações',
+                                            style: TextStyle(
+                                              color: Colors.white,
+                                              fontFamily: 'fredoka',
+                                              fontSize: 20,
+                                            ),
+                                          ),
 
-                                          switch (resultado) {
-                                            case true:
-                                              senhaSegura =
-                                                  senhaController.text;
-                                              senhaController.clear();
-                                              bool resultado2 =
-                                                  await Usercontroller.atualizarIdade(
-                                                    int.tryParse(
-                                                      idadeController.text,
-                                                    ),
-                                                    widget.usuario.id,
+                                          onPressed: () async {
+                                            bool? resultado =
+                                                await pedirSenha();
+
+                                            switch (resultado) {
+                                              case true:
+                                                senhaSegura =
+                                                    senhaController.text;
+
+                                                if (nameController.text
+                                                        .trim()
+                                                        .isEmpty ||
+                                                    userNameController.text
+                                                        .trim()
+                                                        .isEmpty) {
+                                                  erroShowDialog(
+                                                    'Ainda há campos a serem preenchidos!',
                                                   );
+                                                } else {
+                                                  bool resultado2 =
+                                                      await Usercontroller.atualizarUsuario(
+                                                        widget.usuario.id,
+                                                        nameController.text,
+                                                        userNameController.text,
 
-                                              if (resultado2) {
-                                                setState(() {
-                                                  widget.usuario.idade =
-                                                      int.tryParse(
+                                                        int.tryParse(
+                                                          idadeController.text,
+                                                        ),
+                                                        cidadeController.text,
+                                                      );
+
+                                                  if (resultado2) {
+                                                    setState(() {
+                                                      widget.usuario.name =
+                                                          nameController.text;
+                                                      widget.usuario.user_name =
+                                                          userNameController
+                                                              .text;
+                                                      widget
+                                                          .usuario
+                                                          .idade = int.tryParse(
                                                         idadeController.text,
                                                       );
-                                                });
-                                                mensagemSnackBar();
-                                              } else {
+                                                      widget
+                                                              .usuario
+                                                              .cidadeMora =
+                                                          cidadeController.text;
+                                                    });
+                                                    mensagemSnackBar();
+                                                  } else {
+                                                    erroShowDialog(
+                                                      'Algo deu errado tente novamente',
+                                                    );
+                                                  }
+                                                }
+                                                break;
+                                              case false:
                                                 erroShowDialog(
-                                                  'Algo deu errado tente novamente',
+                                                  'Senha errada tente novamente',
                                                 );
-                                              }
-                                              senhaSegura = '';
-                                              idadeController.clear();
-                                              break;
-                                            case false:
-                                              senhaController.clear();
-                                              erroShowDialog(
-                                                'Senha errada tente novamente',
-                                              );
-                                              senhaSegura = '';
-                                              break;
-                                            default:
-                                              senhaController.clear();
-                                              senhaSegura = '';
-                                          }
-                                        },
-                                        icon: Icon(
-                                          Icons.save,
-                                          color: Color(0xFF6C63FF),
-                                          size: 24,
+
+                                                break;
+                                              default:
+                                            }
+                                            senhaController.clear();
+                                            senhaSegura = '';
+                                          },
                                         ),
                                       ),
                                     ),
                                   ],
                                 ),
-                                SizedBox(height: 10),
-                                Row(
-                                  mainAxisAlignment: MainAxisAlignment.center,
-                                  crossAxisAlignment: CrossAxisAlignment.center,
-                                  children: [
-                                    textfieldsDoEditarUser(
-                                      controller: cidadeController,
-                                      titulo: 'Cidade que mora',
-                                      numerico: false,
-                                    ),
-                                    SizedBox(width: 5),
-                                    Container(
-                                      height: 40,
-                                      decoration: BoxDecoration(
-                                        color: Color(0xFF3F3D6B),
-                                        borderRadius: BorderRadius.circular(
-                                          10.0,
-                                        ),
-                                      ),
-                                      child: IconButton(
-                                        padding: EdgeInsets.zero,
-                                        tooltip: 'Atualizar cidade',
-                                        onPressed: () async {
-                                          bool? resultado = await pedirSenha();
-
-                                          switch (resultado) {
-                                            case true:
-                                              senhaSegura =
-                                                  senhaController.text;
-                                              senhaController.clear();
-                                              bool resultado2 =
-                                                  await Usercontroller.atualizarCidade(
-                                                    cidadeController.text,
-                                                    widget.usuario.id,
-                                                  );
-
-                                              if (resultado2) {
-                                                setState(() {
-                                                  widget.usuario.cidadeMora =
-                                                      cidadeController.text;
-                                                });
-                                                mensagemSnackBar();
-                                              } else {
-                                                erroShowDialog(
-                                                  'Algo deu errado tente novamente',
-                                                );
-                                              }
-                                              senhaSegura = '';
-                                              cidadeController.clear();
-                                              break;
-                                            case false:
-                                              senhaController.clear();
-                                              erroShowDialog(
-                                                'Senha errada tente novamente',
-                                              );
-                                              senhaSegura = '';
-                                              break;
-                                            default:
-                                              senhaController.clear();
-                                              senhaSegura = '';
-                                          }
-                                        },
-                                        icon: Icon(
-                                          Icons.save,
-                                          color: Color(0xFF6C63FF),
-                                          size: 24,
-                                        ),
-                                      ),
-                                    ),
-                                  ],
-                                ),
-                                SizedBox(height: 10),
                               ],
                             ),
                           ),
