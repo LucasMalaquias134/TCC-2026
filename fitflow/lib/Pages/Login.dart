@@ -18,13 +18,21 @@ class _LoginState extends State<Login> {
   TextEditingController nomeController = TextEditingController();
   TextEditingController senhaController = TextEditingController();
 
+  final _formKey = GlobalKey<FormState>();
+
+  void dispose() {
+    nomeController.dispose();
+    senhaController.dispose();
+    super.dispose();
+  }
+
   void erroShowDialog() {
     showDialog(
       context: context,
       builder: (BuildContext context) {
         return AlertDialog(
           title: Text('Atenção'),
-          content: Text('Usuario ou senha incorretos!'),
+          content: Text('Usuario ou senha incorretos'),
           actions: [
             TextButton(
               onPressed: () {
@@ -54,64 +62,83 @@ class _LoginState extends State<Login> {
               crossAxisAlignment: CrossAxisAlignment.center,
               children: [
                 SizedBox(height: 225),
-                Textfieldsdologin(
-                  largura: 330,
-                  altura: 50,
-                  icone: Icon(Icons.person_outline),
-                  placeHolder: 'Nome do usuário ou email',
-                  eSenha: false,
-                  texto: nomeController,
-                  numerico: false,
-                ),
-                SizedBox(height: 20),
-                Textfieldsdologin(
-                  largura: 330,
-                  altura: 50,
-                  icone: Icon(Icons.lock_outline),
-                  placeHolder: 'Senha',
-                  eSenha: true,
-                  texto: senhaController,
-                  numerico: false,
-                ),
-                SizedBox(height: 40),
-                GestureDetector(
-                  onTap: () async {
-                    if (nomeController.text.isEmpty ||
-                        senhaController.text.isEmpty) {
-                      erroShowDialog();
-                    } else {
-                      User? usuario = await Authcontroller.login(
-                        nomeController.text,
-                        nomeController.text,
-                        senhaController.text,
-                      );
+                Form(
+                  key: _formKey,
+                  child: Column(
+                    children: [
+                      Textfieldsdologin(
+                        largura: 330,
+                        placeHolder: 'Nome do usuário ou email',
+                        controller: nomeController,
+                        icone: Icons.person_outline,
+                        validador: (value) {
+                          if (value == null || value.trim().isEmpty) {
+                            return 'Por favor, preencha este campo';
+                          }
+                          if (value.length < 3) {
+                            return 'O nome precisa ter pelo menos 3 letras';
+                          }
+                          return null;
+                        },
+                      ),
+                      SizedBox(height: 20),
+                      Textfieldsdologin(
+                        largura: 330,
+                        placeHolder: 'Senha',
+                        controller: senhaController,
+                        eSenha: true,
+                        icone: Icons.lock_outline,
+                        validador: (value) {
+                          if (value == null || value.trim().isEmpty) {
+                            return 'Por favor, preencha este campo';
+                          }
+                          if (value.length < 6) {
+                            return 'A senha precisa ter pelo menos 6 digitos';
+                          }
+                          return null;
+                        },
+                      ),
 
-                      if (usuario != null) {
-                        Navigator.pushReplacement(
-                          context,
-                          MaterialPageRoute(
-                            builder: (context) => Splash2(5, usuario),
+                      SizedBox(height: 40),
+                      GestureDetector(
+                        onTap: () async {
+                          if (_formKey.currentState!.validate()) {
+                            User? usuario = await Authcontroller.login(
+                              nomeController.text,
+                              nomeController.text,
+                              senhaController.text,
+                            );
+
+                            if (usuario != null) {
+                              Navigator.pushReplacement(
+                                context,
+                                MaterialPageRoute(
+                                  builder: (context) => Splash2(3, usuario),
+                                ),
+                              );
+                            } else {
+                              erroShowDialog();
+                            }
+                          }
+                        },
+                        child: AbsorbPointer(
+                          child: ContainersWelcome(
+                            cor: Color(0xFF6C63FF),
+                            altura: 45,
+                            comprimento: 330,
+                            texto: 'Realizar login',
+                            radius: 10,
+                            notOnlyDecoracao: false,
                           ),
-                        );
-                      } else {
-                        erroShowDialog();
-                      }
-                    }
-                  },
-                  child: AbsorbPointer(
-                    child: ContainersWelcome(
-                      cor: Color(0xFF5C65C0),
-                      altura: 60,
-                      comprimento: 330,
-                      texto: 'Realizar login',
-                      radius: 15,
-                      notOnlyDecoracao: false,
-                    ),
+                        ),
+                      ),
+                    ],
                   ),
                 ),
-                SizedBox(height: 14),
+
+                SizedBox(height: 10),
                 ContainersWelcome(
-                  cor: Color(0xFF1C0B2B),
+                  cor: Colors.transparent,
                   altura: 40,
                   comprimento: 330,
                   texto: 'Criar uma conta',

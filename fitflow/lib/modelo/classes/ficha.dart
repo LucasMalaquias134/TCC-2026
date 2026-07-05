@@ -11,25 +11,22 @@ class Ficha {
   */
 
   final int id;
-  final int user_id;
-  String name;
-  String data_inicio;
-  String data_fim;
-  String? descricao;
+  final String name;
+  final String? data_inicio;
+  final String? data_fim;
+  final String? descricao;
 
   Ficha({
     required this.id,
-    required this.user_id,
     required this.name,
     required this.data_inicio,
     required this.data_fim,
-    this.descricao,
+    required this.descricao,
   });
 
   Map<String, dynamic> toMap() {
     return {
       'id': id,
-      'user_id': user_id,
       'name': name,
       'data_inicio': data_inicio,
       'data_fim': data_fim,
@@ -40,11 +37,10 @@ class Ficha {
   factory Ficha.fromMap(Map<String, dynamic> map) {
     return Ficha(
       id: map['id'] ?? 0,
-      user_id: map['user_id'] ?? 0,
       name: map['name'] ?? '',
-      data_inicio: map['data_inicio'] ?? '',
-      data_fim: map['data_fim'] ?? '',
-      descricao: map['descricao'] ?? '',
+      data_inicio: map['data_inicio'] ?? null,
+      data_fim: map['data_fim'] ?? null,
+      descricao: map['descricao'] ?? null,
     );
   }
 

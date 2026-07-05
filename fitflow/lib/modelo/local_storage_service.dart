@@ -1,3 +1,5 @@
+import 'dart:convert';
+
 import 'package:fitflow/modelo/classes/exercicio.dart';
 import 'package:fitflow/modelo/classes/ficha.dart';
 import 'package:fitflow/modelo/classes/ficha_exercicio.dart';
@@ -6,52 +8,29 @@ import 'package:shared_preferences/shared_preferences.dart';
 
 class LocalStorageService {
   static const String LISTA_USERS = 'lista_users';
-  static const String sharedPref_token = 'sharedPref_token';
   static const String LISTA_EXERCICIOS = 'lista_exercicios';
   static const String LISTA_FICHA = 'lista_fichas';
   static const String LISTA_FICHA_EXERCICIOS = 'lista_fichas_exercicios';
 
   //===Recurso do usuario==========================================================================
-  static Future<void> salvarUsuarios(List<User> lista) async {
+  static Future<void> salvarUsuario(User usuario) async {
     final SharedPreferences prefs = await SharedPreferences.getInstance();
-    final String encodedData = User.encode(lista);
+    final String encodedData = json.encode(usuario.toMap());
     await prefs.setString(LISTA_USERS, encodedData);
   }
 
-  static Future<List<User>> carregarUsuarios() async {
+  static Future<User?> carregarUsuario() async {
     final SharedPreferences prefs = await SharedPreferences.getInstance();
     final String? usuariosJson = prefs.getString(LISTA_USERS);
 
-    if (usuariosJson == null) return [];
+    if (usuariosJson == null) return null;
 
-    return User.decode(usuariosJson);
-  }
-
-  //===Recurso de autenticação==========================================================================
-  static Future<void> salvarUsuarioLogado(String token) async {
-    final SharedPreferences prefs = await SharedPreferences.getInstance();
-    await prefs.setString(sharedPref_token, token);
-  }
-
-  static Future<User?> obterUsuarioLogado() async {
-    final SharedPreferences prefs = await SharedPreferences.getInstance();
-
-    final String? tokenlLogado = prefs.getString(sharedPref_token);
-
-    if (tokenlLogado == null) return null;
-
-    List<User> todosOsUsers = await carregarUsuarios();
-
-    try {
-      return todosOsUsers.firstWhere((User) => User.token == tokenlLogado);
-    } catch (e) {
-      return null;
-    }
+    return User.fromMap(json.decode(usuariosJson));
   }
 
   static Future<void> deslogarUsuario() async {
     final SharedPreferences prefs = await SharedPreferences.getInstance();
-    await prefs.remove(sharedPref_token);
+    await prefs.remove(LISTA_USERS);
   }
 
   //===Recurso do exercicio==========================================================================

@@ -20,3 +20,15 @@ Textos de dica (hintText): Colors.white.withValues(alpha: 0.4) deixa o texto de 
 
 keyboardType: TextInputType.number,
 inputFormatters: [FilteringTextInputFormatter.digitsOnly],
+
+1ºmontar o login igual o do paim template login unico
+splash1->verificaLogin->splash2??telaDelogin
+
+2º toda ação a partir da tela de login: usuario digita senha e login(username ou email), 
+o aplicativo vai poder realizar o login, enviando o usuario e senha para o webService, e o webservice vai responder se ta logado ou não.
+se estiver logado ele retorna o token de autenticacao, que deve ser persistido no sharedpreferences imediatmetne(vai ser importante na verificação do loginUnico no splash1)
+
+3ºsplash2, so vai aparecer se o usuario estiver logado. nesse splahs sera feito a requisição dos dados que serao persistidos na sharedPreferences. 
+Uma requisição para baixar as FICHAS DE TREINO DO USUARIO LOGADO, outra requisição para baixar as FICHAS_EXERCICIOS do USUARIO LOGADO, outra requisição para baixar todos os EXERCICIOS
+Todas as tres listagens baixadas serao persistidas imediatmetne no sharedPreferences para visualização nas telas de listagem
+conselho: gere jsons para cada uma das listas(ficha, ficha_exercico),persista ele no splash2

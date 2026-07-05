@@ -2,53 +2,83 @@ import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 
 class TextFieldsCriarFicha extends StatelessWidget {
+  final double? largura;
+  final IconData? icone;
+  final String placeHolder;
+  final String? placeHolder2;
+  final bool? eSenha;
   final TextEditingController controller;
-  final String label;
-  final String hint;
+  final bool? numerico;
+  final String? Function(String?)? validador;
+  final bool? labelFlutante;
+  final bool? temaEscuro;
+  final double? radius;
+  final Color? corErro;
   const TextFieldsCriarFicha({
-    required this.hint,
+    this.largura,
+    this.icone,
+    required this.placeHolder,
+    this.placeHolder2,
+    this.eSenha,
+    this.numerico,
     required this.controller,
-    required this.label,
+    this.validador,
+    this.labelFlutante,
+    this.temaEscuro,
+    this.radius,
+    this.corErro,
     super.key,
   });
 
   @override
   Widget build(BuildContext context) {
-    return Expanded(
-      child: Container(
-        padding: EdgeInsets.symmetric(horizontal: 16, vertical: 8),
-        decoration: BoxDecoration(
-          color: Color(0xFF433E75),
-          borderRadius: BorderRadius.circular(15),
-          border: Border.all(
-            color: Colors.white.withValues(alpha: 0.15),
-            width: 1.5,
-          ),
+    return Container(
+      width: largura,
+      padding: EdgeInsets.symmetric(horizontal: 16, vertical: 8),
+      decoration: BoxDecoration(
+        borderRadius: BorderRadius.circular((radius ?? 0)),
+        border: Border.all(
+          color: corErro != null
+              ? corErro!
+              : Colors.white.withValues(alpha: 0.15),
+          width: 1.5,
         ),
-        child: TextField(
-          style: TextStyle(
-            color: Colors.white,
+      ),
+      child: TextFormField(
+        validator: validador,
+        style: TextStyle(
+          color: temaEscuro == true ? Colors.black : Colors.white,
+          fontFamily: 'fredoka',
+          fontSize: 14,
+        ),
+        decoration: InputDecoration(
+          floatingLabelBehavior: labelFlutante == true
+              ? FloatingLabelBehavior.always
+              : null,
+          prefixIcon: icone != null
+              ? Icon(
+                  icone,
+                  color: temaEscuro == true ? Colors.black : Colors.white,
+                )
+              : null,
+          labelText: placeHolder,
+          labelStyle: TextStyle(
+            color: temaEscuro == true ? Colors.black : Colors.white,
+            fontFamily: 'fredoka',
+            fontSize: 18,
+          ),
+          hintText: placeHolder2 != null ? placeHolder2 : placeHolder,
+          hintStyle: TextStyle(
+            color: temaEscuro == true
+                ? Colors.black.withValues(alpha: 0.4)
+                : Colors.white.withValues(alpha: 0.4),
             fontFamily: 'fredoka',
             fontSize: 14,
           ),
-          decoration: InputDecoration(
-            labelText: label,
-            labelStyle: TextStyle(
-              color: Colors.white,
-              fontFamily: 'fredoka',
-              fontSize: 18,
-            ),
-            hintText: hint,
-            hintStyle: TextStyle(
-              color: Colors.white.withValues(alpha: 0.4),
-              fontFamily: 'fredoka',
-              fontSize: 14,
-            ),
-            border: InputBorder.none,
-            floatingLabelBehavior: FloatingLabelBehavior.always,
-          ),
-          controller: controller,
+          border: InputBorder.none,
         ),
+        obscureText: eSenha == null ? false : true,
+        controller: controller,
       ),
     );
   }
@@ -66,7 +96,6 @@ class mostrarData extends StatelessWidget {
     return Container(
       padding: EdgeInsets.symmetric(horizontal: 16, vertical: 8),
       decoration: BoxDecoration(
-        color: Color(0xFF433E75),
         borderRadius: BorderRadius.circular(15),
         border: Border.all(
           color: Colors.white.withValues(alpha: 0.15),

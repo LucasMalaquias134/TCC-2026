@@ -14,24 +14,24 @@ class User {
   */
 
   final int id;
-  String name;
-  String email;
-  String? urlImage;
-  String password;
-  String? token;
-  int? idade;
-  String? cidadeMora;
-  String user_name;
+  final String name;
+  final String email;
+  final String? urlImage;
+  final String password;
+  final String? token;
+  final int? idade;
+  final String? cidadeMora;
+  final String user_name;
 
   User({
     required this.id,
     required this.name,
     required this.email,
-    this.urlImage,
+    required this.urlImage,
     required this.password,
-    this.token,
-    this.idade,
-    this.cidadeMora,
+    required this.token,
+    required this.idade,
+    required this.cidadeMora,
     required this.user_name,
   });
 

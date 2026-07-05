@@ -36,7 +36,7 @@ class Welcome extends StatelessWidget {
             ),
             SizedBox(height: 100),
             ContainersWelcome(
-              cor: Color(0xFF5C65C0),
+              cor: Color(0xFF6C63FF),
               altura: 60,
               comprimento: 300,
               texto: 'Já tenho uma conta',

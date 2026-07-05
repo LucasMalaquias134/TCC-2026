@@ -3,10 +3,8 @@ import 'dart:io';
 import 'package:fitflow/Pages/HelpSenhaEditarUser.dart';
 import 'package:fitflow/WidgetsPersonalizados/AppBarTodos.dart';
 import 'package:fitflow/WidgetsPersonalizados/widgetsDoEditarUser.dart';
-import 'package:fitflow/controle/userController.dart';
 import 'package:fitflow/modelo/classes/user.dart';
 import 'package:flutter/material.dart';
-import 'package:image_picker/image_picker.dart';
 
 class Editaruser extends StatefulWidget {
   final User usuario;
@@ -18,207 +16,6 @@ class Editaruser extends StatefulWidget {
 }
 
 class _EditaruserState extends State<Editaruser> {
-  TextEditingController userNameController = TextEditingController();
-  TextEditingController nameController = TextEditingController();
-  TextEditingController emailController = TextEditingController();
-  TextEditingController idadeController = TextEditingController();
-  TextEditingController cidadeController = TextEditingController();
-  TextEditingController senhaController = TextEditingController();
-  late String senhaSegura;
-
-  File? arquivoDeImagem;
-
-  final ImagePicker picker = ImagePicker();
-
-  Future<void> selecionaImagen() async {
-    final XFile? selectedImage = await picker.pickImage(
-      source: ImageSource.gallery,
-    );
-
-    if (selectedImage != null) {
-      bool atualizarImg = await Usercontroller.atualizarImagem(
-        selectedImage.path,
-        widget.usuario.id,
-      );
-      if (atualizarImg) {
-        setState(() {
-          widget.usuario.urlImage = selectedImage.path;
-        });
-      } else {
-        erroShowDialogImg();
-      }
-    }
-  }
-
-  void erroShowDialogImg() {
-    showDialog(
-      context: context,
-      builder: (BuildContext context) {
-        return AlertDialog(
-          title: Text('Atenção'),
-          content: Text('Algo deu errado tente de novo.'),
-          actions: [
-            TextButton(
-              onPressed: () {
-                Navigator.pop(context);
-              },
-              child: Text('OK'),
-            ),
-          ],
-        );
-      },
-    );
-  }
-
-  void mensagemSnackBar() {
-    final snackBar = SnackBar(
-      content: Text(
-        'Atualizado com sucesso!',
-        style: TextStyle(fontFamily: 'fredoka', color: Colors.white),
-      ),
-      backgroundColor: Colors.green,
-      duration: Duration(seconds: 5),
-    );
-    ScaffoldMessenger.of(context).showSnackBar(snackBar);
-  }
-
-  Future<bool?> pedirSenha() async {
-    bool? resultado = await showDialog<bool>(
-      context: context,
-      builder: (BuildContext context) {
-        return AlertDialog(
-          title: Text(
-            'Insira sua senha',
-            style: TextStyle(fontFamily: 'fredoka'),
-          ),
-          content: Row(
-            mainAxisAlignment: MainAxisAlignment.center,
-            crossAxisAlignment: CrossAxisAlignment.center,
-            children: [
-              Expanded(
-                child: Container(
-                  height: 40,
-                  decoration: BoxDecoration(
-                    borderRadius: BorderRadius.circular(5),
-                  ),
-                  child: TextField(
-                    textAlignVertical: TextAlignVertical.center,
-                    style: TextStyle(
-                      color: Colors.black,
-                      fontFamily: 'fredoka',
-                      fontSize: 24,
-                    ),
-                    decoration: InputDecoration(
-                      isDense: true,
-                      hintText: 'Senha Atual',
-                      hintStyle: TextStyle(
-                        color: Colors.black.withValues(alpha: 0.3),
-                        fontFamily: 'fredoka',
-                        fontSize: 24,
-                      ),
-                    ),
-                    cursorColor: Colors.grey,
-                    obscureText: true,
-                    controller: senhaController,
-                  ),
-                ),
-              ),
-            ],
-          ),
-          actions: [
-            TextButton(
-              onPressed: () {
-                Navigator.pop(context, null);
-              },
-              child: Text('Cancelar'),
-            ),
-            TextButton(
-              onPressed: () {
-                if (senhaController.text == widget.usuario.password) {
-                  Navigator.pop(context, true);
-                } else {
-                  Navigator.pop(context, false);
-                }
-              },
-              child: Text('Continuar'),
-            ),
-          ],
-        );
-      },
-    );
-    return resultado;
-  }
-
-  void erroShowDialog(String erro) {
-    showDialog(
-      context: context,
-      builder: (BuildContext context) {
-        return AlertDialog(
-          title: Text('Atenção'),
-          content: Text(erro),
-          actions: [
-            TextButton(
-              onPressed: () {
-                Navigator.pop(context);
-              },
-              child: Text('OK'),
-            ),
-          ],
-        );
-      },
-    );
-  }
-
-  Future<void> ShowDialogDeletarImg() async {
-    showDialog(
-      context: context,
-      builder: (BuildContext context) {
-        return AlertDialog(
-          title: Text('Atenção'),
-          content: Text('Deseja excluir sua foto?'),
-          actions: [
-            TextButton(
-              onPressed: () {
-                Navigator.pop(context);
-              },
-              child: Text('Cancelar'),
-            ),
-            TextButton(
-              onPressed: () async {
-                bool atualizarImg = await Usercontroller.atualizarImagem(
-                  '',
-                  widget.usuario.id,
-                );
-                if (atualizarImg) {
-                  setState(() {
-                    widget.usuario.urlImage = '';
-                  });
-                } else {
-                  erroShowDialogImg();
-                }
-                Navigator.pop(context);
-              },
-              child: Text('Sim'),
-            ),
-          ],
-        );
-      },
-    );
-  }
-
-  @override
-  void initState() {
-    super.initState();
-    nameController.text = widget.usuario.name;
-    userNameController.text = widget.usuario.user_name;
-    idadeController.text =
-        widget.usuario.idade.toString().isNotEmpty &&
-            widget.usuario.idade?.toString() != null
-        ? widget.usuario.idade.toString()
-        : '';
-    cidadeController.text = widget.usuario.cidadeMora ?? '';
-  }
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -234,53 +31,27 @@ class _EditaruserState extends State<Editaruser> {
                 mainAxisAlignment: MainAxisAlignment.center,
                 crossAxisAlignment: CrossAxisAlignment.center,
                 children: [
-                  Stack(
-                    alignment: Alignment.bottomRight,
-                    children: [
-                      GestureDetector(
-                        onTap: () async {
-                          await selecionaImagen();
-                        },
-                        child: CircleAvatar(
-                          radius: 60,
-                          backgroundColor: Color(
-                            0xFF6C63FF,
-                          ).withValues(alpha: 0.3),
-                          child:
-                              widget.usuario.urlImage == null ||
-                                  widget.usuario.urlImage!.isEmpty
-                              ? const Icon(
-                                  Icons.person,
-                                  size: 60,
-                                  color: Colors.white,
-                                )
-                              : ClipOval(
-                                  child: SizedBox(
-                                    width: 120,
-                                    height: 120,
-                                    child: Image.file(
-                                      File(widget.usuario.urlImage!),
-                                      fit: BoxFit.cover,
-                                    ),
-                                  ),
-                                ),
-                        ),
-                      ),
-                      GestureDetector(
-                        onTap: () async {
-                          await ShowDialogDeletarImg();
-                        },
-                        child: CircleAvatar(
-                          radius: 18,
-                          backgroundColor: Colors.redAccent,
-                          child: Icon(
-                            Icons.delete,
+                  CircleAvatar(
+                    radius: 60,
+                    backgroundColor: Color(0xFF6C63FF).withValues(alpha: 0.3),
+                    child:
+                        widget.usuario.urlImage == null ||
+                            widget.usuario.urlImage!.isEmpty
+                        ? const Icon(
+                            Icons.person,
+                            size: 60,
                             color: Colors.white,
-                            size: 16,
+                          )
+                        : ClipOval(
+                            child: SizedBox(
+                              width: 120,
+                              height: 120,
+                              child: Image.file(
+                                File(widget.usuario.urlImage!),
+                                fit: BoxFit.cover,
+                              ),
+                            ),
                           ),
-                        ),
-                      ),
-                    ],
                   ),
                   Row(
                     mainAxisAlignment: MainAxisAlignment.center,
@@ -366,177 +137,10 @@ class _EditaruserState extends State<Editaruser> {
                     ],
                   ),
 
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    crossAxisAlignment: CrossAxisAlignment.center,
-                    children: [
-                      Expanded(
-                        child: Card(
-                          child: Container(
-                            padding: EdgeInsets.all(10),
-                            child: Column(
-                              mainAxisAlignment: MainAxisAlignment.center,
-                              crossAxisAlignment: .center,
-                              children: [
-                                Row(
-                                  mainAxisAlignment: MainAxisAlignment.center,
-                                  crossAxisAlignment: CrossAxisAlignment.center,
-                                  children: [
-                                    SizedBox(width: 5),
-                                    Expanded(
-                                      child: Text(
-                                        'Mude suas informações',
-                                        style: TextStyle(
-                                          color: Colors.white,
-                                          fontFamily: 'fredoka',
-                                          fontSize: 24,
-                                        ),
-                                        textAlign: TextAlign.start,
-                                        overflow: TextOverflow.ellipsis,
-                                        maxLines: 1,
-                                      ),
-                                    ),
-                                  ],
-                                ),
-                                SizedBox(height: 10),
-                                textfieldsDoEditarUser(
-                                  controller: nameController,
-                                  titulo: 'Nome',
-                                  numerico: false,
-                                ),
-                                SizedBox(height: 10),
-                                textfieldsDoEditarUser(
-                                  controller: userNameController,
-                                  titulo: 'Nome de usuário',
-                                  numerico: false,
-                                ),
-                                SizedBox(height: 10),
-                                textfieldsDoEditarUser(
-                                  controller: idadeController,
-                                  titulo: 'Idade',
-                                  numerico: true,
-                                ),
-                                SizedBox(height: 10),
-                                textfieldsDoEditarUser(
-                                  controller: cidadeController,
-                                  titulo: 'Cidade que mora',
-                                  numerico: false,
-                                ),
-                                SizedBox(height: 10),
-                                Row(
-                                  mainAxisAlignment: MainAxisAlignment.center,
-                                  crossAxisAlignment: CrossAxisAlignment.center,
-                                  children: [
-                                    Expanded(
-                                      child: Container(
-                                        height: 40,
-                                        decoration: BoxDecoration(
-                                          color: Color(0xFF6C63FF),
-                                          borderRadius: BorderRadius.circular(
-                                            10.0,
-                                          ),
-                                        ),
-                                        child: TextButton(
-                                          child: Text(
-                                            'Atualizar Informações',
-                                            style: TextStyle(
-                                              color: Colors.white,
-                                              fontFamily: 'fredoka',
-                                              fontSize: 20,
-                                            ),
-                                          ),
-
-                                          onPressed: () async {
-                                            bool? resultado =
-                                                await pedirSenha();
-
-                                            switch (resultado) {
-                                              case true:
-                                                senhaSegura =
-                                                    senhaController.text;
-
-                                                if (nameController.text
-                                                        .trim()
-                                                        .isEmpty ||
-                                                    userNameController.text
-                                                        .trim()
-                                                        .isEmpty) {
-                                                  erroShowDialog(
-                                                    'Ainda há campos a serem preenchidos!',
-                                                  );
-                                                } else {
-                                                  bool resultado2 =
-                                                      await Usercontroller.atualizarUsuario(
-                                                        widget.usuario.id,
-                                                        nameController.text,
-                                                        userNameController.text,
-
-                                                        int.tryParse(
-                                                          idadeController.text,
-                                                        ),
-                                                        cidadeController.text,
-                                                      );
-
-                                                  if (resultado2) {
-                                                    setState(() {
-                                                      widget.usuario.name =
-                                                          nameController.text;
-                                                      widget.usuario.user_name =
-                                                          userNameController
-                                                              .text;
-                                                      widget
-                                                          .usuario
-                                                          .idade = int.tryParse(
-                                                        idadeController.text,
-                                                      );
-                                                      widget
-                                                              .usuario
-                                                              .cidadeMora =
-                                                          cidadeController.text;
-                                                    });
-                                                    mensagemSnackBar();
-                                                  } else {
-                                                    erroShowDialog(
-                                                      'Algo deu errado tente novamente',
-                                                    );
-                                                  }
-                                                }
-                                                break;
-                                              case false:
-                                                erroShowDialog(
-                                                  'Senha errada tente novamente',
-                                                );
-
-                                                break;
-                                              default:
-                                            }
-                                            senhaController.clear();
-                                            senhaSegura = '';
-                                          },
-                                        ),
-                                      ),
-                                    ),
-                                  ],
-                                ),
-                              ],
-                            ),
-                          ),
-                          elevation: 4,
-                          color: Color(0xFF2E2C54),
-                          margin: EdgeInsets.all(10),
-                        ),
-                      ),
-                    ],
-                  ),
                   cartaoNavigator(
                     icone: Icons.lock_outline,
                     classe: Helpsenhaeditaruser(),
                     titulo: 'Recuperar Senha',
-                  ),
-                  cartaoNavigator(
-                    icone: Icons.email_outlined,
-                    classe: Helpsenhaeditaruser(),
-                    titulo: 'Mudar de email',
                   ),
                 ],
               ),

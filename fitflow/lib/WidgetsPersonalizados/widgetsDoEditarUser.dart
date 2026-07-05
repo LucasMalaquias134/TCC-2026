@@ -91,9 +91,8 @@ class cartaoNavigator extends StatelessWidget {
                         Icon(icone, color: Colors.white, size: 20),
                         SizedBox(width: 5),
                         Container(
-                          width: 130,
                           child: Text(
-                            titulo,
+                            '$titulo (web View)',
                             style: TextStyle(
                               color: Colors.white,
                               fontFamily: 'fredoka',

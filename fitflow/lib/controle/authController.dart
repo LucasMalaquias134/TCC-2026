@@ -1,12 +1,14 @@
+import 'dart:convert';
+
 import 'package:fitflow/Pages/Home.dart';
 import 'package:fitflow/Pages/Welcome.dart';
 import 'package:fitflow/modelo/classes/user.dart';
 import 'package:fitflow/modelo/local_storage_service.dart';
 import 'package:flutter/material.dart';
-import 'dart:math';
+//import 'dart:math';
 
 class Authcontroller {
-  static String _gerarStringAleatoria() {
+  /*static String _gerarStringAleatoria() {
     const caracteres =
         'AaBbCcDdEeFfGgHhIiJjKkLlMmNnOoPpQqRrSsTtUuVvWwXxYyZz0123456789';
     final random = Random();
@@ -17,9 +19,9 @@ class Authcontroller {
         (_) => caracteres.codeUnitAt(random.nextInt(caracteres.length)),
       ),
     );
-  }
+  }*/
 
-  static Future<User?> cadastrarNovoUsuario(
+  /*static Future<User?> cadastrarNovoUsuario(
     String name,
     String email,
     String? urlImage,
@@ -67,36 +69,52 @@ class Authcontroller {
     await LocalStorageService.salvarUsuarioLogado(novoUser.token!);
 
     return novoUser;
-  }
+  }*/
 
   static Future<User?> login(
     String userName,
     String email,
     String password,
   ) async {
-    List<User> usuariosSalvos = await LocalStorageService.carregarUsuarios();
+    String guardadoNoSever = '''
+    {
+      "user": {
+        "id": 1,
+        "name": "Lucas Gabriel",
+        "email": "lucas@email.com",
+        "urlImage": "",
+        "password": "123456",
+        "token": "token-gerado-pelo-servidor-123456",
+        "idade": 21,
+        "cidadeMora": "Formiga",
+        "user_name": "lucas_fera"
+      }
+    }
+    ''';
 
     try {
-      User usuarioEncontrado = usuariosSalvos.firstWhere(
-        (user) =>
-            (user.email == email || user.user_name == userName) &&
-            user.password == password,
-      );
+      Map<String, dynamic> dadosDecodificados = json.decode(guardadoNoSever);
+      Map<String, dynamic> userMap = dadosDecodificados['user'];
 
-      usuarioEncontrado.token = _gerarStringAleatoria();
+      if ((userName == userMap['user_name'] || email == userMap['email']) &&
+          password == userMap['password']) {
+        User usuario = User(
+          id: userMap['id'],
+          name: userMap['name'],
+          email: userMap['email'],
+          urlImage: userMap['urlImage'],
+          password: '',
+          token: userMap['token'],
+          idade: userMap['idade'],
+          cidadeMora: userMap['cidadeMora'],
+          user_name: userMap['user_name'],
+        );
 
-      int id = usuariosSalvos.indexWhere(
-        (user) => user.id == usuarioEncontrado.id,
-      );
+        await LocalStorageService.salvarUsuario(usuario);
 
-      if (id != -1) {
-        usuariosSalvos[id] = usuarioEncontrado;
-        await LocalStorageService.salvarUsuarios(usuariosSalvos);
+        return usuario;
       }
-
-      await LocalStorageService.salvarUsuarioLogado(usuarioEncontrado.token!);
-
-      return usuarioEncontrado;
+      return null;
     } catch (e) {
       return null;
     }
@@ -107,17 +125,17 @@ class Authcontroller {
   }
 
   static Future<void> verificaSessao(BuildContext context) async {
-    User? usuarioAtivo = await LocalStorageService.obterUsuarioLogado();
+    User? usuarioAtivo = await LocalStorageService.carregarUsuario();
 
     if (usuarioAtivo != null) {
-      Future.delayed(Duration(seconds: 10), () {
+      Future.delayed(Duration(seconds: 3), () {
         Navigator.pushReplacement(
           context,
           MaterialPageRoute(builder: (context) => Home(usuario: usuarioAtivo)),
         );
       });
     } else {
-      Future.delayed(Duration(seconds: 10), () {
+      Future.delayed(Duration(seconds: 3), () {
         Navigator.pushReplacement(
           context,
           MaterialPageRoute(builder: (context) => Welcome()),

@@ -1,10 +1,7 @@
 import 'dart:io';
 import 'package:fitflow/Pages/Login.dart';
-import 'package:fitflow/Splashes/Splash2.dart';
 import 'package:fitflow/WidgetsPersonalizados/ContainersWelcome.dart';
 import 'package:fitflow/WidgetsPersonalizados/TextFieldsDoLogin.dart';
-import 'package:fitflow/controle/authController.dart';
-import 'package:fitflow/modelo/classes/user.dart';
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
 
@@ -23,6 +20,19 @@ class _CadastroState extends State<Cadastro> {
   TextEditingController idadeController = TextEditingController();
   TextEditingController cidadeMoraController = TextEditingController();
   TextEditingController userNameController = TextEditingController();
+
+  final _formKey = GlobalKey<FormState>();
+
+  void dispose() {
+    nameController.dispose();
+    emailController.dispose();
+    passwordController.dispose();
+    passwordConfirmController.dispose();
+    idadeController.dispose();
+    cidadeMoraController.dispose();
+    userNameController.dispose();
+    super.dispose();
+  }
 
   File? arquivoDeImagem;
 
@@ -79,171 +89,222 @@ class _CadastroState extends State<Cadastro> {
               mainAxisAlignment: MainAxisAlignment.center,
               crossAxisAlignment: CrossAxisAlignment.center,
               children: [
-                Container(
-                  width: 400,
-                  child: Text(
-                    'Crie sua conta em apenas algum passos!',
-                    textAlign: TextAlign.center,
-                    style: TextStyle(
-                      color: Color.fromARGB(255, 255, 255, 255),
-                      fontSize: 30,
-                      fontWeight: FontWeight(200),
-                      fontFamily: 'fredoka',
-                    ),
-                  ),
-                ),
-
-                SizedBox(height: 20),
-                GestureDetector(
-                  onTap: () async {
-                    await selecionaImagen();
-                  },
-                  child: CircleAvatar(
-                    radius: 80,
-                    backgroundColor: Colors.white,
-                    backgroundImage: arquivoDeImagem != null
-                        ? FileImage(arquivoDeImagem!)
-                        : null,
-                    child: arquivoDeImagem == null
-                        ? const Icon(
-                            Icons.person_outline,
-                            size: 80,
-                            color: Colors.black,
-                          )
-                        : null,
-                  ),
-                ),
-
-                SizedBox(height: 20),
-                Textfieldsdologin(
-                  largura: 330,
-                  altura: 50,
-                  icone: null,
-                  placeHolder: 'Seu nome',
-                  eSenha: false,
-                  texto: nameController,
-                  numerico: false,
-                ),
-                SizedBox(height: 20),
-                Textfieldsdologin(
-                  largura: 330,
-                  altura: 50,
-                  icone: null,
-                  placeHolder: 'Seu email',
-                  eSenha: false,
-                  texto: emailController,
-                  numerico: false,
-                ),
-
-                SizedBox(height: 20),
-                Textfieldsdologin(
-                  largura: 330,
-                  altura: 50,
-                  icone: null,
-                  placeHolder: 'Sua idade (Não é obrigatorio)',
-                  eSenha: false,
-                  texto: idadeController,
-                  numerico: true,
-                ),
-                SizedBox(height: 20),
-                Textfieldsdologin(
-                  largura: 330,
-                  altura: 50,
-                  icone: null,
-                  placeHolder: 'Cidade que mora (Não é obrigatorio)',
-                  eSenha: false,
-                  texto: cidadeMoraController,
-                  numerico: false,
-                ),
-                SizedBox(height: 20),
-                Textfieldsdologin(
-                  largura: 330,
-                  altura: 50,
-                  icone: null,
-                  placeHolder: 'Nome de usuário',
-                  eSenha: false,
-                  texto: userNameController,
-                  numerico: false,
-                ),
-                SizedBox(height: 40),
-                Textfieldsdologin(
-                  largura: 330,
-                  altura: 50,
-                  icone: null,
-                  placeHolder: 'Sua senha',
-                  eSenha: true,
-                  texto: passwordController,
-                  numerico: false,
-                ),
-                SizedBox(height: 20),
-                Textfieldsdologin(
-                  largura: 330,
-                  altura: 50,
-                  icone: null,
-                  placeHolder: 'Confirme sua senha',
-                  eSenha: true,
-                  texto: passwordConfirmController,
-                  numerico: false,
-                ),
-                SizedBox(height: 40),
-                GestureDetector(
-                  onTap: () async {
-                    if (nameController.text.isEmpty ||
-                        emailController.text.isEmpty ||
-                        userNameController.text.isEmpty ||
-                        passwordController.text.isEmpty ||
-                        passwordConfirmController.text.isEmpty) {
-                      erroShowDialog(true);
-                    } else {
-                      User? usuario = await Authcontroller.cadastrarNovoUsuario(
-                        nameController.text,
-                        emailController.text,
-                        arquivoDeImagem?.path,
-                        passwordController.text,
-                        passwordConfirmController.text,
-                        int.tryParse(idadeController.text),
-                        cidadeMoraController.text,
-                        userNameController.text,
-                      );
-                      if (usuario != null) {
-                        Navigator.pushReplacement(
-                          context,
-                          MaterialPageRoute(
-                            builder: (context) => Splash2(5, usuario),
+                Form(
+                  key: _formKey,
+                  child: Column(
+                    children: [
+                      Container(
+                        width: 400,
+                        child: Text(
+                          'Crie sua conta em apenas algum passos!',
+                          textAlign: TextAlign.center,
+                          style: TextStyle(
+                            color: Color.fromARGB(255, 255, 255, 255),
+                            fontSize: 30,
+                            fontWeight: FontWeight(200),
+                            fontFamily: 'fredoka',
                           ),
-                        );
-                      } else {
-                        erroShowDialog(false);
-                      }
-                    }
-                  },
-                  child: AbsorbPointer(
-                    child: ContainersWelcome(
-                      cor: Color(0xFF5C65C0),
-                      altura: 60,
-                      comprimento: 330,
-                      texto: 'Realizar cadastro',
-                      radius: 15,
-                      notOnlyDecoracao: false,
-                    ),
-                  ),
-                ),
+                        ),
+                      ),
 
-                SizedBox(height: 14),
-                ContainersWelcome(
-                  cor: Color(0xFF1C0B2B),
-                  altura: 40,
-                  comprimento: 330,
-                  texto: 'Já tenho uma conta',
-                  url: null,
-                  webOrMob: false,
-                  radius: 0,
-                  classe: Login(),
-                  splash: false,
-                  segs: 0,
-                  volta: true,
-                  saiApp: false,
-                  notOnlyDecoracao: true,
+                      SizedBox(height: 20),
+                      GestureDetector(
+                        onTap: () async {
+                          await selecionaImagen();
+                        },
+                        child: CircleAvatar(
+                          radius: 80,
+                          backgroundColor: Colors.white,
+                          backgroundImage: arquivoDeImagem != null
+                              ? FileImage(arquivoDeImagem!)
+                              : null,
+                          child: arquivoDeImagem == null
+                              ? const Icon(
+                                  Icons.person_outline,
+                                  size: 80,
+                                  color: Colors.black,
+                                )
+                              : null,
+                        ),
+                      ),
+
+                      SizedBox(height: 20),
+                      Textfieldsdologin(
+                        largura: 330,
+                        placeHolder: 'Seu nome',
+                        controller: nameController,
+                        icone: Icons.person_outline,
+                        validador: (value) {
+                          if (value == null || value.trim().isEmpty) {
+                            return 'Por favor, preencha este campo';
+                          }
+                          if (value.length < 3) {
+                            return 'O nome precisa ter pelo menos 3 letras';
+                          }
+                          return null;
+                        },
+                      ),
+                      SizedBox(height: 15),
+                      Textfieldsdologin(
+                        largura: 330,
+                        placeHolder: 'Seu email',
+                        controller: emailController,
+                        icone: Icons.email_outlined,
+                        validador: (value) {
+                          if (value == null || value.trim().isEmpty) {
+                            return 'Por favor, preencha este campo';
+                          }
+                          if (!value.contains('@')) {
+                            return 'Por favor, insira um email valido';
+                          }
+                          if (value.length < 3) {
+                            return 'O nome precisa ter pelo menos 3 letras';
+                          }
+                          return null;
+                        },
+                      ),
+                      SizedBox(height: 15),
+                      Textfieldsdologin(
+                        largura: 330,
+                        placeHolder: 'Sua idade (Não é obrigatorio)',
+                        controller: idadeController,
+                        numerico: true,
+                        icone: Icons.cake_outlined,
+                        validador: (value) {
+                          if (value == null || value.isEmpty) {
+                            return null;
+                          }
+
+                          final int? numero = int.tryParse(value);
+
+                          if (numero == null) {
+                            return 'Por favor, Digite um número válido';
+                          }
+
+                          if (numero <= 8) {
+                            return 'A idade deve ser maior que oito';
+                          }
+                          if (numero >= 100) {
+                            return 'Por favor, Digite um número válido';
+                          }
+                          return null;
+                        },
+                      ),
+                      SizedBox(height: 15),
+                      Textfieldsdologin(
+                        largura: 330,
+                        placeHolder: 'Cidade que mora (Não é obrigatorio)',
+                        controller: cidadeMoraController,
+                        icone: Icons.location_on_outlined,
+                      ),
+                      SizedBox(height: 15),
+                      Textfieldsdologin(
+                        largura: 330,
+                        placeHolder: 'Nome de usuário',
+                        controller: userNameController,
+                        icone: Icons.alternate_email,
+                        validador: (value) {
+                          if (value == null || value.trim().isEmpty) {
+                            return 'Por favor, preencha este campo';
+                          }
+                          if (value.length < 3) {
+                            return 'O nome de usuário precisa ter pelo menos 3 letras';
+                          }
+                          return null;
+                        },
+                      ),
+                      SizedBox(height: 40),
+                      Textfieldsdologin(
+                        largura: 330,
+                        placeHolder: 'Sua senha',
+                        controller: passwordController,
+                        eSenha: true,
+                        icone: Icons.lock_outline,
+                        validador: (value) {
+                          if (value == null || value.trim().isEmpty) {
+                            return 'Por favor, preencha este campo';
+                          }
+                          if (value.length < 6) {
+                            return 'A senha precisa ter pelo menos 6 digitos';
+                          }
+                          return null;
+                        },
+                      ),
+                      SizedBox(height: 15),
+                      Textfieldsdologin(
+                        largura: 330,
+                        placeHolder: 'Confirme sua senha',
+                        controller: passwordConfirmController,
+                        eSenha: true,
+                        icone: Icons.lock_outline,
+                        validador: (value) {
+                          if (value == null || value.trim().isEmpty) {
+                            return 'Por favor, preencha este campo';
+                          }
+                          if (value.length < 6) {
+                            return 'A senha precisa ter pelo menos 6 digitos';
+                          }
+                          return null;
+                        },
+                      ),
+                      SizedBox(height: 40),
+                      GestureDetector(
+                        onTap: () async {
+                          _formKey.currentState!.validate();
+                          /*if (_formKey.currentState!.validate()) {
+                            User? usuario =
+                                await Authcontroller.cadastrarNovoUsuario(
+                                  nameController.text,
+                                  emailController.text,
+                                  arquivoDeImagem?.path,
+                                  passwordController.text,
+                                  passwordConfirmController.text,
+                                  int.tryParse(idadeController.text),
+                                  cidadeMoraController.text,
+                                  userNameController.text,
+                                );
+                            if (usuario != null) {
+                              Navigator.pushReplacement(
+                                context,
+                                MaterialPageRoute(
+                                  builder: (context) => Splash2(5, usuario),
+                                ),
+                              );
+                            } else {
+                              erroShowDialog(false);
+                            }
+                          }*/
+                        },
+                        child: AbsorbPointer(
+                          child: ContainersWelcome(
+                            cor: Color(0xFF6C63FF),
+                            altura: 45,
+                            comprimento: 330,
+                            texto: 'Realizar cadastro',
+                            radius: 10,
+                            notOnlyDecoracao: false,
+                          ),
+                        ),
+                      ),
+
+                      SizedBox(height: 10),
+                      ContainersWelcome(
+                        cor: Color(0xFF1C0B2B),
+                        altura: 40,
+                        comprimento: 330,
+                        texto: 'Já tenho uma conta',
+                        url: null,
+                        webOrMob: false,
+                        radius: 0,
+                        classe: Login(),
+                        splash: false,
+                        segs: 0,
+                        volta: true,
+                        saiApp: false,
+                        notOnlyDecoracao: true,
+                      ),
+                    ],
+                  ),
                 ),
               ],
             ),

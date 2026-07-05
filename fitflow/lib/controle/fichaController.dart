@@ -1,19 +1,24 @@
+import 'dart:convert';
+
 import 'package:fitflow/modelo/classes/ficha.dart';
-import 'package:fitflow/modelo/local_storage_service.dart';
+//import 'package:fitflow/modelo/local_storage_service.dart';
 
 class Fichacontroller {
-  static Future<bool> criarFicha(
+  /*static Future<bool> criarFicha(
     int id,
     String nome,
     String? desc,
-    String dataInicio,
-    String datafim,
+    String? dataInicio,
+    String? datafim,
   ) async {
     List<Ficha> fichasExistentes = await LocalStorageService.carregarFichas();
 
-    List campos = [nome, dataInicio, datafim];
+    if (nome.trim().isEmpty) {
+      return false;
+    }
 
-    if (campos.any((campo) => campo.trim().isEmpty)) {
+    if ((dataInicio == null && datafim != null) ||
+        (dataInicio != null && datafim == null)) {
       return false;
     }
 
@@ -35,19 +40,57 @@ class Fichacontroller {
       print(e);
       return false;
     }
+  }*/
+
+  static Future<List<Ficha>> listarFichas() async {
+    String guardadoNoSever = '''
+    {
+      "fichas": [
+        {
+          "id": 101,
+          "name": "Treino A - Hipertrofia",
+          "data_inicio": "2026-01-10",
+          "data_fim": "2026-03-10",
+          "descricao": "Foco em membros superiores"
+        },
+        {
+          "id": 102,
+          "name": "Treino B - Resistência",
+          "data_inicio": null,
+          "data_fim": null,
+          "descricao": "Exercícios conjugados sem pressa"
+        },
+        {
+          "id": 103,
+          "name": "Treino C - Cardio Avançado",
+          "data_inicio": "2026-06-01",
+          "data_fim": "2026-07-01",
+          "descricao": null
+        }
+      ]
+    }
+    ''';
+
+    try {
+      Map<String, dynamic> dadosDecodificados = json.decode(guardadoNoSever);
+
+      List<dynamic> listaDeFichasBrutas = dadosDecodificados['fichas'];
+
+      List<Ficha> fichasProntas = listaDeFichasBrutas.map((mapaDaFicha) {
+        return Ficha.fromMap(mapaDaFicha);
+      }).toList();
+
+      return fichasProntas;
+    } catch (e) {
+      return [];
+    }
+
+    /*List<Ficha> fichas = await LocalStorageService.carregarFichas();
+
+    return fichas;*/
   }
 
-  static Future<List<Ficha>> listarFichas(int id) async {
-    List<Ficha> fichas = await LocalStorageService.carregarFichas();
-
-    List<Ficha> fichasUser = fichas
-        .where((element) => element.user_id == id)
-        .toList();
-
-    return fichasUser;
-  }
-
-  static Future<bool> deletarFichas(int id) async {
+  /*static Future<bool> deletarFichas(int id) async {
     try {
       List<Ficha> lista = await LocalStorageService.carregarFichas();
 
@@ -59,26 +102,29 @@ class Fichacontroller {
     } catch (e) {
       return false;
     }
-  }
+  }*/
 
-  static Future<bool> atualizarFichas(
+  /*static Future<bool> atualizarFichas(
     int id,
     String nome,
     String? desc,
-    String dataInicio,
-    String datafim,
+    String? dataInicio,
+    String? datafim,
   ) async {
     List<Ficha> fichasExistentes = await LocalStorageService.carregarFichas();
 
-    List campos = [nome, dataInicio, datafim];
-
-    if (campos.any((campo) => campo.trim().isEmpty)) {
+    if (nome.trim().isEmpty) {
       return false;
     }
 
     int index = fichasExistentes.indexWhere((ficha) => ficha.id == id);
 
     if (index == -1) {
+      return false;
+    }
+
+    if ((dataInicio == null && datafim != null) ||
+        (dataInicio != null && datafim == null)) {
       return false;
     }
 
@@ -106,5 +152,5 @@ class Fichacontroller {
       print(e);
       return false;
     }
-  }
+  }*/
 }
