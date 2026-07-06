@@ -47,9 +47,9 @@ class Exercicio {
       treino: map['treino'] ?? '',
       qntdSeries: map['qntdSeries'] ?? 0,
       qtndRep: map['qtndRep'] ?? 0,
-      peso: map['peso'] ?? 0,
-      descanso: map['descanso'] ?? 0,
-      descricao: map['descricao'] ?? '',
+      peso: map['peso'] ?? null,
+      descanso: map['descanso'] ?? null,
+      descricao: map['descricao'] ?? null,
     );
   }
 

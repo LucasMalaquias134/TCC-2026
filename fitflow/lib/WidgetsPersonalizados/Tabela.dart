@@ -83,12 +83,12 @@ class _TabelaState extends State<Tabela> {
                               nome: exercicioAtual.treino,
                               peso: exercicioAtual.peso != null
                                   ? '${exercicioAtual.peso} kg'
-                                  : 'Sem peso',
+                                  : '-',
                               reps: '${exercicioAtual.qtndRep}',
                               series: '${exercicioAtual.qntdSeries}',
                               descanso: exercicioAtual.descanso != null
                                   ? '${exercicioAtual.descanso}s'
-                                  : '',
+                                  : '-',
                               desc: exercicioAtual.descricao ?? '',
                             );
                           },

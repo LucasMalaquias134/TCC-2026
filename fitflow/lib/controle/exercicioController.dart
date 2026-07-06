@@ -45,7 +45,7 @@ class Exerciciocontroller {
       "qtndRep": 1,
       "peso": null,
       "descanso": null,
-      "descricao": "20 minutos mantendo BPM alto"
+      "descricao": null
     }
   ]
     }
