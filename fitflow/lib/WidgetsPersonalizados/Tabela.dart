@@ -102,12 +102,3 @@ class _TabelaState extends State<Tabela> {
     );
   }
 }
-
-/*Carddoexpansiontile(
-    nome: 'Supino Reto',
-    peso: '30 kg',
-    reps: '12',
-    series: '4',
-    descanso: '60s',
-    desc: 'Mantenha a barra alinhada ao peito.',
-  ),*/

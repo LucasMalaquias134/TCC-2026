@@ -46,6 +46,16 @@ class _LoginState extends State<Login> {
     );
   }
 
+  void barraDeSucesso() {
+    SnackBar minhaSnack = SnackBar(
+      content: Text('Login realizado com sucesso!'),
+      backgroundColor: Colors.green,
+      duration: Duration(seconds: 5),
+      showCloseIcon: true,
+    );
+    ScaffoldMessenger.of(context).showSnackBar(minhaSnack);
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -110,6 +120,7 @@ class _LoginState extends State<Login> {
                             );
 
                             if (usuario != null) {
+                              barraDeSucesso();
                               Navigator.pushReplacement(
                                 context,
                                 MaterialPageRoute(
