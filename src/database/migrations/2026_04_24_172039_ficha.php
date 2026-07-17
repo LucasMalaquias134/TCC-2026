@@ -14,10 +14,10 @@ return new class extends Migration
         Schema::create('ficha' , function(Blueprint $table){
             $table->id();
             $table->foreignId("user_id")->constrained("users")->onDelete('cascade');
-            $table->string('name' , 45)->unique();
+            $table->string('name');
             $table->date("data_inicio");
             $table->date("data_fim");
-            $table->string("descricao" , 100)->nullable();
+            $table->text("descricao")->nullable();
             $table->softDeletes();
             $table->timestamps();
         });

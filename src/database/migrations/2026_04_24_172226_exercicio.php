@@ -13,12 +13,12 @@ return new class extends Migration
     {
         Schema::create('exercicio' , function(Blueprint $table){
             $table->id();
-            $table->string('treino' , 45);
+            $table->string('treino');
             $table->integer('ordem');
             $table->integer('qntdSeries');
             $table->integer('qtndRep');
             $table->decimal('peso' , 6 , 2)->nullable();
-            $table->string('descricao' , 100)->nullable();
+            $table->text('descricao')->nullable();
             $table->softDeletes();
             $table->timestamps();
         });

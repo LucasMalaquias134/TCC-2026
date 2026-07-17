@@ -26,6 +26,15 @@
                         <li><hr class="dropdown-divider border-secondary"></li>
                         <li class="d-flex justify-content-center mb-2">
                             <a class="btn btn-outline-warning" href="{{route('logout')}}" style='width: 150px;'>Log out</a>
+                            <form method="POST" action="{{ route('logout') }}">
+                            @csrf
+
+                            <x-dropdown-link :href="route('logout')"
+                                    onclick="event.preventDefault();
+                                                this.closest('form').submit();">
+                                {{ __('Log Out') }}
+                            </x-dropdown-link>
+                        </form>
                         </li>
                         <li class="d-flex justify-content-center mb-2">
                             <a class="btn btn-outline-danger" href="{{route('deleted')}}" style='width: 150px;'>Apagar conta</a>

@@ -15,13 +15,13 @@ return new class extends Migration
             $table->id();
             $table->string('name');
             $table->string('email')->unique();
-            $table->string('urlImage')->nullable()->default('userSemImg');
+            $table->string('urlImage')->nullable();
             $table->timestamp('email_verified_at')->nullable();
             $table->string('password');
             $table->rememberToken();
             $table->integer('idade')->unsigned()->nullable();
-            $table->string('cidadeMora' , 100)->nullable();
-            $table->string('user_name' , 45)->unique();
+            $table->string('cidadeMora')->nullable();
+            $table->string('user_name')->unique();
             $table->softDeletes();
             $table->timestamps();
         });

@@ -78,12 +78,33 @@
       integrity="sha256-+uGLJmmTKOqBr+2E6KDYs/NRsHxSkONXFHUL0fy2O/4="
       crossorigin="anonymous"
     />
-    @stack('styles')
+    <style>
+      .botao-outilined {
+        color: rgb(200, 200, 200);
+        border-color: rgb(200, 200, 200);
+        transition: all 0.2s ease-in-out;
+      }
+
+      .botao-outilined:hover {
+        color: rgb(255, 255, 255);
+        border-color: rgb(255, 255, 255);
+      }
+
+      .botao-outilined2 {
+        color: rgb(200, 200, 200);
+        transition: all 0.2s ease-in-out;
+      }
+
+      .botao-outilined2:hover {
+        color: rgb(255, 255, 255);
+        border-color: rgb(255, 255, 255);
+      }
+    </style>
 </head>
 <body class="layout-fixed sidebar-expand-lg bg-body-tertiary ">
     <div class="app-wrapper ">
         
-        <main class="app-main " data-bs-theme="dark" style="background-color: rgb(48, 28, 65) !important;">
+        <main class="app-main " data-bs-theme="dark" style="background-color: #130D26 !important;">
             <div class="app-content-header">
                 <div class="container-fluid">
                     <h3 class="text-white">@yield('titulo_pagina')</h3>
@@ -92,7 +113,7 @@
 
             <div class="app-content">
                 <div class="container-fluid">
-                    <div class="d-flex justify-content-center align-items-center" style="min-height: 70vh;">
+                    <div class="d-flex justify-content-center align-items-center" style="min-height: 80vh;">
                         @yield('corpo')
                     </div>
                 </div>

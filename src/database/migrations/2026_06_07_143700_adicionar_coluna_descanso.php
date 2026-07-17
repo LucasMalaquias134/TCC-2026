@@ -12,7 +12,6 @@ return new class extends Migration
     public function up(): void
     {
         Schema::table('exercicio', function (Blueprint $table) {
-            // Adicionando a nova coluna do tipo string
             $table->integer('descanso')->nullable(); 
         });
     }
@@ -23,7 +22,6 @@ return new class extends Migration
     public function down(): void
     {
         Schema::table('exercicio', function (Blueprint $table) {
-            // Caso precise reverter a migration
             $table->dropColumn('descanso');
         });
     }

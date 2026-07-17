@@ -4,62 +4,161 @@
 
 @section('corpo')
 
-    <div class="card p-4 shadow" style="width: 100%; max-width: 400px;background-color: rgb(71, 53, 143)!important;">
+    <div class="card p-4 rounded-4 shadow" style="width:850px;background-color: #1b1437!important;">
     
-        <a href="{{route('welcome')}}" class='nav-link'> <i class='bi bi-arrow-left'></i></a>
-        <h3 class="text-center">Realize seu cadastro em apenas alguns segundos!</h3>
-        
-        <hr class="border-2">
-        
-        <form action="{{route('cadastrohome')}}" method="POST">
-
-        <div class="mb-3">
-            <label for="UserName" class="form-label text-white">Nome do Usuário :</label>
-            <input required type="text" class="form-control" id="UserName" style="background-color: rgb(28, 11, 43) !important;" placeholder='Nome do Usuário'  aria-describedby='userNameAjuda'>
-            <div id='userNameAjuda' class="form-text">(Campo obrigatório)</div>
-        </div>
-
-        <div class="mb-3">
-            <label for="Nome" class="form-label text-white">Nome :</label>
-            <input required type="text" class="form-control" id="Nome" style="background-color: rgb(28, 11, 43) !important;" placeholder='Nome' aria-describedby='NameAjuda'>
-            <div id='NameAjuda' class="form-text">(Campo obrigatório)</div>
-        </div>
-        
-        <div class="mb-3">
-            <label for="Email" class="form-label text-white">Email :</label>
-            <input required type="email" class="form-control" id="Email" style="background-color: rgb(28, 11, 43) !important;" placeholder='Email' aria-describedby='emailAjuda'>
-            <div id='emailAjuda' class="form-text">(Campo obrigatório)</div>
-        </div>
-
-        <div class="mb-3">
-            <label for="Idade" class="form-label text-white">Idade :</label>
-            <input type="number" class="form-control" id="Idade" style="background-color: rgb(28, 11, 43) !important;" placeholder='Idade'>
-        </div>
-
-        <div class="mb-3">
-            <label for="Cidade" class="form-label text-white">Cidade que nasceu :</label>
-            <input type="text" class="form-control" id="Cidade" style="background-color: rgb(28, 11, 43) !important;" placeholder='Cidade que nasceu'>
-        </div>
-
-        <div class="mb-5">
-            <label for="FotoPerfil" class="form-label text-white">Foto de Perfil :</label>
-            <input type="file" class="form-control" id="FotoPerfil" style="background-color: rgb(28, 11, 43) !important;" placeholder='Foto de Perfil'>
-        </div>
-
-        <div class="mb-3">
-            <label for="Senha" class="form-label text-white">Senha :</label>
-            <input required type="password" class="form-control" id="Senha" style="background-color: rgb(28, 11, 43) !important;" placeholder='Senha' aria-describedby='senhaAjuda'>
-            <div id='senhaAjuda' class="form-text">(Campo obrigatório)</div>
-        </div>
-
-        <div class='d-flex justify-content-center align-items-center'>
-            <button type="submit" class="btn " style="background-color: rgb(92, 101, 192) !important;" >Realizar cadrasto</button>
-        </div>
-    </form>
-        <div class='d-flex justify-content-center align-items-center mt-3'>
-            <a href="{{route('login')}}" class='icon-link'>Já tenho conta</a>
-        </div>
-
+    <div class="d-flex align-items-center mb-4">
+        <a href="{{route('welcome')}}" class="text-white me-3 fs-4"><i class="bi bi-arrow-left"></i></a> 
+        <h2 class="h4 mb-0 fw-bold text-light">Realize seu cadastro em segundos!</h2>
     </div>
+    
+    <form action="{{ route('register') }}" method="POST" enctype="multipart/form-data">
+        @csrf
+
+        <div class="row g-3">
+            <div class="col-6">
+                <label for="user_name" class="form-label text-light small fw-bold">Nome do Usuário</label>
+                <input required type="text" 
+                       class="form-control @error('user_name') is-invalid @enderror" 
+                       id="user_name" 
+                       name="user_name" 
+                       value="{{ old('user_name') }}"
+                       style="background-color: rgba(255,255,255,0.07)!important;" 
+                       placeholder='Ex: João_silva'  
+                       aria-describedby='userNameAjuda'>
+                <div id='userNameAjuda' class="form-text text-muted">(Campo obrigatório)</div>
+                @error('user_name')
+                    <div class="invalid-feedback">
+                        {{ $message }}
+                    </div>
+                @enderror
+            </div>
+
+            <div class="col-6">
+                <label for="name" class="form-label text-light small fw-bold">Nome Completo</label>
+                <input required type="text" 
+                       class="form-control @error('name') is-invalid @enderror" 
+                       id="name" 
+                       name="name" 
+                       value="{{ old('name') }}"
+                       style="background-color: rgba(255,255,255,0.07)!important;" 
+                       placeholder='Seu nome' 
+                       aria-describedby='NameAjuda'>
+                <div id='NameAjuda' class="form-text text-muted">(Campo obrigatório)</div>
+                @error('name')
+                    <div class="invalid-feedback">
+                        {{ $message }}
+                    </div>
+                @enderror
+            </div>
+            
+            <div class="col-6">
+                <label for="email" class="form-label text-light small fw-bold">E-mail</label>
+                <input required type="email" 
+                       class="form-control @error('email') is-invalid @enderror" 
+                       id="email" 
+                       name="email" 
+                       value="{{ old('email') }}"
+                       style="background-color: rgba(255,255,255,0.07)!important;" 
+                       placeholder='nome@exemplo.com' 
+                       aria-describedby='emailAjuda'>
+                <div id='emailAjuda' class="form-text text-muted">(Campo obrigatório)</div>
+                @error('email')
+                    <div class="invalid-feedback">
+                        {{ $message }}
+                    </div>
+                @enderror
+            </div>
+
+            <div class="col-6">
+                <label for="idade" class="form-label text-light small fw-bold">Idade</label>
+                <input type="number" 
+                       class="form-control @error('idade') is-invalid @enderror" 
+                       id="idade" 
+                       name="idade" 
+                       value="{{ old('idade') }}"
+                       style="background-color: rgba(255,255,255,0.07)!important;" 
+                       placeholder='Idade'>
+                 @error('idade')
+                    <div class="invalid-feedback">
+                        {{ $message }}
+                    </div>
+                @enderror
+            </div>
+
+            <div class="col-6">
+                <label for="cidadeMora" class="form-label text-light small fw-bold">Cidade onde mora</label>
+                <input type="text" 
+                       class="form-control @error('cidadeMora') is-invalid @enderror" 
+                       id="cidadeMora" 
+                       name="cidadeMora" 
+                       value="{{ old('cidadeMora') }}"
+                       style="background-color: rgba(255,255,255,0.07)!important;" 
+                       placeholder='Sua cidade'>
+                @error('cidadeMora')
+                    <div class="invalid-feedback">
+                        {{ $message }}
+                    </div>
+                @enderror
+            </div>
+
+            <div class="col-6">
+                <label for="urlImage" class="form-label text-light small fw-bold">Foto de Perfil</label>
+                <input type="file" 
+                       class="form-control @error('urlImage') is-invalid @enderror" 
+                       id="urlImage" 
+                       name="urlImage" 
+                       style="background-color: rgba(255,255,255,0.07)!important;">
+                @error('urlImage')
+                    <div class="invalid-feedback">
+                        {{ $message }}
+                    </div>
+                @enderror
+            </div>
+
+            <div class="col-6">
+                <label for="password" class="form-label text-light small fw-bold">Senha</label>
+                <input required type="password" 
+                       class="form-control @error('password') is-invalid @enderror" 
+                       id="password" 
+                       name="password" 
+                       style="background-color: rgba(255,255,255,0.07)!important;" 
+                       placeholder='Crie uma senha forte' 
+                       aria-describedby='senhaAjuda'>
+                <div id='senhaAjuda' class="form-text text-muted">(Campo obrigatório)</div>
+                @error('password')
+                    <div class="invalid-feedback">
+                        {{ $message }}
+                    </div>
+                @enderror
+            </div>
+
+            <div class="col-6">
+                <label for="password_confirmation" class="form-label text-light small fw-bold">Confirme a Senha</label>
+                <input required type="password" 
+                       class="form-control @error('password_confirmation') is-invalid @enderror" 
+                       id="password_confirmation" 
+                       name="password_confirmation" 
+                       style="background-color: rgba(255,255,255,0.07)!important;" 
+                       placeholder='Digite a mesma senha' 
+                       aria-describedby='password_confirmationHelp'>
+                <div id='password_confirmationHelp' class="form-text text-muted">(Campo obrigatório)</div>
+                @error('password_confirmation')
+                    <div class="invalid-feedback">
+                        {{ $message }}
+                    </div>
+                @enderror
+            </div>
+
+            <div class='d-flex justify-content-center align-items-center mt-3'>
+                <button type="submit" class="btn w-100 text-white" style="background-color: rgb(92, 101, 192) !important;">Realizar cadastro</button>
+            </div>
+        </div>
+        
+    </form>
+    <div class='d-flex justify-content-center align-items-center mt-3'>
+        <a href="{{route('login')}}" class='text-muted text-decoration-none'>Já tenho conta</a>
+    </div>
+
+</div>
 
 @endsection
