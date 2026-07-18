@@ -15,7 +15,7 @@
         @csrf
 
         <div class="row g-3">
-            <div class="col-6">
+            <div class="col-12 col-md-6">
                 <label for="user_name" class="form-label text-light small fw-bold">Nome do Usuário</label>
                 <input required type="text" 
                        class="form-control @error('user_name') is-invalid @enderror" 
@@ -33,7 +33,7 @@
                 @enderror
             </div>
 
-            <div class="col-6">
+            <div class="col-12 col-md-6">
                 <label for="name" class="form-label text-light small fw-bold">Nome Completo</label>
                 <input required type="text" 
                        class="form-control @error('name') is-invalid @enderror" 
@@ -51,7 +51,7 @@
                 @enderror
             </div>
             
-            <div class="col-6">
+            <div class="col-12 col-md-6">
                 <label for="email" class="form-label text-light small fw-bold">E-mail</label>
                 <input required type="email" 
                        class="form-control @error('email') is-invalid @enderror" 
@@ -69,7 +69,7 @@
                 @enderror
             </div>
 
-            <div class="col-6">
+            <div class="col-12 col-md-6">
                 <label for="idade" class="form-label text-light small fw-bold">Idade</label>
                 <input type="number" 
                        class="form-control @error('idade') is-invalid @enderror" 
@@ -85,7 +85,7 @@
                 @enderror
             </div>
 
-            <div class="col-6">
+            <div class="col-12 col-md-6">
                 <label for="cidadeMora" class="form-label text-light small fw-bold">Cidade onde mora</label>
                 <input type="text" 
                        class="form-control @error('cidadeMora') is-invalid @enderror" 
@@ -101,7 +101,7 @@
                 @enderror
             </div>
 
-            <div class="col-6">
+            <div class="col-12 col-md-6">
                 <label for="urlImage" class="form-label text-light small fw-bold">Foto de Perfil</label>
                 <input type="file" 
                        class="form-control @error('urlImage') is-invalid @enderror" 
@@ -115,7 +115,7 @@
                 @enderror
             </div>
 
-            <div class="col-6">
+            <div class="col-12 col-md-6">
                 <label for="password" class="form-label text-light small fw-bold">Senha</label>
                 <input required type="password" 
                        class="form-control @error('password') is-invalid @enderror" 
@@ -132,7 +132,7 @@
                 @enderror
             </div>
 
-            <div class="col-6">
+            <div class="col-12 col-md-6">
                 <label for="password_confirmation" class="form-label text-light small fw-bold">Confirme a Senha</label>
                 <input required type="password" 
                        class="form-control @error('password_confirmation') is-invalid @enderror" 

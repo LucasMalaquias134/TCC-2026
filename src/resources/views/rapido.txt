@@ -1,6 +1,3 @@
-**Não estou usando o resources/views/auth/register.blade.php
-**Não estou usando o resources/views/welcome/login.blade.php
-
 Paleta de Cores Antigas do FitFlow
 
     rgb(28, 11, 43)     //1C0B2B
@@ -14,50 +11,8 @@ Paleta de Cores Antigas do FitFlow
 Paleta de Cores Novas do FitFlow
 
     Cor de Fundo Principal #130D26
+    Cor de Fundo Secundária #1b1437
     Cor Primária #6E5CFF
     Cor Secundária #2D254B ou #282143
     Cor dos Detalhes #5B59D5 ou #4C49BD
-    Texto e Elementos de Leitura #FFFFFF ou #E8E6F5 #7E799B para hint texts
-
-            <div class="mb-3">
-                <label for="UserName" class="form-label text-white">Nome do Usuário :</label>
-                <input required type="text" class="form-control" id="UserName" style="background-color: rgba(255,255,255,0.07)!important;" placeholder='Nome do Usuário'  aria-describedby='userNameAjuda'>
-                <div id='userNameAjuda' class="form-text">(Campo obrigatório)</div>
-            </div>
-
-            <div class="mb-3">
-                <label for="Nome" class="form-label text-white">Nome :</label>
-                <input required type="text" class="form-control" id="Nome" style="background-color: rgba(255,255,255,0.07)!important;" placeholder='Nome' aria-describedby='NameAjuda'>
-                <div id='NameAjuda' class="form-text">(Campo obrigatório)</div>
-            </div>
-            
-            <div class="mb-3">
-                <label for="Email" class="form-label text-white">Email :</label>
-                <input required type="email" class="form-control" id="Email" style="background-color: rgba(255,255,255,0.07)!important;" placeholder='Email' aria-describedby='emailAjuda'>
-                <div id='emailAjuda' class="form-text">(Campo obrigatório)</div>
-            </div>
-
-            <div class="mb-3">
-                <label for="Idade" class="form-label text-white">Idade :</label>
-                <input type="number" class="form-control" id="Idade" style="background-color: rgba(255,255,255,0.07)!important;" placeholder='Idade'>
-            </div>
-
-            <div class="mb-3">
-                <label for="Cidade" class="form-label text-white">Cidade que nasceu :</label>
-                <input type="text" class="form-control" id="Cidade" style="background-color: rgba(255,255,255,0.07)!important;" placeholder='Cidade que nasceu'>
-            </div>
-
-            <div class="mb-5">
-                <label for="FotoPerfil" class="form-label text-white">Foto de Perfil :</label>
-                <input type="file" class="form-control" id="FotoPerfil" style="background-color: rgba(255,255,255,0.07)!important;" placeholder='Foto de Perfil'>
-            </div>
-
-            <div class="mb-3">
-                <label for="Senha" class="form-label text-white">Senha :</label>
-                <input required type="password" class="form-control" id="Senha" style="background-color: rgba(255,255,255,0.07)!important;" placeholder='Senha' aria-describedby='senhaAjuda'>
-                <div id='senhaAjuda' class="form-text">(Campo obrigatório)</div>
-            </div>
-
-            <div class='d-flex justify-content-center align-items-center'>
-                <button type="submit" class="btn " style="background-color: rgb(92, 101, 192) !important;" >Realizar cadrasto</button>
-            </div>
+    Texto e Elementos de Leitura #FFFFFF ou #E8E6F5 #7E799B para hint texts e rgba(255,255,255,0.07) para bg de inputs

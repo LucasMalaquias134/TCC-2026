@@ -87,7 +87,7 @@
 
         @include('componentes.sidebar')
 
-        <main class="app-main" data-bs-theme="dark" style="background-color: rgb(48, 28, 65) !important;">
+        <main class="app-main" data-bs-theme="dark" style="background-color: #130D26 !important;">
             <div class="app-content-header">
                 <div class="container-fluid">
                     <h3 class="text-white">@yield('titulo_pagina')</h3>
@@ -96,21 +96,6 @@
 
             <div class="app-content">
                 <div class="container-fluid">
-
-                    @if(session()->has('msg'))
-                    <div class="alert alert-success alert-dismissible fade show mb-5" role="alert">
-                        {{ session()->get('msg') }}
-                        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
-                    </div>
-                    @endif
-                    
-                    @if(session()->has('errors'))
-                        <div class="alert alert-danger alert-dismissible fade show mb-5" role="alert">
-                            {{ session()->get('errors') }}
-                            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
-                        </div>
-                    @endif
-                    
                     @yield('corpo')
                 </div>
             </div>

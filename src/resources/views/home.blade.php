@@ -7,7 +7,7 @@
 
 <div class="row g-3">
     <div class="col-auto">
-        <a href="{{ route('lista',['numeroFicha'=>1]) }}" style="width: 250px; background-color: rgb(92, 101, 192);" class="btn rounded d-flex flex-column align-items-center p-3 text-white shadow">
+        <a href="{{ route('lista',['numeroFicha'=>1]) }}" style="width: 250px; background-color: #1b1437;" class="btn card rounded d-flex flex-column align-items-center p-3 text-white shadow">
             
             <h3>Ficha 1</h3>
             
@@ -27,7 +27,7 @@
         </a>
     </div>
     <div class="col-auto">
-        <a href="{{ route('lista',['numeroFicha'=>2]) }}" style="width: 250px; background-color: rgb(92, 101, 192);" class="btn rounded d-flex flex-column align-items-center p-3 text-white shadow">
+        <a href="{{ route('lista',['numeroFicha'=>2]) }}" style="width: 250px; background-color: #1b1437;" class="btn card rounded d-flex flex-column align-items-center p-3 text-white shadow">
             
             <h3>Ficha 2</h3>
             

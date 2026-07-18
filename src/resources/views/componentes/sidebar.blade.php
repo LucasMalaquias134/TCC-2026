@@ -1,4 +1,4 @@
-<aside class="app-sidebar shadow" data-bs-theme="dark" style="background-color: rgb(65, 59, 107) !important;">
+<aside class="app-sidebar shadow" data-bs-theme="dark" style="background-color: #282143 !important;">
     <div class="sidebar-brand">
         <span class="brand-text fw-bold" style="font-size: 1.5rem; letter-spacing: 1px;">
             Fit<span style="color:rgb(111, 149, 255) !important;">Flow</span>
@@ -8,10 +8,19 @@
     <div class="sidebar-wrapper">
         <nav class="mt-2">
             <ul class="nav sidebar-menu flex-column" data-lte-toggle="treeview" role="menu">
-                
+                <li class="nav-item">
+                    <div class="d-flex justify-content-center mb-2">
+                        <img src="{{(auth()->user()->urlImage!=null ? asset('storage/' . auth()->user()->urlImage) : asset('assets/userProfile.png'))}}" onerror="this.onerror=null; this.src='{{ asset('assets/userProfile.png') }}';" class="rounded-circle shadow border border-2 border-opacity-25 border-primary" width="100" height="100" style="object-fit: cover;">
+                    </div>
+                </li>
+                <li class="nav-item">
+                    <div class="d-flex justify-content-center mb-3">
+                        <span class="text-white text-truncate" style='font-size:1.5rem;'>{{auth()->user()->user_name}}</span>
+                    </div>
+                </li>
                 <li class="nav-item">
                     {{-- depois da autenticação tem que colocar o id aqui: --}}
-                    <a href="{{ route('user_profile',['id'=>encrypt(51)]) }}" class="nav-link text-white" >
+                    <a href="{{ route('profile.edit') }}" class="nav-link text-white" >
                         <i class="nav-icon bi bi-person"></i>
                         <p>Configurações do usuário</p>
                     </a>

@@ -16,12 +16,10 @@ Route::middleware(['auth', 'verified'])->group(function () {
         return view('home');
     })->name('home');
 
-});
-
-Route::middleware('auth')->group(function () {
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
     Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
+
 });
 
 //========Aunteticação===============================
@@ -36,10 +34,6 @@ Route::middleware('auth')->group(function () {
 //movimentação; sentido $welcome.login.blade.php$ e $welcome.cadastro.blade.php$ 
 //Route::get('/login',[AuthController::class,'loginView'])->name('login');
 //Route::get('/cadastro',[AuthController::class,'cadastroView'])->name('cadastro');
-
-//Saída
-//Route::get('/logout',[AuthController::class,'logout'])->name('logout');
-Route::get('/deleted',[AuthController::class,'deleted'])->name('deleted');
 
 //========UserProfile===============================
 
