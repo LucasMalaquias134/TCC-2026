@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Database\Factories\UserFactory;
 use Illuminate\Database\Eloquent\Attributes\Fillable;
@@ -33,5 +34,10 @@ class User extends Authenticatable implements MustVerifyEmail
             'password' => 'hashed',
             'idade' => 'integer'
         ];
+    }
+
+    public function fichas(): HasMany
+    {
+        return $this->hasMany(Ficha::class);
     }
 }

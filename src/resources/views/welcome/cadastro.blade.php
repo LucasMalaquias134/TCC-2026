@@ -106,7 +106,8 @@
                 <input type="file" 
                        class="form-control @error('urlImage') is-invalid @enderror" 
                        id="urlImage" 
-                       name="urlImage" 
+                       name="urlImage"
+                       value="{{ old('urlImage') }}" 
                        style="background-color: rgba(255,255,255,0.07)!important;">
                 @error('urlImage')
                     <div class="invalid-feedback">
@@ -121,6 +122,7 @@
                        class="form-control @error('password') is-invalid @enderror" 
                        id="password" 
                        name="password" 
+                       value="{{ old('password') }}"
                        style="background-color: rgba(255,255,255,0.07)!important;" 
                        placeholder='Crie uma senha forte' 
                        aria-describedby='senhaAjuda'>
@@ -137,7 +139,8 @@
                 <input required type="password" 
                        class="form-control @error('password_confirmation') is-invalid @enderror" 
                        id="password_confirmation" 
-                       name="password_confirmation" 
+                       name="password_confirmation"
+                       value="{{ old('password_confirmation') }}" 
                        style="background-color: rgba(255,255,255,0.07)!important;" 
                        placeholder='Digite a mesma senha' 
                        aria-describedby='password_confirmationHelp'>
