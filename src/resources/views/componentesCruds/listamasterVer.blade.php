@@ -82,8 +82,9 @@
 </head>
 <body class="layout-fixed sidebar-expand-lg bg-body-tertiary">
     <div class="app-wrapper">
+    
         
-        <nav class="app-header navbar navbar-expand" data-bs-theme="dark" style="background-color: rgb(28, 11, 43) !important;">
+        <nav class="app-header navbar navbar-expand" data-bs-theme="dark" style="background-color: #130D26 !important;">
             <div class="container-fluid" >
                 <ul class="navbar-nav">
                     <li class="nav-item">
@@ -91,12 +92,28 @@
                             <i class="bi bi-arrow-left"></i> @yield('Home','Home')
                         </a>
                     </li>
-
                 </ul>
+                @if($naoEdicao == true)
+                <ul class="navbar-nav">
+                    <li class="nav-item">
+                        <a href="{{route('ficha.editar',['ficha'=>encrypt($ficha->id)])}}" class="btn btn-sm btn-outline-warning me-3">
+                            <i class="bi bi-pencil"></i>
+                        </a>
+                    </li>
+                </ul>
+                @else
+                <ul class="navbar-nav">
+                    <li class="nav-item">
+                        <a href="{{route('fichas.show',['ficha'=>encrypt($ficha->id)])}}" class="btn btn-sm btn-warning me-3">
+                            <i class="bi bi-pencil"></i>
+                        </a>
+                    </li>
+                </ul>
+                @endif
             </div>
         </nav>
 
-        <main class="app-main" data-bs-theme="dark" style="background-color: rgb(48, 28, 65) !important;">
+        <main class="app-main" data-bs-theme="dark" style="background-color: #130D26 !important;">
             <div class="app-content-header">
                 <div class="container-fluid">
                     <h3 class="text-white">@yield('titulo_pagina')</h3>
@@ -105,41 +122,6 @@
 
             <div class="app-content">
                 <div class="container-fluid">
-                    @for($i=0;$i<7;$i++)
-                    <div class="table-responsive"> 
-                        <table class="table table-hover table-striped table-bordered table-sm"> 
-                            <thead style="background-color: rgb(30, 15, 60) !important; color: white !important;" > 
-                                <tr>
-                                    <th colspan="5  " class="text-center" style="background-color:inherit">Segunda</th>
-                                </tr>
-                                <tr style="color: white;">
-                                    <th style="background-color: inherit;" class="text-center">Ordem</th>
-                                    <th style="background-color: inherit;" class="text-center">Nome do Treino</th>
-                                    <th style="background-color: inherit;" class="text-center">Descrição</th>
-                                    <th style="background-color: inherit;" class="text-center">Séries</th>
-                                    <th style="background-color: inherit;" class="text-center">Repetições</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                @foreach($fichas as $ficha)
-                                <tr style="background-color: rgb(65, 59, 107) !important; color: white !important;">
-                                    <td class="text-center align-middle" style="background-color: inherit;width:1%;">{{$ficha->ordem}}</td>
-                                    <td class="text-center align-middle" style="background-color: inherit;width:20%;">{{$ficha->nomeTreino}}</td>
-                                    <td style="background-color: inherit;width:70%;">{{$ficha->desc}}</td>
-                                    <td class="text-center align-middle" style="background-color: inherit;width:1%;">{{$ficha->series}}</td>
-                                    <td class="text-center align-middle" style="background-color: inherit;width:1%;">{{$ficha->reps}}</td>
-                                    
-                                </tr>
-                                @endforeach
-                            </tbody>
-                        </table>
-                        <div class="d-flex justify-content-end mb-5">
-                            <button class="btn btn-outline-warning">
-                                <i class="bi bi-pencil"></i>
-                            </button>
-                        </div>
-                    </div>
-                    @endfor
                     @yield('corpo')
                 </div>
             </div>
@@ -147,6 +129,7 @@
         
     </div>
 
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
     <script src="{{ asset('dist/js/adminlte.js') }}"></script>
     @stack('scripts')
 </body>

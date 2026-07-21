@@ -34,5 +34,15 @@ class Ficha extends Model
             'data_fim' => 'date',
         ];
     }
-    
+    protected static function booted()
+    {
+        static::deleting(function ($ficha) {
+            $exercicios = $ficha->exercicios;
+            $ficha->exercicios()->detach();
+            foreach ($exercicios as $exercicio) {
+                $exercicio->delete();
+            }
+        });
+    }
+
 }

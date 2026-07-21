@@ -78,7 +78,11 @@ class FichaController extends Controller
      */
     public function show(string $id)
     {
-        //
+        $ficha = Ficha::findOrFail(decrypt($id));
+        if ($ficha->user_id !== Auth::user()->id) {
+            abort(403, 'Acesso não autorizado.');
+        }
+        return view('listafilhaVer',['ficha'=>$ficha,'naoEdicao'=>true]);
     }
 
     /**

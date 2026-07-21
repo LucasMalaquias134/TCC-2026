@@ -1,6 +1,5 @@
 <?php
 
-use App\Http\Controllers\listaCT;
 use App\Http\Controllers\FichaController;
 use App\Http\Controllers\ProfileController;
 use Illuminate\Support\Facades\Route;
@@ -18,10 +17,12 @@ Route::middleware(['auth', 'verified'])->group(function () {
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
 
     //lucas---------------------------------------------------------------------------------------------------------------------------------------
-    Route::get('/lista/{numeroFicha}',[listaCT::class,'index'])->name('lista');
     
     Route::get('/home', [FichaController::class, 'index'])->name('home');
     Route::resource('fichas', FichaController::class);
+    
+    require __DIR__.'/fichaexercicioRoutes.php';
+
 });
 
 

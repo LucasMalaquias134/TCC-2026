@@ -97,27 +97,6 @@
         </script>
     @endpush
 
-    <!--<div class="col-auto">
-
-        <a href="{{-- route('lista',['numeroFicha'=>1]) --}}" style="width: 250px; background-color: #1b1437;" class="btn card rounded d-flex flex-column align-items-center p-3 text-white shadow">
-            
-            <h3>Ficha 1</h3>
-            
-            <hr class="w-100 border-light">
-            
-            <div class='d-flex justify-content-between align-items-center ' style='width: 100%;height: 30px;'>
-                <p class='m-0'>Inicio : 20/04/2026</p>
-                <p class='m-0'>Fim : 1/05/2026</p>
-            </div>
-
-            <hr class="w-100 border-light">
-
-            <div class='d-flex justify-content-start ' style='width: 100%;'>
-                <p class='m-0'>Descrição : Lorem ipsum dolor sit amet consectetur adipisicing elit. Ipsam sapiente ad praesentium earum eum sit? Voluptatum similique cupiditate nostrum at non aliquid minima iure ipsum impedit, blanditiis sit vero tempora.</p>
-            </div>
-
-        </a>
-    </div>-->
     @if(auth()->user()->fichas->isEmpty())
         <p class="text-white">Olá! Parece que você ainda não tem um treino cadastrado. Comece a se exercitar clicando <a href="{{route('fichas.create')}}">aqui</a> ou no botão no canto inferior direito.</p>
     @elseif($fichas->isEmpty())
@@ -126,10 +105,10 @@
         <div class="row g-3"> 
             @foreach($fichas as $ficha)
                 <div class="col-12 col-md-6 col-xl-4">
-                    <div class="card rounded-4 d-flex flex-row align-items-center p-3 shadow gap-3 text-start w-100 "
+                    <div class="card rounded-4 d-flex flex-row align-items-center p-3 shadow-lg gap-3 text-start w-100 "
                         style="background-color: #1b1437; min-height: 150px;">
                         
-                        <a href="{{-- route('lista',['numeroFicha'=>1]) --}}" class="stretched-link" style="text-decoration: none;"></a>
+                        <a href="{{ route('fichas.show',['ficha'=>encrypt($ficha->id)]) }}" class="stretched-link" style="text-decoration: none;"></a>
                         
                         <div class="flex-grow-1 text-truncate pe-2">
                             <h4 class="fw-bold text-light m-0 text-truncate" title="{{ $ficha->name }}">
