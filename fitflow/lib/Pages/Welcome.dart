@@ -16,9 +16,9 @@ class Welcome extends StatelessWidget {
           crossAxisAlignment: CrossAxisAlignment.center,
           children: [
             Image(
-              image: AssetImage('assets/img/LogoMaisSombreada.png'),
-              width: 250,
-              height: 145,
+              image: AssetImage('assets/img/Iconemarcaredondo.png'),
+              width: 200,
+              height: 200,
             ),
             Container(
               height: 100,

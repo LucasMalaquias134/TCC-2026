@@ -50,7 +50,7 @@ class _LoginState extends State<Login> {
     SnackBar minhaSnack = SnackBar(
       content: Text('Login realizado com sucesso!'),
       backgroundColor: Colors.green,
-      duration: Duration(seconds: 5),
+      duration: Duration(seconds: 6),
       showCloseIcon: true,
     );
     ScaffoldMessenger.of(context).showSnackBar(minhaSnack);

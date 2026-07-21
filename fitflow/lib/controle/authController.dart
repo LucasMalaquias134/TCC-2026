@@ -83,7 +83,6 @@ class Authcontroller {
         "name": "Lucas Gabriel",
         "email": "lucas@email.com",
         "urlImage": "",
-        "password": "123456",
         "token": "token-gerado-pelo-servidor-123456",
         "idade": 21,
         "cidadeMora": "Formiga",
@@ -97,13 +96,12 @@ class Authcontroller {
       Map<String, dynamic> userMap = dadosDecodificados['user'];
 
       if ((userName == userMap['user_name'] || email == userMap['email']) &&
-          password == userMap['password']) {
+          password == '123456') {
         User usuario = User(
           id: userMap['id'],
           name: userMap['name'],
           email: userMap['email'],
           urlImage: userMap['urlImage'],
-          password: '',
           token: userMap['token'],
           idade: userMap['idade'],
           cidadeMora: userMap['cidadeMora'],

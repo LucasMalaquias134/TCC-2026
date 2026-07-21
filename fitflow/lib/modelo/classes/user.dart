@@ -17,7 +17,6 @@ class User {
   final String name;
   final String email;
   final String? urlImage;
-  final String password;
   final String? token;
   final int? idade;
   final String? cidadeMora;
@@ -28,7 +27,6 @@ class User {
     required this.name,
     required this.email,
     required this.urlImage,
-    required this.password,
     required this.token,
     required this.idade,
     required this.cidadeMora,
@@ -41,7 +39,6 @@ class User {
       'name': name,
       'email': email,
       'urlImage': urlImage,
-      'password': password,
       'token': token,
       'idade': idade,
       'cidadeMora': cidadeMora,
@@ -55,7 +52,6 @@ class User {
       name: map['name'] ?? '',
       email: map['email'] ?? '',
       urlImage: map['urlImage'] ?? '',
-      password: map['password'] ?? '',
       token: map['token'] ?? '',
       idade: map['idade'] ?? null,
       cidadeMora: map['cidadeMora'] ?? null,

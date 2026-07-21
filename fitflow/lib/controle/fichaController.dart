@@ -42,27 +42,27 @@ class Fichacontroller {
     }
   }*/
 
-  static Future<List<Ficha>> listarFichas() async {
+  static Future<List<Ficha>> listarFichas(String? recurso) async {
     String guardadoNoSever = '''
     {
       "fichas": [
         {
           "id": 101,
-          "name": "Treino A - Hipertrofia",
+          "name": "Treino A - Hipertrofiaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
           "data_inicio": "2026-01-10",
           "data_fim": "2026-03-10",
-          "descricao": "Foco em membros superiores"
+          "descricao": "Foco em membros superioresaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"
         },
         {
           "id": 102,
-          "name": "Treino B - Resistência",
+          "name": "Treino B - Resistênciaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
           "data_inicio": null,
           "data_fim": null,
           "descricao": "Exercícios conjugados sem pressa"
         },
         {
           "id": 103,
-          "name": "Treino C - Cardio Avançado",
+          "name": "Tro",
           "data_inicio": "2026-06-01",
           "data_fim": "2026-07-01",
           "descricao": null
@@ -76,11 +76,26 @@ class Fichacontroller {
 
       List<dynamic> listaDeFichasBrutas = dadosDecodificados['fichas'];
 
-      List<Ficha> fichasProntas = listaDeFichasBrutas.map((mapaDaFicha) {
-        return Ficha.fromMap(mapaDaFicha);
-      }).toList();
+      if (recurso != null && recurso.trim().isNotEmpty) {
+        List<Ficha> fichasProntas = listaDeFichasBrutas.map((mapaDaFicha) {
+          return Ficha.fromMap(mapaDaFicha);
+        }).toList();
 
-      return fichasProntas;
+        List<Ficha> resultados = fichasProntas
+            .where(
+              (ficha) =>
+                  ficha.name.toLowerCase().contains(recurso.toLowerCase()),
+            )
+            .toList();
+
+        return resultados;
+      } else {
+        List<Ficha> fichasProntas = listaDeFichasBrutas.map((mapaDaFicha) {
+          return Ficha.fromMap(mapaDaFicha);
+        }).toList();
+
+        return fichasProntas;
+      }
     } catch (e) {
       return [];
     }
