@@ -78,10 +78,10 @@ class _CadastroState extends State<Cadastro> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        backgroundColor: Color(0xFF1C0B2B),
+        backgroundColor: Color(0xFF130D26),
         iconTheme: IconThemeData(color: Colors.white),
       ),
-      backgroundColor: Color(0xFF1C0B2B),
+      backgroundColor: Color(0xFF130D26),
       body: Center(
         child: ListView(
           children: [

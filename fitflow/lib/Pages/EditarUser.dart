@@ -21,7 +21,7 @@ class _EditaruserState extends State<Editaruser> {
     return Scaffold(
       appBar: Appbartodos(usuario: widget.usuario),
       body: Container(
-        color: Color(0xFF413B6B),
+        color: Color(0xFF130D26),
         child: ListView(
           children: [
             Container(
@@ -33,7 +33,7 @@ class _EditaruserState extends State<Editaruser> {
                 children: [
                   CircleAvatar(
                     radius: 60,
-                    backgroundColor: Color(0xFF6C63FF).withValues(alpha: 0.3),
+                    backgroundColor: Color(0xFF1B1437),
                     child:
                         widget.usuario.urlImage == null ||
                             widget.usuario.urlImage!.isEmpty
@@ -130,7 +130,7 @@ class _EditaruserState extends State<Editaruser> {
                             ),
                           ),
                           elevation: 4,
-                          color: Color(0xFF2E2C54),
+                          color: Color(0xFF1B1437),
                           margin: EdgeInsets.all(10),
                         ),
                       ),

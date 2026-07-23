@@ -21,7 +21,7 @@ class _HomeState extends State<Home> {
       Editaruser(usuario: widget.usuario),
     ];
     return Scaffold(
-      backgroundColor: Color(0xFF413B6B),
+      backgroundColor: Colors.transparent,
       body: classes[selecionado],
       bottomNavigationBar: BottomNavigationBar(
         onTap: (int index) {
@@ -30,17 +30,17 @@ class _HomeState extends State<Home> {
           });
         },
         currentIndex: selecionado,
-        backgroundColor: Color(0xFF1C0B2B),
-        selectedItemColor: Color(0xFF6f95ff),
-        unselectedItemColor: Color(0xFF05C65C0),
+        backgroundColor: Color(0xFF130D26),
+        selectedItemColor: Color(0xFF6E5CFF),
+        unselectedItemColor: Color(0xFF7E799B),
         items: [
           BottomNavigationBarItem(
             icon: Icon(Icons.list),
-            label: 'Vizualizar fichas',
+            label: 'Vizualizar Fichas',
           ),
           BottomNavigationBarItem(
             icon: Icon(Icons.edit),
-            label: 'Gerenciar Usuario',
+            label: 'Visualizar Perfil',
           ),
         ],
       ),

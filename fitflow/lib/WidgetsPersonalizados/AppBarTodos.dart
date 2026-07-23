@@ -25,7 +25,7 @@ class _AppbartodosState extends State<Appbartodos> {
     return AppBar(
       automaticallyImplyLeading: false,
       toolbarHeight: 70,
-      backgroundColor: Color(0xFF1C0B2B),
+      backgroundColor: Color(0xFF130D26),
       actions: [
         Expanded(
           child: Padding(
@@ -36,7 +36,7 @@ class _AppbartodosState extends State<Appbartodos> {
               children: [
                 CircleAvatar(
                   radius: 40,
-                  backgroundColor: Color(0xFF6C63FF).withValues(alpha: 0.3),
+                  backgroundColor: Color(0xFF1B1437),
                   child:
                       widget.usuario.urlImage == null ||
                           widget.usuario.urlImage!.isEmpty
@@ -67,7 +67,7 @@ class _AppbartodosState extends State<Appbartodos> {
                 ),
                 PopupMenuButton<String>(
                   icon: const Icon(Icons.more_vert, color: Colors.white),
-                  color: Color(0xFF6F95FF),
+                  color: Color(0xFF1B1437),
                   onSelected: (String valor) async {
                     if (valor == 'deslogar') {
                       Navigator.pushAndRemoveUntil(

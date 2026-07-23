@@ -60,10 +60,10 @@ class _LoginState extends State<Login> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        backgroundColor: Color(0xFF1C0B2B),
+        backgroundColor: Color(0xFF130D26),
         iconTheme: IconThemeData(color: Colors.white),
       ),
-      backgroundColor: Color(0xFF1C0B2B),
+      backgroundColor: Color(0xFF130D26),
       body: Center(
         child: ListView(
           children: [
@@ -134,7 +134,7 @@ class _LoginState extends State<Login> {
                         },
                         child: AbsorbPointer(
                           child: ContainersWelcome(
-                            cor: Color(0xFF6C63FF),
+                            cor: Color(0xFF6E5CFF),
                             altura: 45,
                             comprimento: 330,
                             texto: 'Realizar login',

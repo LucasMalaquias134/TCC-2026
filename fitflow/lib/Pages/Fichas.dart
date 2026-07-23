@@ -1,4 +1,5 @@
 import 'package:fitflow/Pages/VerFichas.dart';
+import 'package:fitflow/Pages/VerFichasDetalhada.dart';
 import 'package:fitflow/WidgetsPersonalizados/AppBarTodos.dart';
 import 'package:fitflow/WidgetsPersonalizados/widgetsDoEditarUser.dart';
 import 'package:fitflow/controle/fichaController.dart';
@@ -99,7 +100,7 @@ class _FichasState extends State<Fichas> {
       appBar: Appbartodos(usuario: widget.usuario),
       body: Container(
         padding: EdgeInsets.symmetric(vertical: 20),
-        color: Color(0xFF413B6B),
+        color: Color(0xFF130D26),
         child: Column(
           children: [
             Padding(
@@ -112,7 +113,6 @@ class _FichasState extends State<Fichas> {
                 placeHolder2: 'Pesquisar fichas...',
                 temRadius: true,
                 radius: 15,
-                backgroundCor: Color(0xFF322E5C).withValues(alpha: 2),
                 enviado: (pesquisa) async {
                   List<Ficha> fichasPesquisadas =
                       await Fichacontroller.listarFichas(pesquisa);
@@ -127,9 +127,11 @@ class _FichasState extends State<Fichas> {
                     padding: EdgeInsets.all(15),
                     child: Center(
                       child: Text(
-                        'Nenhuma ficha cadastrada',
+                        (pesquisaController.text.trim().isEmpty)
+                            ? 'Nenhuma ficha cadastrada'
+                            : 'Nenhuma ficha cadastrada com esse nome \'${pesquisaController.text}\' ',
                         style: TextStyle(
-                          color: Colors.white,
+                          color: Color(0xFF6E5CFF),
                           fontFamily: 'fredoka',
                           fontSize: 16,
                         ),
@@ -146,13 +148,12 @@ class _FichasState extends State<Fichas> {
                       return Card(
                         shape: RoundedRectangleBorder(
                           side: BorderSide(
-                            color: Colors.white.withValues(alpha: 0.15),
-                            width: 1.0,
+                            color: Colors.indigo.withValues(alpha: 0.3),
                           ),
                           borderRadius: BorderRadius.circular(10),
                         ),
 
-                        color: Color(0xFF322E5C),
+                        color: Color(0xFF1B1437),
                         elevation: 2,
                         margin: EdgeInsets.symmetric(vertical: 6),
                         child: ListTile(
@@ -220,8 +221,14 @@ class _FichasState extends State<Fichas> {
                               ),
                             );
                           },
-                          onLongPress: () {
-                            showDetalhes(ficha);
+                          onLongPress: () async {
+                            Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                builder: (context) =>
+                                    Verfichasdetalhada(ficha: ficha),
+                              ),
+                            );
                           },
                         ),
                       );

@@ -1,34 +1,20 @@
-TextStyle(
-color: Colors.white,
-fontFamily: 'fredoka',
-fontSize: 30,
-),
+=== PALETA DE CORES ANTIGAS (FITFLOW) ===
+rgb(28, 11, 43)              -> 0xFF1C0B2B
+rgb(48, 28, 65)              -> 0xFF301C41
+rgb(65, 59, 107)             -> 0xFF413B6B
+rgb(92, 101, 192)            -> 0xFF5C65C0
+rgb(111, 149, 255)           -> 0xFF6F95FF
+rgb(30, 15, 60) [Head Tabela]-> 0xFF1E0F3C
 
-0xFF322E5C (Roxo Escuro Azulado)cor de fundo.
-
-0xFF433E75 (Roxo Médio)Usado como o fundo dos blocos de entrada
-
-0xFF6C63FF (Roxo Vibrante / Indigo)Usado como a cor de fundo do botão principal 
-
-Colors.white (Branco Puro): Usado em todos os textos principais 
-
-Branco com Opacidade (Transparência):
-
-Borda dos blocos: Colors.white.withValues(alpha: 0.15) cria uma linha de contorno bem sutil 
-
-Textos de dica (hintText): Colors.white.withValues(alpha: 0.4) deixa o texto de exemplo 
-
-keyboardType: TextInputType.number,
-inputFormatters: [FilteringTextInputFormatter.digitsOnly],
-
-1ºmontar o login igual o do paim template login unico
-splash1->verificaLogin->splash2??telaDelogin
-
-2º toda ação a partir da tela de login: usuario digita senha e login(username ou email), 
-o aplicativo vai poder realizar o login, enviando o usuario e senha para o webService, e o webservice vai responder se ta logado ou não.
-se estiver logado ele retorna o token de autenticacao, que deve ser persistido no sharedpreferences imediatmetne(vai ser importante na verificação do loginUnico no splash1)
-
-3ºsplash2, so vai aparecer se o usuario estiver logado. nesse splahs sera feito a requisição dos dados que serao persistidos na sharedPreferences. 
-Uma requisição para baixar as FICHAS DE TREINO DO USUARIO LOGADO, outra requisição para baixar as FICHAS_EXERCICIOS do USUARIO LOGADO, outra requisição para baixar todos os EXERCICIOS
-Todas as tres listagens baixadas serao persistidas imediatmetne no sharedPreferences para visualização nas telas de listagem
-conselho: gere jsons para cada uma das listas(ficha, ficha_exercico),persista ele no splash2
+=== PALETA DE CORES NOVAS (FITFLOW) ===
+Cor de Fundo Principal       -> 0xFF130D26
+Cor de Fundo Secundária      -> 0xFF1B1437
+Cor Primária                 -> 0xFF6E5CFF
+Cor Secundária (Opção 1)     -> 0xFF2D254B
+Cor Secundária (Opção 2)     -> 0xFF282143
+Cor dos Detalhes (Opção 1)   -> 0xFF5B59D5
+Cor dos Detalhes (Opção 2)   -> 0xFF4C49BD
+Texto / Leitura (Opção 1)    -> 0xFFFFFFFF
+Texto / Leitura (Opção 2)    -> 0xFFE8E6F5
+Hint Texts                   -> 0xFF7E799B
+BG de Inputs (7% opacidade)  -> 0x12FFFFFF

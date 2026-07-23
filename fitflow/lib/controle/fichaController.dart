@@ -56,8 +56,8 @@ class Fichacontroller {
         {
           "id": 102,
           "name": "Treino B - Resistênciaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
-          "data_inicio": null,
-          "data_fim": null,
+          "data_inicio": "2026-01-12",
+          "data_fim": "2026-01-15",
           "descricao": "Exercícios conjugados sem pressa"
         },
         {

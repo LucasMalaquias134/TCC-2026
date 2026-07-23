@@ -75,6 +75,12 @@ class Textfieldsdologin extends StatelessWidget {
                       ? BorderRadius.circular(radius!)
                       : BorderRadius.circular(15),
                 ),
+                focusedBorder: OutlineInputBorder(
+                  borderRadius: temRadius == true
+                      ? BorderRadius.circular(radius!)
+                      : BorderRadius.circular(15),
+                  borderSide: BorderSide(color: Colors.indigo),
+                ),
               ),
               keyboardType: TextInputType.number,
               inputFormatters: [FilteringTextInputFormatter.digitsOnly],
@@ -119,7 +125,14 @@ class Textfieldsdologin extends StatelessWidget {
                       ? BorderRadius.circular(radius!)
                       : BorderRadius.circular(15),
                 ),
+                focusedBorder: OutlineInputBorder(
+                  borderRadius: temRadius == true
+                      ? BorderRadius.circular(radius!)
+                      : BorderRadius.circular(15),
+                  borderSide: BorderSide(color: Colors.indigo),
+                ),
               ),
+              cursorColor: Colors.indigo,
               obscureText: eSenha == null ? false : true,
               controller: controller,
             ),

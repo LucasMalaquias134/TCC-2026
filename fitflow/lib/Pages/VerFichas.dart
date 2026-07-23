@@ -39,7 +39,7 @@ class _VerfichasState extends State<Verfichas> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        backgroundColor: Color(0xFF1C0B2B),
+        backgroundColor: Color(0xFF130D26),
         leading: IconButton(
           icon: Icon(Icons.arrow_back_ios_new, color: Colors.white),
           onPressed: () {
@@ -55,7 +55,7 @@ class _VerfichasState extends State<Verfichas> {
           ),
         ),
       ),
-      backgroundColor: Color(0xFF413B6B),
+      backgroundColor: Color(0xFF130D26),
       body: ListView.builder(
         padding: EdgeInsets.only(top: 20),
         itemCount: 7,

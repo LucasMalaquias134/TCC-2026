@@ -18,7 +18,7 @@ class cartaoPadrao extends StatelessWidget {
       mainAxisAlignment: MainAxisAlignment.center,
       crossAxisAlignment: CrossAxisAlignment.center,
       children: [
-        Icon(icone, color: Colors.white, size: 20),
+        Icon(icone, color: Color(0xFF6E5CFF), size: 20),
         SizedBox(width: 5),
         Container(
           width: 130,
@@ -88,7 +88,7 @@ class cartaoNavigator extends StatelessWidget {
                       mainAxisAlignment: MainAxisAlignment.center,
                       crossAxisAlignment: CrossAxisAlignment.center,
                       children: [
-                        Icon(icone, color: Colors.white, size: 20),
+                        Icon(icone, color: Color(0xFF6E5CFF), size: 20),
                         SizedBox(width: 5),
                         Container(
                           child: Text(
@@ -119,7 +119,7 @@ class cartaoNavigator extends StatelessWidget {
                 ),
               ),
               elevation: 4,
-              color: Color(0xFF2E2C54),
+              color: Color(0xFF1B1437),
               margin: EdgeInsets.all(10),
             ),
           ),
@@ -170,131 +170,69 @@ class TextfieldPesquisar extends StatelessWidget {
     return Container(
       width: largura,
       color: Colors.transparent,
-      child: numerico == true
-          ? TextFormField(
-              onFieldSubmitted: enviado,
-              validator: validador,
-              style: TextStyle(
-                color: temaEscuro == true ? Colors.black : Colors.white,
+      child: TextFormField(
+        onFieldSubmitted: enviado,
+        validator: validador,
+        style: TextStyle(
+          color: temaEscuro == true ? Colors.black : Colors.white,
 
-                fontSize: 14,
-              ),
-              decoration: InputDecoration(
-                filled: (backgroundCor != null) ? true : false,
-                fillColor: (backgroundCor != null)
-                    ? backgroundCor
-                    : Colors.transparent,
-                floatingLabelBehavior: labelFlutante == true
-                    ? FloatingLabelBehavior.always
-                    : null,
-                prefixIcon: icone != null
-                    ? Icon(
-                        icone,
-                        color: temaEscuro == true ? Colors.black : Colors.white,
-                      )
-                    : null,
-                labelText: placeHolder,
-                labelStyle: TextStyle(
-                  color: temaEscuro == true
-                      ? Colors.black.withValues(alpha: 0.7)
-                      : Colors.white,
-
-                  fontSize: 18,
-                ),
-                hintText: placeHolder2 != null ? placeHolder2 : placeHolder,
-                hintStyle: TextStyle(
-                  color: temaEscuro == true
-                      ? Colors.black.withValues(alpha: 0.4)
-                      : Colors.white.withValues(alpha: 0.4),
-
-                  fontSize: 14,
-                ),
-                focusedBorder: OutlineInputBorder(
-                  borderRadius: temRadius == true
-                      ? BorderRadius.circular(radius!)
-                      : BorderRadius.circular(15),
-                  borderSide: BorderSide(color: Colors.indigo),
-                ),
-                border: OutlineInputBorder(
-                  borderRadius: temRadius == true
-                      ? BorderRadius.circular(radius!)
-                      : BorderRadius.circular(15),
-                ),
-              ),
-              cursorColor: Colors.indigo,
-              keyboardType: const TextInputType.numberWithOptions(
-                signed: true,
-                decimal: false,
-              ),
-              inputFormatters: [
-                FilteringTextInputFormatter.allow(RegExp(r'^[0-9\-+]*$')),
-              ],
-              obscureText: eSenha == null ? false : true,
-              controller: controller,
-            )
-          : TextFormField(
-              onFieldSubmitted: enviado,
-              validator: validador,
-              style: TextStyle(
-                color: temaEscuro == true ? Colors.black : Colors.white,
-
-                fontSize: 14,
-              ),
-              decoration: InputDecoration(
-                enabledBorder: OutlineInputBorder(
-                  borderSide: BorderSide(
-                    color: Colors.white.withValues(alpha: 0.15),
-                    width: 1.0,
-                  ),
-                  borderRadius: temRadius == true
-                      ? BorderRadius.circular(radius!)
-                      : BorderRadius.circular(15),
-                ),
-                filled: (backgroundCor != null) ? true : false,
-                fillColor: (backgroundCor != null)
-                    ? backgroundCor
-                    : Colors.transparent,
-                floatingLabelBehavior: labelFlutante == true
-                    ? FloatingLabelBehavior.always
-                    : null,
-                prefixIcon: icone != null
-                    ? Icon(
-                        icone,
-                        color: temaEscuro == true ? Colors.black : Colors.white,
-                      )
-                    : null,
-                labelText: placeHolder,
-                labelStyle: TextStyle(
-                  color: temaEscuro == true
-                      ? Colors.black.withValues(alpha: 0.7)
-                      : Colors.white,
-
-                  fontSize: 18,
-                ),
-                hintText: placeHolder2 != null ? placeHolder2 : placeHolder,
-                hintStyle: TextStyle(
-                  color: temaEscuro == true
-                      ? Colors.black.withValues(alpha: 0.4)
-                      : Colors.white.withValues(alpha: 0.4),
-
-                  fontSize: 14,
-                ),
-                focusedBorder: OutlineInputBorder(
-                  borderRadius: temRadius == true
-                      ? BorderRadius.circular(radius!)
-                      : BorderRadius.circular(15),
-                  borderSide: BorderSide(color: Colors.indigo),
-                ),
-                border: OutlineInputBorder(
-                  borderRadius: temRadius == true
-                      ? BorderRadius.circular(radius!)
-                      : BorderRadius.circular(15),
-                ),
-              ),
-              cursorColor: Colors.indigo,
-              obscureText: eSenha == null ? false : true,
-              controller: controller,
+          fontSize: 14,
+        ),
+        decoration: InputDecoration(
+          enabledBorder: OutlineInputBorder(
+            borderSide: BorderSide(
+              color: Colors.white.withValues(alpha: 0.15),
+              width: 1.0,
             ),
+            borderRadius: temRadius == true
+                ? BorderRadius.circular(radius!)
+                : BorderRadius.circular(15),
+          ),
+          filled: (backgroundCor != null) ? true : false,
+          fillColor: (backgroundCor != null)
+              ? backgroundCor
+              : Colors.transparent,
+          floatingLabelBehavior: labelFlutante == true
+              ? FloatingLabelBehavior.always
+              : null,
+          prefixIcon: icone != null
+              ? Icon(
+                  icone,
+                  color: temaEscuro == true ? Colors.black : Colors.white,
+                )
+              : null,
+          labelText: placeHolder,
+          labelStyle: TextStyle(
+            color: temaEscuro == true
+                ? Colors.black.withValues(alpha: 0.7)
+                : Colors.white,
+
+            fontSize: 18,
+          ),
+          hintText: placeHolder2 != null ? placeHolder2 : placeHolder,
+          hintStyle: TextStyle(
+            color: temaEscuro == true
+                ? Colors.black.withValues(alpha: 0.4)
+                : Colors.white.withValues(alpha: 0.4),
+
+            fontSize: 14,
+          ),
+          focusedBorder: OutlineInputBorder(
+            borderRadius: temRadius == true
+                ? BorderRadius.circular(radius!)
+                : BorderRadius.circular(15),
+            borderSide: BorderSide(color: Colors.indigo),
+          ),
+          border: OutlineInputBorder(
+            borderRadius: temRadius == true
+                ? BorderRadius.circular(radius!)
+                : BorderRadius.circular(15),
+          ),
+        ),
+        cursorColor: Colors.indigo,
+        obscureText: eSenha == null ? false : true,
+        controller: controller,
+      ),
     );
   }
 }

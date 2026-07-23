@@ -27,7 +27,7 @@ class _Splash2State extends State<Splash2> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Color(0xFF1C0B2B),
+      backgroundColor: Color(0xFF130D26),
       body: Center(
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,

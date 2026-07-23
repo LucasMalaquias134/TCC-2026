@@ -9,7 +9,7 @@ class Welcome extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Color(0xFF1C0B2B),
+      backgroundColor: Color(0xFF130D26),
       body: Center(
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
@@ -36,7 +36,7 @@ class Welcome extends StatelessWidget {
             ),
             SizedBox(height: 100),
             ContainersWelcome(
-              cor: Color(0xFF6C63FF),
+              cor: Color(0xFF6E5CFF),
               altura: 60,
               comprimento: 300,
               texto: 'Já tenho uma conta',
@@ -51,9 +51,8 @@ class Welcome extends StatelessWidget {
               notOnlyDecoracao: true,
             ),
 
-            SizedBox(height: 20),
             ContainersWelcome(
-              cor: Color(0xFF301C41),
+              cor: Colors.transparent,
               altura: 60,
               comprimento: 260,
               texto: 'Não tenho conta',

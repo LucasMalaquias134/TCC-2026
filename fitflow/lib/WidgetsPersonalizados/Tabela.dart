@@ -47,8 +47,8 @@ class _TabelaState extends State<Tabela> {
       child: ClipRRect(
         borderRadius: BorderRadius.circular(10),
         child: ExpansionTile(
-          backgroundColor: Color(0xFF6C63FF),
-          collapsedBackgroundColor: Color(0xFF322E5C),
+          backgroundColor: Color(0xFF4C49BD),
+          collapsedBackgroundColor: Color(0xFF1B1437),
           iconColor: Colors.white,
           collapsedIconColor: Colors.white.withValues(alpha: 0.4),
           onExpansionChanged: (value) async {
@@ -66,7 +66,7 @@ class _TabelaState extends State<Tabela> {
           ),
           children: [
             Container(
-              color: Color(0xFF4A437F),
+              color: Color(0xFF2D254B),
               padding: EdgeInsets.all(12),
               child: Column(
                 children: [

@@ -24,7 +24,7 @@ class Carddoexpansiontile extends StatefulWidget {
 }
 
 class _CarddoexpansiontileState extends State<Carddoexpansiontile> {
-  Color corCard = Color(0xFF5C65C0);
+  Color corCard = Color(0xFF4C49BD);
 
   @override
   Widget build(BuildContext context) {
@@ -32,9 +32,9 @@ class _CarddoexpansiontileState extends State<Carddoexpansiontile> {
         ? GestureDetector(
             onTap: () {
               setState(() {
-                corCard = (corCard == Color(0xFF5C65C0))
+                corCard = (corCard == Color(0xFF4C49BD))
                     ? Colors.green
-                    : Color(0xFF5C65C0);
+                    : Color(0xFF4C49BD);
               });
             },
             child: Card(
