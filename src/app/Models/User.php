@@ -40,4 +40,13 @@ class User extends Authenticatable implements MustVerifyEmail
     {
         return $this->hasMany(Ficha::class);
     }
+
+    protected static function booted()
+    {
+        static::deleting(function ($user) {
+            foreach ($user->fichas as $ficha) {
+                $ficha->delete(); 
+            }
+        });
+    }
 }

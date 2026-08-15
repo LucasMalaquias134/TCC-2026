@@ -19,6 +19,7 @@ class Exercicio extends Model
     public function fichas(): BelongsToMany
     {
         return $this->belongsToMany(Ficha::class, 'ficha_exercicio')
+                    ->using(Ficha_exercicio::class)
                     ->withPivot('dias_semana')
                     ->withTimestamps();
     }
