@@ -36,49 +36,53 @@ class ExercicioFichaController extends Controller
      */
     public function store(Request $request, string $id)
     {
-        $ficha = Ficha::findOrFail(decrypt($id));
-        
-        if ($ficha->user_id !== Auth::id()) {
-            abort(403, 'Acesso não autorizado.');
+        try {
+            $ficha = Ficha::findOrFail(decrypt($id));
+            
+            if ($ficha->user_id !== Auth::id()) {
+                abort(403, 'Acesso não autorizado.');
+            }
+
+            $dadosValidados = $request->validate([
+                'dia'                  => ['required', 'integer', 'between:0,6'],
+                'treino'               => ['required', 'string', 'min:3', 'max:255'],
+                'ordem'                => ['required', 'integer', 'min:0'],
+                'numero_de_series'     => ['required', 'integer', 'min:1', 'max:512'],
+                'numero_de_repeticoes' => ['required', 'integer', 'min:1', 'max:512'],
+                'peso'                 => ['nullable', 'numeric', 'min:0', 'max:999999'],
+                'descricao'            => ['nullable', 'string'],
+                'descanso'             => ['nullable', 'integer', 'min:0'],
+            ]);
+
+            $diasSemana = ['seg', 'ter', 'qua', 'qui', 'sex', 'sab', 'dom'];
+            $diaChave = $diasSemana[$dadosValidados['dia']];
+
+            $exercicio = Exercicio::create([
+                'treino'     => $dadosValidados['treino'],
+                'ordem'      => $dadosValidados['ordem'],
+                'qntdSeries' => $dadosValidados['numero_de_series'],
+                'qtndRep'    => $dadosValidados['numero_de_repeticoes'],
+                'peso'       => $dadosValidados['peso'],
+                'descricao'  => $dadosValidados['descricao'],
+                'descanso'   => $dadosValidados['descanso'],
+            ]);
+
+            $ficha->exercicios()->attach($exercicio->id, ['dias_semana' => $diaChave]);
+
+            $diasSemanaCompleto = [
+                'seg' => 'Segunda-Feira',
+                'ter' => 'Terça-Feira',
+                'qua' => 'Quarta-Feira',
+                'qui' => 'Quinta-Feira',
+                'sex' => 'Sexta-Feira',
+                'sab' => 'Sábado',
+                'dom' => 'Domingo'
+            ];
+
+            return redirect()->back()->with('msg', "Exercício $exercicio->treino adicionado com sucesso para {$diasSemanaCompleto[$diaChave]}!");
+        } catch (\Throwable $th) {
+            throw $th;
         }
-
-        $dadosValidados = $request->validate([
-            'dia'                  => ['required', 'integer', 'between:0,6'],
-            'treino'               => ['required', 'string', 'min:3', 'max:255'],
-            'ordem'                => ['required', 'integer', 'min:0'],
-            'numero_de_series'     => ['required', 'integer', 'min:1', 'max:512'],
-            'numero_de_repeticoes' => ['required', 'integer', 'min:1', 'max:512'],
-            'peso'                 => ['nullable', 'numeric', 'min:0', 'max:999999'],
-            'descricao'            => ['nullable', 'string'],
-            'descanso'             => ['nullable', 'integer', 'min:0'],
-        ]);
-
-        $diasSemana = ['seg', 'ter', 'qua', 'qui', 'sex', 'sab', 'dom'];
-        $diaChave = $diasSemana[$dadosValidados['dia']];
-
-        $exercicio = Exercicio::create([
-            'treino'     => $dadosValidados['treino'],
-            'ordem'      => $dadosValidados['ordem'],
-            'qntdSeries' => $dadosValidados['numero_de_series'],
-            'qtndRep'    => $dadosValidados['numero_de_repeticoes'],
-            'peso'       => $dadosValidados['peso'],
-            'descricao'  => $dadosValidados['descricao'],
-            'descanso'   => $dadosValidados['descanso'],
-        ]);
-
-        $ficha->exercicios()->attach($exercicio->id, ['dias_semana' => $diaChave]);
-
-        $diasSemanaCompleto = [
-            'seg' => 'Segunda-Feira',
-            'ter' => 'Terça-Feira',
-            'qua' => 'Quarta-Feira',
-            'qui' => 'Quinta-Feira',
-            'sex' => 'Sexta-Feira',
-            'sab' => 'Sábado',
-            'dom' => 'Domingo'
-        ];
-
-        return redirect()->back()->with('msg', "Exercício $exercicio->treino adicionado com sucesso para {$diasSemanaCompleto[$diaChave]}!");
     }
 
     /**
@@ -114,37 +118,41 @@ class ExercicioFichaController extends Controller
      */
     public function destroy(string $idFicha, string $idExercicio)
     {
+        try {
+            $diasSemanaCompleto = [
+                'seg' => 'Segunda-Feira',
+                'ter' => 'Terça-Feira',
+                'qua' => 'Quarta-Feira',
+                'qui' => 'Quinta-Feira',
+                'sex' => 'Sexta-Feira',
+                'sab' => 'Sábado',
+                'dom' => 'Domingo'
+            ];
 
-        $diasSemanaCompleto = [
-            'seg' => 'Segunda-Feira',
-            'ter' => 'Terça-Feira',
-            'qua' => 'Quarta-Feira',
-            'qui' => 'Quinta-Feira',
-            'sex' => 'Sexta-Feira',
-            'sab' => 'Sábado',
-            'dom' => 'Domingo'
-        ];
+            $ficha = Ficha::findOrFail(decrypt($idFicha));
+            $exercicio = Exercicio::findOrFail(decrypt($idExercicio));
+            $pivo = $ficha->exercicios->where('id' , $exercicio->id)->first()->pivot;
 
-        $ficha = Ficha::findOrFail(decrypt($idFicha));
-        $exercicio = Exercicio::findOrFail(decrypt($idExercicio));
-        $pivo = $ficha->exercicios->where('id' , $exercicio->id)->first()->pivot;
+            $chave = $pivo->dias_semana;
+            $nome =$exercicio->treino;
+            
+            if ($ficha->user_id !== Auth::user()->id) {
+                abort(403, 'Acesso não autorizado.');
+            }
 
-        $chave = $pivo->dias_semana;
-        $nome =$exercicio->treino;
-        
-        if ($ficha->user_id !== Auth::user()->id) {
-            abort(403, 'Acesso não autorizado.');
+            $ficha->exercicios()->detach(decrypt($idExercicio));
+
+            $exercicio->delete();
+
+            foreach($ficha->exercicios as $exercicioForEach){
+                $exercicioForEach->ordem--;
+                $exercicioForEach->save();
+            }
+            
+            return redirect()->back()->with('msg', "Exercício $nome do dia {$diasSemanaCompleto[$chave]} removido com sucesso!");
+        } catch (\Throwable $th) {
+            throw $th;
         }
 
-        $ficha->exercicios()->detach(decrypt($idExercicio));
-
-        $exercicio->delete();
-
-        foreach($ficha->exercicios as $exercicioForEach){
-            $exercicioForEach->ordem--;
-            $exercicioForEach->save();
-        }
-        
-        return redirect()->back()->with('msg', "Exercício $nome do dia {$diasSemanaCompleto[$chave]} removido com sucesso!");
     }
 }

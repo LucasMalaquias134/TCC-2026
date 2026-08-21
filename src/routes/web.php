@@ -24,11 +24,13 @@ Route::middleware(['auth', 'verified'])->group(function () {
     
     require __DIR__.'/fichaexercicioRoutes.php';
 
+});
+Route::middleware(['auth', 'verified' ,'admin'])->group(function () {
     Route::get('/adminPage', [AdminController::class, 'index'])->name('admin.dashboard');
     Route::get('/adminSearch', [AdminController::class, 'index'])->name('admin.search');
     Route::delete('/adminDestroy{id}', [AdminController::class, 'destroy'])->name('admin.destroy');
-
 });
+
 
 
 require __DIR__.'/auth.php';

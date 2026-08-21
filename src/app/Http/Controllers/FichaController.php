@@ -59,18 +59,22 @@ class FichaController extends Controller
      */
     public function store(Request $request)
     {
-        $dadosValidados = $request->validate([
-            'name' => ['required', 'string', 'min:3', 'max:255'],
-            'data_inicio' => ['required', 'date'],
-            'data_fim' => ['required', 'date', 'after_or_equal:data_inicio'],
-            'descricao' => ['nullable', 'string'],
-            ]);
+        try {
+            $dadosValidados = $request->validate([
+                'name' => ['required', 'string', 'min:3', 'max:255'],
+                'data_inicio' => ['required', 'date'],
+                'data_fim' => ['required', 'date', 'after_or_equal:data_inicio'],
+                'descricao' => ['nullable', 'string'],
+                ]);
 
-        $request->user()->fichas()->create($dadosValidados);
+            $request->user()->fichas()->create($dadosValidados);
 
-        $nomeFicha = $request->name;
+            $nomeFicha = $request->name;
 
-        return redirect()->route('home')->with('msg', "Ficha $nomeFicha criada com Sucesso!");
+            return redirect()->route('home')->with('msg', "Ficha $nomeFicha criada com Sucesso!");
+        } catch (\Throwable $th) {
+            throw $th;
+        }
     }
 
     /**
@@ -104,22 +108,26 @@ class FichaController extends Controller
      */
     public function update(Request $request, string $id)
     {
-        $ficha = Ficha::findOrFail(decrypt($id));
+        try {
+            $ficha = Ficha::findOrFail(decrypt($id));
 
-        if ($ficha->user_id !== Auth::id()) {
-            abort(403);
+            if ($ficha->user_id !== Auth::id()) {
+                abort(403);
+            }
+
+            $dadosValidados = $request->validate([
+                'name' => ['required', 'string', 'min:3', 'max:255'],
+                'data_inicio' => ['required', 'date'],
+                'data_fim' => ['required', 'date', 'after_or_equal:data_inicio'],
+                'descricao' => ['nullable', 'string'],
+                ]);
+
+            $ficha->update($dadosValidados);
+            
+            return redirect()->route('home')->with('msg', "Ficha $request->name atualizada com Sucesso!");
+        } catch (\Throwable $th) {
+            throw $th;
         }
-
-        $dadosValidados = $request->validate([
-            'name' => ['required', 'string', 'min:3', 'max:255'],
-            'data_inicio' => ['required', 'date'],
-            'data_fim' => ['required', 'date', 'after_or_equal:data_inicio'],
-            'descricao' => ['nullable', 'string'],
-            ]);
-
-        $ficha->update($dadosValidados);
-        
-        return redirect()->route('home')->with('msg', "Ficha $request->name atualizada com Sucesso!");
     }
 
     /**

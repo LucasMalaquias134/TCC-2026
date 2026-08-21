@@ -19,7 +19,8 @@ class UserSeeder extends Seeder
             'email'=>'supercanal134@gmail.com',
             'urlImage'=>'',
             'password'=>Hash::make('1234567890987654321@aA'),
-            'user_name'=>'admin'
+            'user_name'=>'admin',
+            'is_admin'=>'1'
         ]);
         User::factory()->count(50)->create();
 
