@@ -12,6 +12,7 @@ class Exercicio {
   */
 
   final int id;
+  final int ordem;
   final String treino;
   final int qntdSeries;
   final int qtndRep;
@@ -21,6 +22,7 @@ class Exercicio {
 
   Exercicio({
     required this.id,
+    required this.ordem,
     required this.treino,
     required this.qntdSeries,
     required this.qtndRep,
@@ -32,6 +34,7 @@ class Exercicio {
   Map<String, dynamic> toMap() {
     return {
       'id': id,
+      'ordem': ordem,
       'treino': treino,
       'qntdSeries': qntdSeries,
       'qtndRep': qtndRep,
@@ -44,6 +47,7 @@ class Exercicio {
   factory Exercicio.fromMap(Map<String, dynamic> map) {
     return Exercicio(
       id: map['id'] ?? 0,
+      ordem: map['ordem'] ?? 0,
       treino: map['treino'] ?? '',
       qntdSeries: map['qntdSeries'] ?? 0,
       qtndRep: map['qtndRep'] ?? 0,

@@ -19,6 +19,10 @@ class MyApp extends StatelessWidget {
         GlobalWidgetsLocalizations.delegate,
         GlobalCupertinoLocalizations.delegate,
       ],
+      theme: ThemeData(
+        scaffoldBackgroundColor: Color(0xFF130D26),
+        canvasColor: Color(0xFF130D26),
+      ),
       supportedLocales: const [Locale('pt', 'BR')],
       home: const Splashentrouaplicativo(5, Welcome()),
     );

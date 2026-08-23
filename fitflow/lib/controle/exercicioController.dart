@@ -2,6 +2,7 @@ import 'dart:convert';
 
 import 'package:fitflow/modelo/classes/exercicio.dart';
 import 'package:fitflow/modelo/classes/ficha_exercicio.dart';
+
 //import 'package:fitflow/modelo/local_storage_service.dart';
 
 class Exerciciocontroller {
@@ -13,6 +14,7 @@ class Exerciciocontroller {
       "exercicios": [
     {
       "id": 501,
+      "ordem" : 1,
       "treino": "Supino Reto",
       "qntdSeries": 4,
       "qtndRep": 10,
@@ -22,6 +24,7 @@ class Exerciciocontroller {
     },
     {
       "id": 502,
+      "ordem" : 4,
       "treino": "Agachamento Livre",
       "qntdSeries": 4,
       "qtndRep": 12,
@@ -31,6 +34,7 @@ class Exerciciocontroller {
     },
     {
       "id": 503,
+      "ordem" : 2,
       "treino": "Corrida Esteira",
       "qntdSeries": 1,
       "qtndRep": 1,
@@ -40,6 +44,7 @@ class Exerciciocontroller {
     },
     {
       "id": 507,
+      "ordem" : 3,
       "treino": "Maratona",
       "qntdSeries": 1,
       "qtndRep": 1,
@@ -126,6 +131,9 @@ class Exerciciocontroller {
         .map((item) => Exercicio.fromMap(item))
         .where((element) => idsEncontrados.contains(element.id))
         .toList();
+
+    exercicios.sort((a, b) => a.ordem.compareTo(b.ordem));
+
     return exercicios;
   }
 }

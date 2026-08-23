@@ -7,6 +7,7 @@ import 'package:fitflow/modelo/classes/ficha.dart';
 import 'package:fitflow/modelo/classes/user.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
+import 'dart:math' as math;
 
 class Fichas extends StatefulWidget {
   final User usuario;
@@ -18,11 +19,13 @@ class Fichas extends StatefulWidget {
 
 class _FichasState extends State<Fichas> {
   TextEditingController pesquisaController = TextEditingController();
+  bool ordem = true;
+
   late List<Ficha> FichasClasse = [];
 
   Future<void> carregarDados() async {
     try {
-      final dados = await Fichacontroller.listarFichas('');
+      final dados = await Fichacontroller.listarFichas('', ordem);
       setState(() {
         FichasClasse = dados;
       });
@@ -37,69 +40,12 @@ class _FichasState extends State<Fichas> {
     carregarDados();
   }
 
-  void showDetalhes(Ficha ficha) {
-    showDialog(
-      context: context,
-      builder: (BuildContext context) {
-        return AlertDialog(
-          title: Row(
-            children: [
-              Icon(Icons.assignment_outlined, color: Colors.deepPurpleAccent),
-              SizedBox(width: 10),
-              Expanded(
-                child: Text(
-                  ficha.name,
-                  maxLines: 1,
-                  overflow: TextOverflow.ellipsis,
-                ),
-              ),
-            ],
-          ),
-          content: Column(
-            mainAxisSize: MainAxisSize.min,
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              Text(
-                'Nome da ficha : ' + ficha.name,
-                style: TextStyle(fontFamily: 'fredoka', fontSize: 15),
-              ),
-              SizedBox(height: 20),
-              if (ficha.data_inicio != null && ficha.data_fim != null)
-                Text(
-                  'De : ${DateFormat('dd/MM/yyyy').format(DateTime.tryParse(ficha.data_inicio ?? '')!)} Até : ${DateFormat('dd/MM/yyyy').format(DateTime.tryParse(ficha.data_fim ?? '')!)}',
-                  style: TextStyle(fontFamily: 'fredoka', fontSize: 15),
-                ),
-              SizedBox(height: 20),
-              ficha.descricao != null
-                  ? Text(
-                      'Descrição da ficha' + ficha.descricao!,
-                      style: TextStyle(fontFamily: 'fredoka', fontSize: 15),
-                    )
-                  : Text(
-                      'Descrição da ficha : Sem descrição',
-                      style: TextStyle(fontFamily: 'fredoka', fontSize: 15),
-                    ),
-            ],
-          ),
-          actions: [
-            TextButton(
-              onPressed: () {
-                Navigator.pop(context);
-              },
-              child: Text('Ok'),
-            ),
-          ],
-        );
-      },
-    );
-  }
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: Appbartodos(usuario: widget.usuario),
       body: Container(
-        padding: EdgeInsets.symmetric(vertical: 20),
+        padding: EdgeInsets.symmetric(vertical: 20, horizontal: 10),
         color: Color(0xFF130D26),
         child: Column(
           children: [
@@ -115,12 +61,40 @@ class _FichasState extends State<Fichas> {
                 radius: 15,
                 enviado: (pesquisa) async {
                   List<Ficha> fichasPesquisadas =
-                      await Fichacontroller.listarFichas(pesquisa);
+                      await Fichacontroller.listarFichas(pesquisa, ordem);
                   setState(() {
                     FichasClasse = fichasPesquisadas;
                   });
                 },
               ),
+            ),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.end,
+              children: [
+                Padding(
+                  padding: EdgeInsets.symmetric(horizontal: 15, vertical: 5),
+                  child: IconButton(
+                    onPressed: () async {
+                      ordem = !ordem;
+
+                      List<Ficha> fichasPesquisadas =
+                          await Fichacontroller.listarFichas(
+                            pesquisaController.text,
+                            ordem,
+                          );
+                      setState(() {
+                        FichasClasse = fichasPesquisadas;
+                      });
+                    },
+                    icon: ordem
+                        ? Icon((Icons.filter_list), color: Colors.white)
+                        : Transform.rotate(
+                            angle: math.pi,
+                            child: Icon(Icons.filter_list, color: Colors.white),
+                          ),
+                  ),
+                ),
+              ],
             ),
             FichasClasse.isEmpty
                 ? Padding(
@@ -140,7 +114,7 @@ class _FichasState extends State<Fichas> {
                   )
                 : ListView.builder(
                     shrinkWrap: true,
-                    padding: EdgeInsets.all(15),
+                    padding: EdgeInsets.symmetric(horizontal: 15),
                     itemCount: FichasClasse.length,
                     itemBuilder: (context, index) {
                       final ficha = FichasClasse[index];

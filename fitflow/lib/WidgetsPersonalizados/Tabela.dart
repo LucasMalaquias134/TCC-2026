@@ -1,4 +1,3 @@
-import 'package:fitflow/WidgetsPersonalizados/cardDoExpansionTile.dart';
 import 'package:fitflow/controle/exercicioController.dart';
 import 'package:fitflow/modelo/classes/exercicio.dart';
 import 'package:fitflow/modelo/classes/ficha_exercicio.dart';
@@ -71,27 +70,90 @@ class _TabelaState extends State<Tabela> {
               child: Column(
                 children: [
                   !(widget.eDia == true)
-                      ? Carddoexpansiontile(eDia: false)
-                      : ListView.builder(
-                          shrinkWrap: true,
-                          physics: NeverScrollableScrollPhysics(),
-                          itemCount: exerciciosArray.length,
-                          itemBuilder: (context, index) {
-                            final exercicioAtual = exerciciosArray[index];
-
-                            return Carddoexpansiontile(
-                              nome: exercicioAtual.treino,
-                              peso: exercicioAtual.peso != null
-                                  ? '${exercicioAtual.peso} kg'
-                                  : '-',
-                              reps: '${exercicioAtual.qtndRep}',
-                              series: '${exercicioAtual.qntdSeries}',
-                              descanso: exercicioAtual.descanso != null
-                                  ? '${exercicioAtual.descanso}s'
-                                  : '-',
-                              desc: exercicioAtual.descricao ?? '',
-                            );
-                          },
+                      ? Card(
+                          shape: RoundedRectangleBorder(
+                            side: BorderSide(
+                              color: Colors.white.withValues(alpha: 0.15),
+                              width: 1.0,
+                            ),
+                            borderRadius: BorderRadius.circular(10),
+                          ),
+                          margin: EdgeInsets.only(bottom: 10),
+                          color: Color(0xFF4C49BD),
+                          elevation: 10,
+                          child: Padding(
+                            padding: EdgeInsets.all(14),
+                            child: Row(
+                              children: [
+                                Text(
+                                  'Dia de descanso',
+                                  style: TextStyle(
+                                    color: Colors.white,
+                                    fontFamily: 'fredoka',
+                                  ),
+                                ),
+                              ],
+                            ),
+                          ),
+                        )
+                      : SingleChildScrollView(
+                          scrollDirection: Axis.horizontal,
+                          child: ClipRRect(
+                            borderRadius: BorderRadius.circular(16),
+                            child: DataTable(
+                              headingRowColor: WidgetStateProperty.all(
+                                Color(0xFF4C49BD),
+                              ),
+                              headingTextStyle: TextStyle(
+                                color: Colors.white,
+                                fontFamily: 'fredoka',
+                              ),
+                              dataTextStyle: TextStyle(
+                                color: Colors.white,
+                                fontFamily: 'fredoka',
+                              ),
+                              border: TableBorder.all(
+                                borderRadius: BorderRadius.all(
+                                  Radius.circular(16),
+                                ),
+                                color: Colors.white.withValues(alpha: 0.15),
+                              ),
+                              columns: [
+                                DataColumn(label: Text('Ordem')),
+                                DataColumn(label: Text('Nome')),
+                                DataColumn(label: Text('Series')),
+                                DataColumn(label: Text('Reps')),
+                                DataColumn(label: Text('Peso')),
+                                DataColumn(label: Text('Descanso')),
+                                DataColumn(label: Text('Descrição')),
+                              ],
+                              rows: exerciciosArray.map((exercicio) {
+                                return DataRow(
+                                  cells: [
+                                    DataCell(Text(exercicio.ordem.toString())),
+                                    DataCell(Text(exercicio.treino)),
+                                    DataCell(Text('${exercicio.qntdSeries}')),
+                                    DataCell(Text('${exercicio.qtndRep}')),
+                                    DataCell(
+                                      Text(
+                                        exercicio.peso != null
+                                            ? '${exercicio.peso} kg'
+                                            : '-',
+                                      ),
+                                    ),
+                                    DataCell(
+                                      Text(
+                                        exercicio.descanso != null
+                                            ? '${exercicio.descanso}s'
+                                            : '-',
+                                      ),
+                                    ),
+                                    DataCell(Text(exercicio.descricao ?? '-')),
+                                  ],
+                                );
+                              }).toList(),
+                            ),
+                          ),
                         ),
                 ],
               ),

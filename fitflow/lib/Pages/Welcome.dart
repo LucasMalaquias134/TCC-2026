@@ -17,8 +17,8 @@ class Welcome extends StatelessWidget {
           children: [
             Image(
               image: AssetImage('assets/img/Iconemarcaredondo.png'),
-              width: 200,
-              height: 200,
+              width: 300,
+              height: 300,
             ),
             Container(
               height: 100,

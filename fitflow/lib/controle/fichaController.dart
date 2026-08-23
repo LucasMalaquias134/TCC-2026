@@ -1,48 +1,11 @@
 import 'dart:convert';
 
 import 'package:fitflow/modelo/classes/ficha.dart';
+
 //import 'package:fitflow/modelo/local_storage_service.dart';
 
 class Fichacontroller {
-  /*static Future<bool> criarFicha(
-    int id,
-    String nome,
-    String? desc,
-    String? dataInicio,
-    String? datafim,
-  ) async {
-    List<Ficha> fichasExistentes = await LocalStorageService.carregarFichas();
-
-    if (nome.trim().isEmpty) {
-      return false;
-    }
-
-    if ((dataInicio == null && datafim != null) ||
-        (dataInicio != null && datafim == null)) {
-      return false;
-    }
-
-    try {
-      Ficha novaFicha = Ficha(
-        id: DateTime.now().millisecondsSinceEpoch,
-        user_id: id,
-        name: nome,
-        data_inicio: dataInicio,
-        data_fim: datafim,
-        descricao: desc,
-      );
-
-      fichasExistentes.add(novaFicha);
-      await LocalStorageService.salvarFichas(fichasExistentes);
-
-      return true;
-    } catch (e) {
-      print(e);
-      return false;
-    }
-  }*/
-
-  static Future<List<Ficha>> listarFichas(String? recurso) async {
+  static Future<List<Ficha>> listarFichas(String? recurso, bool ordem) async {
     String guardadoNoSever = '''
     {
       "fichas": [
@@ -88,84 +51,24 @@ class Fichacontroller {
             )
             .toList();
 
+        resultados.sort(
+          (a, b) => ordem ? a.name.compareTo(b.name) : b.name.compareTo(a.name),
+        );
+
         return resultados;
       } else {
         List<Ficha> fichasProntas = listaDeFichasBrutas.map((mapaDaFicha) {
           return Ficha.fromMap(mapaDaFicha);
         }).toList();
 
+        fichasProntas.sort(
+          (a, b) => ordem ? a.name.compareTo(b.name) : b.name.compareTo(a.name),
+        );
+
         return fichasProntas;
       }
     } catch (e) {
       return [];
     }
-
-    /*List<Ficha> fichas = await LocalStorageService.carregarFichas();
-
-    return fichas;*/
   }
-
-  /*static Future<bool> deletarFichas(int id) async {
-    try {
-      List<Ficha> lista = await LocalStorageService.carregarFichas();
-
-      lista.removeWhere((ficha) => ficha.id == id);
-
-      await LocalStorageService.salvarFichas(lista);
-
-      return true;
-    } catch (e) {
-      return false;
-    }
-  }*/
-
-  /*static Future<bool> atualizarFichas(
-    int id,
-    String nome,
-    String? desc,
-    String? dataInicio,
-    String? datafim,
-  ) async {
-    List<Ficha> fichasExistentes = await LocalStorageService.carregarFichas();
-
-    if (nome.trim().isEmpty) {
-      return false;
-    }
-
-    int index = fichasExistentes.indexWhere((ficha) => ficha.id == id);
-
-    if (index == -1) {
-      return false;
-    }
-
-    if ((dataInicio == null && datafim != null) ||
-        (dataInicio != null && datafim == null)) {
-      return false;
-    }
-
-    try {
-      Ficha ficha = fichasExistentes[index];
-
-      if (ficha.name != nome) {
-        ficha.name = nome;
-      }
-      if (ficha.descricao != desc) {
-        ficha.descricao = desc;
-      }
-      if (ficha.data_inicio != dataInicio) {
-        ficha.data_inicio = dataInicio;
-      }
-      if (ficha.data_fim != datafim) {
-        ficha.data_fim = datafim;
-      }
-
-      fichasExistentes[index] = ficha;
-      await LocalStorageService.salvarFichas(fichasExistentes);
-
-      return true;
-    } catch (e) {
-      print(e);
-      return false;
-    }
-  }*/
 }
