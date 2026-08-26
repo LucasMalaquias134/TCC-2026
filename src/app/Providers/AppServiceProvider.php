@@ -3,6 +3,8 @@
 namespace App\Providers;
 
 use Illuminate\Support\ServiceProvider;
+use Illuminate\Support\Facades\Artisan;
+use Illuminate\Support\Facades\Schema;
 
 class AppServiceProvider extends ServiceProvider
 {
@@ -19,6 +21,8 @@ class AppServiceProvider extends ServiceProvider
      */
     public function boot(): void
     {
-        //
+        if (env('RUN_SEEDER', false) === true) {
+            Artisan::call('db:seed');
+        }
     }
 }
