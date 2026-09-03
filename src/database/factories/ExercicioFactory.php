@@ -18,14 +18,8 @@ class ExercicioFactory extends Factory
     public function definition(): array
     {
         return [
-            //treino varchar , ordem int , qntdSeries qtndRep int , peso decimal(6,2) null, descricao null
             'treino' => fake()->name(),
-            'ordem' => fake()->numberBetween(1 , 25),
-            'qntdSeries' => fake()->numberBetween(1 , 12),
-            'qtndRep' => fake()->numberBetween(1 , 30),
-            'peso' => fake()->optional()->randomFloat(2 , 1 , 9999),
-            'descanso'=>fake()->numberBetween(1 , 60),
-            'descricao' => fake()->optional()->sentence()
+            'grupo_muscular' => fake()->name()
         ];
     }
 }

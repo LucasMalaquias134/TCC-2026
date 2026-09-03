@@ -15,6 +15,11 @@ return new class extends Migration
             $table->foreignId('ficha_id')->constrained('ficha')->onDelete('cascade');
             $table->foreignId('exercicio_id')->constrained('exercicio')->onDelete('cascade');
             $table->enum('dias_semana' , ['seg' , 'ter' , 'qua' , 'qui' , 'sex' , 'sab' , 'dom']);
+            $table->integer('ordem')->unsigned()->nullable();
+            $table->integer('qntdSeries')->nullable();
+            $table->integer('qntdRep')->nullable();
+            $table->decimal('peso' , 6 , 2)->nullable();
+            $table->text('descricao')->nullable();
             $table->softDeletes();
             $table->timestamps();
         });

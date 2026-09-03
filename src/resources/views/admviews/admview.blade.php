@@ -1,7 +1,7 @@
 @extends('admviews.master')
 
 @section('titulo','Pagina admin')
-@section('Home','Pagina admin')
+@section('Home','Usuários')
 
 @section('corpo')
 
@@ -67,8 +67,89 @@
                                 <button type="submit" class="btn btn-sm btn-danger text-white" data-bs-toggle="modal" data-bs-target="#confirma{{$usuario->id}}">
                                     <i class="bi bi-trash3"></i>
                                 </button>
+                                <button type="submit" class="btn btn-sm btn-primary text-white" data-bs-toggle="modal" data-bs-target="#vizualiza{{$usuario->id}}">
+                                    <i class="bi bi-eye"></i>
+                                </button>
                             </td>
                         </tr>
+
+                        <div class="modal fade" id="vizualiza{{$usuario->id}}" tabindex="-1" aria-labelledby="vizualizaUser{{$usuario->id}}" aria-hidden="true" data-bs-theme="dark">
+                            <div class="modal-dialog modal-dialog-centered">
+                                <div class="modal-content border-0 rounded-4 shadow-lg overflow-hidden" style="background-color: #1b1437;">
+                                    
+                                    <div class="modal-header border-0 pb-0 pt-4 px-4 d-flex align-items-center justify-content-between">
+                                        <div class="d-flex align-items-center gap-3">
+                                            
+                                            @if($usuario->urlImage && Storage::disk('public')->exists($usuario->urlImage))
+                                                <img src="{{ asset('storage/' . $usuario->urlImage) }}" class="rounded-circle object-fit-cover shadow-sm border border-white border-opacity-10"style="width: 48px; height: 48px;">
+                                            @else
+                                                <div class="rounded-circle d-flex align-items-center justify-content-center text-white fw-bold fs-5 shadow-sm flex-shrink-0" 
+                                                    style="width: 48px; height: 48px; background-color: rgb(92, 101, 192);">
+                                                    {{ strtoupper(substr($usuario->name, 0, 1)) }}
+                                                </div>
+                                            @endif
+
+                                            <div>
+                                                <h5 class="modal-title fw-bold text-light mb-0" id="vizualizaUser{{$usuario->id}}">
+                                                    {{ $usuario->name }}
+                                                </h5>
+                                                <span class="text-white-50 small">@<span>{{ $usuario->user_name }}</span></span>
+                                            </div>
+                                        </div>
+                                        <button type="button" class="btn-close shadow-none align-self-start" data-bs-dismiss="modal" aria-label="Close"></button>
+                                    </div>
+
+                                    <div class="modal-body p-4">
+                                        <div class="row g-3">
+                                            <div class="col-6">
+                                                <div class="p-3 rounded-3" style="background-color: rgba(255, 255, 255, 0.04);">
+                                                    <div class="text-white-50 small mb-1 d-flex align-items-center gap-1">
+                                                        <i class="bi bi-hash"></i> ID
+                                                    </div>
+                                                    <span class="fw-semibold text-white">#{{ $usuario->id }}</span>
+                                                </div>
+                                            </div>
+
+                                            <div class="col-6">
+                                                <div class="p-3 rounded-3" style="background-color: rgba(255, 255, 255, 0.04);">
+                                                    <div class="text-white-50 small mb-1 d-flex align-items-center gap-1">
+                                                        <i class="bi bi-calendar-event"></i> Idade
+                                                    </div>
+                                                    <span class="fw-semibold text-white">{{ $usuario->idade }} anos</span>
+                                                </div>
+                                            </div>
+
+                                            <div class="col-12">
+                                                <div class="p-3 rounded-3" style="background-color: rgba(255, 255, 255, 0.04);">
+                                                    <div class="text-white-50 small mb-1 d-flex align-items-center gap-1">
+                                                        <i class="bi bi-envelope"></i> E-mail
+                                                    </div>
+                                                    <span class="fw-semibold text-white text-break">{{ $usuario->email }}</span>
+                                                </div>
+                                            </div>
+
+                                            <div class="col-12">
+                                                <div class="p-3 rounded-3" style="background-color: rgba(255, 255, 255, 0.04);">
+                                                    <div class="text-white-50 small mb-1 d-flex align-items-center gap-1">
+                                                        <i class="bi bi-geo-alt"></i> Cidade
+                                                    </div>
+                                                    <span class="fw-semibold text-white">{{ $usuario->cidadeMora }}</span>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <div class="modal-footer border-0 p-4 pt-0">
+                                        <button type="button" class="btn text-white w-100 py-2 rounded-3 fw-semibold shadow-sm" 
+                                                data-bs-dismiss="modal" 
+                                                style="background-color: rgb(92, 101, 192) !important;">
+                                            Fechar
+                                        </button>
+                                    </div>
+
+                                </div>
+                            </div>
+                        </div>
 
                         <div class="modal fade" id="confirma{{$usuario->id}}" tabindex="-1" aria-labelledby="confirmUserDeletionModalLabel" aria-hidden="true" data-bs-theme="dark">
                             <div class="modal-dialog modal-dialog-centered">

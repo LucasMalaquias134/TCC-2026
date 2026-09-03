@@ -8,7 +8,7 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Attributes\Fillable;
 
-#[Fillable(['treino', 'ordem', 'qntdSeries', 'qtndRep', 'peso', 'descricao', 'descanso'])]
+#[Fillable(['treino', 'grupo_muscular'])]
 class Exercicio extends Model
 {
     use SoftDeletes, HasFactory;

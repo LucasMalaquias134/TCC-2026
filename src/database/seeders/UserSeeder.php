@@ -18,6 +18,7 @@ class UserSeeder extends Seeder
             'name'=>'admin',
             'email'=>'supercanal134@gmail.com',
             'urlImage'=>'',
+            'email_verified_at'=>now(),
             'password'=>Hash::make('1234567890987654321@aA'),
             'user_name'=>'admin',
             'is_admin'=>'1'

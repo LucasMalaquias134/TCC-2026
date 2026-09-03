@@ -14,18 +14,20 @@ class adminController extends Controller
     public function index(Request $request)
     {
         $user = Auth::user();
-        if($user->email==='supercanal134@gmail.com'){
+        if($user->is_admin===true){
             if($request->has('filtro') && $request->filled('filtro')){
                 $pesquisa = $request->input('filtro');
-                $usuarios = User::select('id', 'name', 'user_name', 'email')
+                $usuarios = User::select('id', 'name', 'user_name', 'email' , 'idade', 'cidadeMora' , 'urlImage')
                     ->where('name', 'LIKE', "%{$pesquisa}%")
                     ->orWhere('email', 'LIKE', "%{$pesquisa}%")
                     ->orWhere('user_name', 'LIKE', "%{$pesquisa}%")
-                    ->orWhere('id', $pesquisa)
+                    ->orWhere('id', 'LIKE', "%{$pesquisa}%")
+                    ->orWhere('idade', 'LIKE', "%{$pesquisa}%")
+                    ->orWhere('cidadeMora', 'LIKE', "%{$pesquisa}%")
                     ->simplePaginate(30);
             }
             else{
-                $usuarios = User::select('id', 'name', 'user_name', 'email')->simplePaginate(30);
+                $usuarios = User::select('id', 'name', 'user_name', 'email' , 'idade', 'cidadeMora' , 'urlImage')->simplePaginate(30);
             }
 
             return view('admviews.admview', ['usuarios' => $usuarios]);
@@ -82,7 +84,7 @@ class adminController extends Controller
     {
         
         $user = Auth::user();
-        if($user->email==='supercanal134@gmail.com'){
+        if($user->is_admin===true){
             try {
                 $usuario = User::findOrFail(decrypt($id));
                 if($usuario->email==='supercanal134@gmail.com'){

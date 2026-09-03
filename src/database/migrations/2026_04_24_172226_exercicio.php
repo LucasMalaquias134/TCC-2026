@@ -14,11 +14,7 @@ return new class extends Migration
         Schema::create('exercicio' , function(Blueprint $table){
             $table->id();
             $table->string('treino');
-            $table->integer('ordem');
-            $table->integer('qntdSeries');
-            $table->integer('qtndRep');
-            $table->decimal('peso' , 6 , 2)->nullable();
-            $table->text('descricao')->nullable();
+            $table->string('grupo_muscular');
             $table->softDeletes();
             $table->timestamps();
         });

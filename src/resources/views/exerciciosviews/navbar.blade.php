@@ -5,14 +5,14 @@
                 <a class="nav-link text-white">@yield('Home','Home')</a>
             </li>
          </ul>
-         <ul class="navbar-nav border-bottom border-white">
+         <ul class="navbar-nav">
             <li class="nav-item">
                 <a href="{{route('admin.dashboard')}}" class="nav-link text-white" >
                     <p>Gerenciar Usuários</p>
                 </a>
             </li>
          </ul>
-         <ul class="navbar-nav">
+         <ul class="navbar-nav border-bottom border-white">
             <li class="nav-item">
                 <a href="{{route('exercicio.index')}}" class="nav-link text-white" >
                     <p>Gerenciar Exercícios Cadastrados</p>
