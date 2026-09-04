@@ -13,14 +13,21 @@
                 <li class="nav-item">
                     <div class="d-flex justify-content-center mb-2">
                         <a href="{{ route('profile.edit') }}" class="text-decoration-none">
-                            <img src="{{(auth()->user()->urlImage!=null ? asset('storage/' . auth()->user()->urlImage) : asset('assets/userProfile.png'))}}" onerror="this.onerror=null; this.src='{{ asset('assets/userProfile.png') }}';" class="rounded-circle shadow border border-2 border-opacity-25 border-primary" width="100" height="100" style="object-fit: cover;">
+                            @if(auth()->user()->urlImage && Storage::disk('public')->exists(auth()->user()->urlImage))
+                                <img src="{{ asset('storage/' . auth()->user()->urlImage) }}" class="rounded-circle object-fit-cover shadow-sm border border-white border-opacity-10"style="width: 100px; height: 100px;">
+                            @else
+                                <div class="rounded-circle d-flex align-items-center justify-content-center text-white fw-bold fs-1 shadow-sm flex-shrink-0" 
+                                    style="width: 100px; height: 100px; background-color: rgb(92, 101, 192);">
+                                    {{ strtoupper(substr(auth()->user()->name, 0, 1)) }}
+                                </div>
+                            @endif
                         </a>
                     </div>
                 </li>
                 <li class="nav-item">
                     <div class="d-flex justify-content-center mb-3">
                         <a href="{{ route('profile.edit') }}" class="text-decoration-none">
-                            <span class="text-white text-truncate" style='font-size:1.5rem;'>{{auth()->user()->user_name}}</span>
+                            <span class="text-white text-truncate" style='font-size:1.5rem;'>{{auth()->user()->name}}</span>
                         </a>
                     </div>
                 </li>

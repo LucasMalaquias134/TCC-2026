@@ -26,9 +26,10 @@ Route::middleware(['auth', 'verified','user'])->group(function () {
     Route::resource('fichas', FichaController::class);
     
     //---------------------Exercicios e Ficha-----------------------------
-    Route::get('/editarFicha{ficha}', [ExercicioFichaController::class, 'index'])->name('ficha.editar');
-    Route::post('/editarFicha{ficha}', [ExercicioFichaController::class, 'store'])->name('fichas.storar');
-    Route::delete('/apagarExercicio/{ficha}/{exercicio}', [ExercicioFichaController::class, 'destroy'])->name('fichas.deletar');
+    Route::get('/ficha_exercicio/{ficha_exercicio}', [ExercicioFichaController::class, 'index'])->name('ficha_exercicio.index');
+    Route::post('/ficha_exercicio/{ficha_exercicio}', [ExercicioFichaController::class, 'store'])->name('ficha_exercicio.store');
+    Route::patch('/ficha_exercicio/{ficha_exercicio}', [ExercicioFichaController::class, 'update'])->name('ficha_exercicio.update');
+    Route::delete('/ficha_exercicio/{ficha_exercicio}', [ExercicioFichaController::class, 'destroy'])->name('ficha_exercicio.destroy');
 
     
     });

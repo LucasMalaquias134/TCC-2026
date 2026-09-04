@@ -42,6 +42,9 @@ class ProfileController extends Controller
             $caminhoFoto = $request->file('urlImage')->store('perfis', 'public');
             $request->user()->urlImage = $caminhoFoto;
         }
+        else{
+            $request->user()->urlImage = null;
+        }
         
         $request->user()->save();
 

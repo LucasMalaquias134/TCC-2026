@@ -108,7 +108,7 @@
                     <div class="card rounded-4 d-flex flex-row align-items-center p-3 shadow-lg gap-3 text-start w-100 "
                         style="background-color: #1b1437; min-height: 150px;">
                         
-                        <a href="{{ route('fichas.show',['ficha'=>encrypt($ficha->id)]) }}" class="stretched-link" style="text-decoration: none;"></a>
+                        <a href="{{ route('fichas.show',['ficha'=>$ficha->id]) }}" class="stretched-link" style="text-decoration: none;"></a>
                         
                         <div class="flex-grow-1 text-truncate pe-2">
                             <h4 class="fw-bold text-light m-0 text-truncate" title="{{ $ficha->name }}">
@@ -208,10 +208,14 @@
 
     <div class="d-flex fixed-bottom justify-content-end p-3">
         <a href="{{route('fichas.create')}}"> 
-            <div class="btn btn-primary bg-success rounded-4 text-white d-flex justify-content-center align-items-center pt-2" style="height:60px;width:60px;"><i class="bi bi-plus-lg fs-4 m-0"></i></div>
+            <div class="btn bg-success rounded-4 text-white d-flex justify-content-center align-items-center pt-2" style="height:60px;width:60px;"><i class="bi bi-plus-lg fs-4 m-0"></i></div>
         </a>
     </div>
+
+    
     
 </div>
+
+
 
 @endsection 

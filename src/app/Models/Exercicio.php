@@ -20,7 +20,8 @@ class Exercicio extends Model
     {
         return $this->belongsToMany(Ficha::class, 'ficha_exercicio')
                     ->using(Ficha_exercicio::class)
-                    ->withPivot('dias_semana')
+                    ->withPivot('id','dias_semana','ordem','qntdSeries','qntdRep','peso','descricao','descanso')
+                    ->wherePivot('deleted_at', null)
                     ->withTimestamps();
     }
 

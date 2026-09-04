@@ -16,11 +16,12 @@ class ExercicioFichaController extends Controller
      */
     public function index(string $id)
     {
-        $ficha = Ficha::findOrFail(decrypt($id));
+        $ficha = Ficha::findOrFail($id);
         if ($ficha->user_id !== Auth::user()->id) {
             abort(403, 'Acesso não autorizado.');
         }
-        return view('listafilhaEditar',['ficha'=>$ficha,'naoEdicao'=>false]);
+        $exercicios = Exercicio::all();
+        return view('fichasExercicioCrud.listafilhaEditar',['ficha'=>$ficha,'naoEdicao'=>false,'exercicios'=>$exercicios]);
     }
 
     /**
@@ -44,42 +45,55 @@ class ExercicioFichaController extends Controller
             }
 
             $dadosValidados = $request->validate([
-                'dia'                  => ['required', 'integer', 'between:0,6'],
-                'treino'               => ['required', 'string', 'min:3', 'max:255'],
-                'ordem'                => ['required', 'integer', 'min:0'],
-                'numero_de_series'     => ['required', 'integer', 'min:1', 'max:512'],
-                'numero_de_repeticoes' => ['required', 'integer', 'min:1', 'max:512'],
-                'peso'                 => ['nullable', 'numeric', 'min:0', 'max:999999'],
-                'descricao'            => ['nullable', 'string'],
-                'descanso'             => ['nullable', 'integer', 'min:0'],
+                'dia'                   => ['required', 'integer', 'between:0,6'],
+                
+                'ordem'                 => ['required', 'array', 'min:1'],
+                'exercicio'             => ['required', 'array', 'min:1'],
+                'descricao'             => ['nullable', 'array'],
+                'numero_de_series'      => ['nullable', 'array'],
+                'numero_de_repeticoes'  => ['nullable', 'array'],
+                'peso'                  => ['nullable', 'array'],
+                'descanso'              => ['nullable', 'array'],
+
+                'ordem.*'               => ['required', 'integer', 'min:0'],
+                'exercicio.*'           => ['required', 'integer', 'exists:exercicio,id'],
+                'descricao.*'           => ['nullable', 'string'],
+                'numero_de_series.*'    => ['nullable', 'integer', 'min:1', 'max:512'],
+                'numero_de_repeticoes.*'=> ['nullable', 'integer', 'min:1', 'max:512'],
+                'peso.*'                => ['nullable', 'numeric', 'min:0', 'max:999999'],
+                'descanso.*'            => ['nullable', 'integer', 'min:0'],
             ]);
 
-            $diasSemana = ['seg', 'ter', 'qua', 'qui', 'sex', 'sab', 'dom'];
-            $diaChave = $diasSemana[$dadosValidados['dia']];
-
-            $exercicio = Exercicio::create([
-                'treino'     => $dadosValidados['treino'],
-                'ordem'      => $dadosValidados['ordem'],
-                'qntdSeries' => $dadosValidados['numero_de_series'],
-                'qtndRep'    => $dadosValidados['numero_de_repeticoes'],
-                'peso'       => $dadosValidados['peso'],
-                'descricao'  => $dadosValidados['descricao'],
-                'descanso'   => $dadosValidados['descanso'],
-            ]);
-
-            $ficha->exercicios()->attach($exercicio->id, ['dias_semana' => $diaChave]);
-
+            $diasSemana = ['seg' , 'ter' , 'qua' , 'qui' , 'sex' , 'sab' , 'dom'];
             $diasSemanaCompleto = [
-                'seg' => 'Segunda-Feira',
-                'ter' => 'Terça-Feira',
-                'qua' => 'Quarta-Feira',
-                'qui' => 'Quinta-Feira',
-                'sex' => 'Sexta-Feira',
-                'sab' => 'Sábado',
-                'dom' => 'Domingo'
+                0 => 'Segunda-Feira',
+                1 => 'Terça-Feira',
+                2 => 'Quarta-Feira',
+                3 => 'Quinta-Feira',
+                4 => 'Sexta-Feira',
+                5 => 'Sábado',
+                6 => 'Domingo'
             ];
 
-            return redirect()->back()->with('msg', "Exercício $exercicio->treino adicionado com sucesso para {$diasSemanaCompleto[$diaChave]}!");
+            foreach ($dadosValidados['exercicio'] as $chave => $exercicioId) {
+                
+                Ficha_exercicio::create([
+                    'ficha_id'     => $ficha->id,
+                    'exercicio_id' => $exercicioId,
+                    'dias_semana'  => $diasSemana[$dadosValidados['dia']],
+                    'ordem'        => $dadosValidados['ordem'][$chave] ?? $chave,
+                    'qntdSeries'   => $dadosValidados['numero_de_series'][$chave] ?? null,
+                    'qntdRep'      => $dadosValidados['numero_de_repeticoes'][$chave] ?? null,
+                    'peso'         => $dadosValidados['peso'][$chave] ?? null,
+                    'descricao'    => $dadosValidados['descricao'][$chave] ?? null,
+                    'descanso'     => $dadosValidados['descanso'][$chave] ?? null,
+                ]);
+            }
+
+            $nomeDia = $diasSemanaCompleto[$dadosValidados['dia']];
+
+            return redirect()->back()->with('msg', "Exercícios salvos com sucesso para {$nomeDia}!");
+
         } catch (\Throwable $th) {
             throw $th;
         }
@@ -104,21 +118,35 @@ class ExercicioFichaController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(string $idFicha, string $idExercicio)
+    public function update(Request $request,string $idExercicioFicha)
     {
-        $ficha = Ficha::findOrFail(decrypt($idFicha));
-        $exercicio = Exercicio::findOrFail(decrypt($idExercicio));
-        $pivo = $ficha->exercicios->where('id' , $exercicio->id)->first()->pivot;
-
-        dd($ficha);
-    }
-
-    /**
-     * Remove the specified resource from storage.
-     */
-    public function destroy(string $idFicha, string $idExercicio)
-    {
+        //dd($request);
         try {
+            $exercicioFicha = Ficha_exercicio::findOrFail($idExercicioFicha);
+            $ficha = Ficha::findOrFail($exercicioFicha->ficha_id);
+            
+            if ($ficha->user_id !== Auth::id()) {
+                abort(403, 'Acesso não autorizado.');
+            }
+
+            $dadosValidados = $request->validate([
+                'exercicio'           => ['required', 'integer', 'exists:exercicio,id'],
+                'descricao'           => ['nullable', 'string'],
+                'numero_de_series'    => ['nullable', 'integer', 'min:1', 'max:512'],
+                'numero_de_repeticoes'=> ['nullable', 'integer', 'min:1', 'max:512'],
+                'peso'                => ['nullable', 'numeric', 'min:0', 'max:999999'],
+                'descanso'            => ['nullable', 'integer', 'min:0'],
+            ]);
+
+            $exercicioFicha->update([
+                'exercicio_id' => $dadosValidados['exercicio'],
+                'qntdSeries'   => $dadosValidados['numero_de_series'] ?? null,
+                'qntdRep'      => $dadosValidados['numero_de_repeticoes'] ?? null,
+                'peso'         => $dadosValidados['peso'] ?? null,
+                'descricao'    => $dadosValidados['descricao'] ?? null,
+                'descanso'     => $dadosValidados['descanso'] ?? null,
+            ]);
+
             $diasSemanaCompleto = [
                 'seg' => 'Segunda-Feira',
                 'ter' => 'Terça-Feira',
@@ -129,27 +157,61 @@ class ExercicioFichaController extends Controller
                 'dom' => 'Domingo'
             ];
 
-            $ficha = Ficha::findOrFail(decrypt($idFicha));
-            $exercicio = Exercicio::findOrFail(decrypt($idExercicio));
-            $pivo = $ficha->exercicios->where('id' , $exercicio->id)->first()->pivot;
+            $exercicio = Exercicio::findOrFail($exercicioFicha->exercicio_id);
 
-            $chave = $pivo->dias_semana;
-            $nome =$exercicio->treino;
+            $nomeDia = $diasSemanaCompleto[$exercicioFicha->dias_semana];
+
+            return redirect()->back()->with('msg', "Exercício $exercicio->treino do dia $nomeDia atualizado com sucesso!");
+
+        } catch (\Throwable $th) {
+            throw $th;
+        }
+    }
+
+    /**
+     * Remove the specified resource from storage.
+     */
+    public function destroy(string $idExercicioFicha)
+    {
+        //dd($idExercicioFicha);
+        try {
             
+            $exercicioFicha = Ficha_exercicio::findOrFail($idExercicioFicha);
+            //dd($exercicioFicha);
+            $ficha = Ficha::findOrFail($exercicioFicha->ficha_id);
+            $exercicio = Exercicio::findOrFail($exercicioFicha->exercicio_id);
+            
+
             if ($ficha->user_id !== Auth::user()->id) {
                 abort(403, 'Acesso não autorizado.');
             }
 
-            $ficha->exercicios()->detach(decrypt($idExercicio));
+            $chave = $exercicioFicha->dias_semana;
 
-            $exercicio->delete();
+            $exercicioFicha->delete();
 
-            foreach($ficha->exercicios as $exercicioForEach){
-                $exercicioForEach->ordem--;
-                $exercicioForEach->save();
-            }
+            Ficha_exercicio::where('ficha_id',$ficha->id)
+            ->where('dias_semana',$chave)
+            ->chunk(100, function ($fichaExercicios) {
+                $variavel = 1;
+                foreach ($fichaExercicios as $fichaExercicio) {
+                    $fichaExercicio->update(['ordem' => $variavel]);
+                    $variavel++;
+                }
+            });
+
+            $diasSemanaCompleto = [
+                'seg' => 'Segunda-Feira',
+                'ter' => 'Terça-Feira',
+                'qua' => 'Quarta-Feira',
+                'qui' => 'Quinta-Feira',
+                'sex' => 'Sexta-Feira',
+                'sab' => 'Sábado',
+                'dom' => 'Domingo'
+            ];
+
             
-            return redirect()->back()->with('msg', "Exercício $nome do dia {$diasSemanaCompleto[$chave]} removido com sucesso!");
+            return redirect()->back()->with('msg', "Exercício $exercicio->treino do dia {$diasSemanaCompleto[$chave]} removido com sucesso!");
         } catch (\Throwable $th) {
             throw $th;
         }

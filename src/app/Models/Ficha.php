@@ -25,7 +25,8 @@ class Ficha extends Model
     {
         return $this->belongsToMany(Exercicio::class, 'ficha_exercicio')
                     ->using(Ficha_exercicio::class)
-                    ->withPivot('dias_semana') 
+                    ->withPivot('id','dias_semana','ordem','qntdSeries','qntdRep','peso','descricao','descanso') 
+                    ->wherePivot('deleted_at', null)
                     ->withTimestamps();
     }
     protected function casts(): array
@@ -34,16 +35,6 @@ class Ficha extends Model
             'data_inicio' => 'date',
             'data_fim' => 'date',
         ];
-    }
-    protected static function booted()
-    {
-        static::deleting(function ($ficha) {
-            $exercicios = $ficha->exercicios;
-            $ficha->exercicios()->detach();
-            foreach ($exercicios as $exercicio) {
-                $exercicio->delete();
-            }
-        });
     }
 
 }

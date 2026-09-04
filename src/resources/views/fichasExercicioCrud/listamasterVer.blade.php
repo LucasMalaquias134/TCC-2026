@@ -93,23 +93,6 @@
                         </a>
                     </li>
                 </ul>
-                @if($naoEdicao == true)
-                <ul class="navbar-nav">
-                    <li class="nav-item">
-                        <a href="{{route('ficha.editar',['ficha'=>encrypt($ficha->id)])}}" class="btn btn-sm btn-outline-warning me-3">
-                            <i class="bi bi-pencil"></i>
-                        </a>
-                    </li>
-                </ul>
-                @else
-                <ul class="navbar-nav">
-                    <li class="nav-item">
-                        <a href="{{route('fichas.show',['ficha'=>encrypt($ficha->id)])}}" class="btn btn-sm btn-warning me-3">
-                            <i class="bi bi-pencil"></i>
-                        </a>
-                    </li>
-                </ul>
-                @endif
             </div>
         </nav>
 

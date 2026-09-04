@@ -82,11 +82,11 @@ class FichaController extends Controller
      */
     public function show(string $id)
     {
-        $ficha = Ficha::findOrFail(decrypt($id));
+        $ficha = Ficha::findOrFail($id);
         if ($ficha->user_id !== Auth::user()->id) {
             abort(403, 'Acesso não autorizado.');
         }
-        return view('listafilhaVer',['ficha'=>$ficha,'naoEdicao'=>true]);
+        return view('fichasExercicioCrud.listafilhaVer',['ficha'=>$ficha,'naoEdicao'=>true]);
     }
 
     /**
@@ -139,6 +139,10 @@ class FichaController extends Controller
             abort(403, 'Acesso não autorizado.');
         }
         $nomeFicha = $ficha->name;
+
+        foreach ($ficha->exercicios as $exercicio) {
+            $exercicio->pivot->delete();
+        }
         $ficha->delete();
         return redirect()->route('home')->with('msg', "Ficha $nomeFicha apagada com Sucesso!");
     }

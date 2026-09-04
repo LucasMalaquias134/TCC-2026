@@ -6,11 +6,19 @@
 @section('corpo')
 
     <div class="d-flex justify-content-center mb-2">
-        <img src="{{(auth()->user()->urlImage!=null ? asset('storage/' . auth()->user()->urlImage) : asset('assets/userProfile.png'))}}" onerror="this.onerror=null; this.src='{{ asset('assets/userProfile.png') }}';" class="rounded-circle shadow border border-2 border-opacity-25 border-white" width="150" height="150" style="object-fit: cover;">
+        @if(auth()->user()->urlImage && Storage::disk('public')->exists(auth()->user()->urlImage))
+            <img src="{{ asset('storage/' . auth()->user()->urlImage) }}" class="rounded-circle object-fit-cover shadow-sm border border-white border-opacity-10"style="width: 150px; height: 150px;">
+        @else
+            <div class="rounded-circle d-flex align-items-center justify-content-center text-white fw-bold fs-1 shadow-sm flex-shrink-0" 
+                style="width: 150px; height: 150px; background-color: rgb(92, 101, 192);">
+                {{ strtoupper(substr(auth()->user()->name, 0, 1)) }}
+            </div>
+        @endif
     </div>
 
-    <div class="d-flex justify-content-center mb-2" >
-        <span class="text-white text-truncate text-center" style='font-size:1.5rem;width:90%;'>{{auth()->user()->user_name}}</span>
+    <div class="d-flex flex-column justify-content-center mb-2" >
+        <span class="text-white text-truncate text-center fs-2" >{{auth()->user()->name}}</span>
+        <span class="text-white-50 text-truncate text-center small">@<span>{{ auth()->user()->user_name }}</span></span>
     </div>
 
     <div class="d-flex justify-content-center mb-4" >

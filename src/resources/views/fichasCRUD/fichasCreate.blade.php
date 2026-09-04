@@ -1,4 +1,4 @@
-@extends('componentesCruds.masterAdd')
+@extends('componentes.masterAdd')
 
 @section('titulo','Criar nova ficha')
 @section('Home','Voltar')
