@@ -26,10 +26,10 @@ class User {
     required this.id,
     required this.name,
     required this.email,
-    required this.urlImage,
-    required this.token,
-    required this.idade,
-    required this.cidadeMora,
+    this.urlImage,
+    this.token,
+    this.idade,
+    this.cidadeMora,
     required this.user_name,
   });
 

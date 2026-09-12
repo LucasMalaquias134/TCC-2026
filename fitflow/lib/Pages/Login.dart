@@ -4,6 +4,7 @@ import 'package:fitflow/Splashes/Splash2.dart';
 import 'package:fitflow/WidgetsPersonalizados/ContainersWelcome.dart';
 import 'package:fitflow/WidgetsPersonalizados/TextFieldsDoLogin.dart';
 import 'package:fitflow/controle/authController.dart';
+import 'package:fitflow/modelo/api/usersApi.dart';
 import 'package:fitflow/modelo/classes/user.dart';
 import 'package:flutter/material.dart';
 
@@ -15,41 +16,31 @@ class Login extends StatefulWidget {
 }
 
 class _LoginState extends State<Login> {
-  TextEditingController nomeController = TextEditingController();
+  TextEditingController emailController = TextEditingController();
   TextEditingController senhaController = TextEditingController();
 
   final _formKey = GlobalKey<FormState>();
 
   void dispose() {
-    nomeController.dispose();
+    emailController.dispose();
     senhaController.dispose();
     super.dispose();
   }
 
-  void erroShowDialog() {
-    showDialog(
-      context: context,
-      builder: (BuildContext context) {
-        return AlertDialog(
-          title: Text('Atenção'),
-          content: Text('Usuario ou senha incorretos'),
-          actions: [
-            TextButton(
-              onPressed: () {
-                Navigator.pop(context);
-              },
-              child: Text('OK'),
-            ),
-          ],
-        );
-      },
+  void barraDeSucesso(String texto) {
+    SnackBar minhaSnack = SnackBar(
+      content: Text(texto),
+      backgroundColor: Colors.green,
+      duration: Duration(seconds: 6),
+      showCloseIcon: true,
     );
+    ScaffoldMessenger.of(context).showSnackBar(minhaSnack);
   }
 
-  void barraDeSucesso() {
+  void barraDeFracasso(String texto) {
     SnackBar minhaSnack = SnackBar(
-      content: Text('Login realizado com sucesso!'),
-      backgroundColor: Colors.green,
+      content: Text(texto),
+      backgroundColor: Colors.red,
       duration: Duration(seconds: 6),
       showCloseIcon: true,
     );
@@ -78,15 +69,18 @@ class _LoginState extends State<Login> {
                     children: [
                       Textfieldsdologin(
                         largura: 330,
-                        placeHolder: 'Nome do usuário ou email',
-                        controller: nomeController,
-                        icone: Icons.person_outline,
+                        placeHolder: 'Seu Email',
+                        controller: emailController,
+                        icone: Icons.mail_outline,
                         validador: (value) {
                           if (value == null || value.trim().isEmpty) {
                             return 'Por favor, preencha este campo';
                           }
                           if (value.length < 3) {
-                            return 'O nome precisa ter pelo menos 3 letras';
+                            return 'O email precisa ter pelo menos 3 caracteres';
+                          }
+                          if (!value.contains('@')) {
+                            return 'O email precisa ser válido';
                           }
                           return null;
                         },
@@ -94,7 +88,7 @@ class _LoginState extends State<Login> {
                       SizedBox(height: 20),
                       Textfieldsdologin(
                         largura: 330,
-                        placeHolder: 'Senha',
+                        placeHolder: 'Sua Senha',
                         controller: senhaController,
                         eSenha: true,
                         icone: Icons.lock_outline,
@@ -102,8 +96,8 @@ class _LoginState extends State<Login> {
                           if (value == null || value.trim().isEmpty) {
                             return 'Por favor, preencha este campo';
                           }
-                          if (value.length < 6) {
-                            return 'A senha precisa ter pelo menos 6 digitos';
+                          if (value.length < 8) {
+                            return 'A senha precisa ter pelo menos 8 digitos';
                           }
                           return null;
                         },
@@ -113,22 +107,26 @@ class _LoginState extends State<Login> {
                       GestureDetector(
                         onTap: () async {
                           if (_formKey.currentState!.validate()) {
-                            User? usuario = await Authcontroller.login(
-                              nomeController.text,
-                              nomeController.text,
+                            int resultado = await Usersapi.login(
+                              emailController.text,
                               senhaController.text,
                             );
 
-                            if (usuario != null) {
-                              barraDeSucesso();
-                              Navigator.pushReplacement(
-                                context,
-                                MaterialPageRoute(
-                                  builder: (context) => Splash2(3, usuario),
-                                ),
-                              );
+                            if (resultado == 200) {
+                              barraDeSucesso('Login realizado Com Sucesso!');
+                              /*Navigator.pushReplacement(
+                              context,
+                              MaterialPageRoute(
+                                builder: (context) =>
+                                    Splash2(3, Telaprincipal()),
+                              ),
+                            );*/
+                            } else if (resultado == 401) {
+                              barraDeFracasso('Senha ou Email incorretos!');
                             } else {
-                              erroShowDialog();
+                              barraDeFracasso(
+                                'Algo deu Errado Tente Novamente',
+                              );
                             }
                           }
                         },
