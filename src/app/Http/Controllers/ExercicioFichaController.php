@@ -16,12 +16,12 @@ class ExercicioFichaController extends Controller
      */
     public function index(string $id)
     {
-        $ficha = Ficha::findOrFail($id);
+        $ficha = Ficha::findOrFail(decrypt($id));
         if ($ficha->user_id !== Auth::user()->id) {
             abort(403, 'Acesso não autorizado.');
         }
         $exercicios = Exercicio::all();
-        return view('fichasExercicioCrud.listafilhaEditar',['ficha'=>$ficha,'naoEdicao'=>false,'exercicios'=>$exercicios]);
+        return view('fichasExercicioCrud.listafilhaEditar',['ficha'=>$ficha,'exercicios'=>$exercicios]);
     }
 
     /**

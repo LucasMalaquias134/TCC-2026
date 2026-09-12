@@ -37,23 +37,13 @@
         
         <div class="d-flex justify-content-between align-items-center">
             <p class="mb-3 px-1 fs-3 fw-bold text-white text-truncate">{{$ficha->name}}</p>
-            @if($naoEdicao == true)
             <ul class="navbar-nav">
                 <li class="nav-item">
-                    <a href="{{route('ficha_exercicio.index',['ficha_exercicio'=>$ficha->id])}}" class="btn btn-sm btn-outline-warning me-3">
+                    <a href="{{route('fichas.show',['ficha'=>encrypt($ficha->id)])}}" class="btn btn-sm btn-warning me-3">
                         <i class="bi bi-pencil"></i>
                     </a>
                 </li>
             </ul>
-            @else
-            <ul class="navbar-nav">
-                <li class="nav-item">
-                    <a href="{{route('fichas.show',['ficha'=>$ficha->id])}}" class="btn btn-sm btn-warning me-3">
-                        <i class="bi bi-pencil"></i>
-                    </a>
-                </li>
-            </ul>
-            @endif
         </div>
 
         @for($i=0; $i<count($diasSemana); $i++)
@@ -87,7 +77,7 @@
                         @endphp
 
                         @foreach($exerciciosSeparados as $exercicioForEach)
-                            <tr style="border-bottom: 1px solid rgba(255, 255, 255, 0.04);">
+                            <tr style="border-bottom: 1px solid rgba(255, 255, 255, 0.04);" id='trVei'>
                                 <td class="text-center fw-bold text-muted" id='ordem'>{{$exercicioForEach->pivot->ordem}}</td>
                                 <td class="ps-3 fw-semibold text-white" id='treino' data-codigo="{{$exercicioForEach->id}}">{{$exercicioForEach->treino}}</td>
                                 <td class="text-white-50 small text-truncate" style="max-width: 250px;" id='descricao'>
@@ -104,7 +94,7 @@
                                         <i class="bi bi-trash3"></i>
                                     </button>
                                     <button type="button"  
-                                            onclick="editarExercicio(this.parentElement.parentElement,{{$exercicioForEach->pivot->id}},{{$ficha->id}})" 
+                                            onclick="editarExercicio(this.parentElement.parentElement,{{$exercicioForEach->pivot->id}},'{{encrypt($ficha->id)}}')" 
                                             class="btn btn-sm btn-outline-warning m-1" 
                                             id="editar"
                                             title="Editar">
@@ -370,18 +360,18 @@
             nomeTr.remove();
 
             numeroDeTrNovos = pai.querySelectorAll('#trNovo').length;
+            numeroDeTrVei = pai.querySelectorAll('#trVei').length;
 
             ordemNova = numeroDeTrNovos;
 
-            trTodos = pai.querySelectorAll('tr');
-
             for (let i = 0; i < numeroDeTrNovos; i++) {
-                if(trTodos[i].id!='filhoAntigoTr'){
-                    trTodos[i].querySelector('#ordem').parentNode.innerHTML=
-                        `<input type="hidden" name="dia" value="${dia}">
-                        <input type="hidden" id='ordem' name="ordem[]" value="${i+1}"> 
-                        ${i+1}`;
-                }
+                
+                pai.querySelectorAll('#trNovo')[i].querySelector('#ordem').parentNode.innerHTML=
+                    `<input type="hidden" name="dia" value="${dia}">
+                    <input type="hidden" id='ordem' name="ordem[]" value="${numeroDeTrVei+1}"> 
+                    ${numeroDeTrVei+1}`;
+
+                numeroDeTrVei++;
             }
         }
 
@@ -389,59 +379,3 @@
     @endpush
 
 @endsection
-
-{{--<tr style="border-bottom: 1px solid rgba(255, 255, 255, 0.04);">
-                            <td class="text-center fw-bold text-muted" title="Ordem do exercicio">
-                                    {{($ordem+1)}}
-                                    <input type="hidden" id="ordem_{{$i}}" name="ordem" value="{{ ($ordem+1) }}">
-                                    <input type="hidden" id="dia_{{$i}}" name="dia" value="{{$i}}">
-                                </td>
-                                <td class="ps-3 fw-semibold text-white" title="Nome do exercicio"> 
-                                    <input type="text" 
-                                        class="form-control @error('treino') is-invalid @enderror" 
-                                        id="treino_{{$i}}" 
-                                        name="treino" 
-                                        style="background-color: rgba(255,255,255,0.07)!important;" 
-                                        placeholder='Nome do exercicio'>
-                                </td>
-                                <td class="text-white-50 small text-truncate" style="max-width: 250px;" title="Descrição do exercicio">
-                                    <input type="text" 
-                                        class="form-control @error('descricao') is-invalid @enderror" 
-                                        id="descricao_{{$i}}" 
-                                        name="descricao" 
-                                        style="background-color: rgba(255,255,255,0.07)!important;" 
-                                        placeholder='Descrição do exercicio'>
-                                </td>
-                                <td class="text-center" title="numero de séries">
-                                    <input type="number" 
-                                            class="form-control @error('numero_de_series') is-invalid @enderror" 
-                                            id="numero de series_{{$i}}" 
-                                            name="numero de series" 
-                                            style="background-color: rgba(255,255,255,0.07)!important;" 
-                                            placeholder='Numero de séries'>
-                                </td>
-                                <td class="text-center text-light" title="Numero de repetições">
-                                    <input type="number" 
-                                            class="form-control @error('numero_de_repeticoes') is-invalid @enderror" 
-                                            id="numero de repeticoes_{{$i}}" 
-                                            name="numero de repeticoes" 
-                                            style="background-color: rgba(255,255,255,0.07)!important;" 
-                                            placeholder='Numero de repetições'>
-                                </td>
-                                <td class="text-center text-warning fw-medium" title="Peso em kg">
-                                    <input type="number" step="any"
-                                            class="form-control @error('peso') is-invalid @enderror" 
-                                            id="peso_{{$i}}" 
-                                            name="peso" 
-                                            style="background-color: rgba(255,255,255,0.07)!important;" 
-                                            placeholder='Peso em kg'>
-                                </td>
-                                <td class="text-center text-info small" title="Descanso em segundos">
-                                    <input type="number" 
-                                            class="form-control @error('descanso') is-invalid @enderror" 
-                                            id="descanso_{{$i}}" 
-                                            name="descanso" 
-                                            style="background-color: rgba(255,255,255,0.07)!important;" 
-                                            placeholder='Descanso em segundos'>
-                                </td>
-                        </tr>--}}

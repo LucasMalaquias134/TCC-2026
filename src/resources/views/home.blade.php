@@ -108,7 +108,7 @@
                     <div class="card rounded-4 d-flex flex-row align-items-center p-3 shadow-lg gap-3 text-start w-100 "
                         style="background-color: #1b1437; min-height: 150px;">
                         
-                        <a href="{{ route('fichas.show',['ficha'=>$ficha->id]) }}" class="stretched-link" style="text-decoration: none;"></a>
+                        <a href="{{ route('fichas.show',['ficha'=>encrypt($ficha->id)]) }}" class="stretched-link" style="text-decoration: none;"></a>
                         
                         <div class="flex-grow-1 text-truncate pe-2">
                             <h4 class="fw-bold text-light m-0 text-truncate" title="{{ $ficha->name }}">

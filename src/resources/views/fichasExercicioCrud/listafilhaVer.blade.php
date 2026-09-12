@@ -7,23 +7,13 @@
     
     <div class="d-flex justify-content-between align-items-center">
         <p class="mb-3 px-1 fs-3 fw-bold text-white text-truncate">{{$ficha->name}}</p>
-        @if($naoEdicao == true)
         <ul class="navbar-nav">
             <li class="nav-item">
-                <a href="{{route('ficha_exercicio.index',['ficha_exercicio'=>$ficha->id])}}" class="btn btn-sm btn-outline-warning me-3">
+                <a href="{{route('ficha_exercicio.index',['ficha_exercicio'=>encrypt($ficha->id)])}}" class="btn btn-sm btn-outline-warning me-3">
                     <i class="bi bi-pencil"></i>
                 </a>
             </li>
         </ul>
-        @else
-        <ul class="navbar-nav">
-            <li class="nav-item">
-                <a href="{{route('fichas.show',['ficha'=>$ficha->id])}}" class="btn btn-sm btn-warning me-3">
-                    <i class="bi bi-pencil"></i>
-                </a>
-            </li>
-        </ul>
-        @endif
     </div>
 
     @php
