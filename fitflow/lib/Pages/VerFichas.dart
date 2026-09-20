@@ -18,21 +18,21 @@ class _VerfichasState extends State<Verfichas> {
 
   Future<void> carregarDados() async {
     try {
-      final dados = await FichaExerciciocontroller.listarFichasExercicios(
-        widget.ficha.id,
-      );
+      List<FichaExercicio>? listaAchada =
+          await FichaExerciciocontroller.listarFichaExercicio(widget.ficha.id);
+
       setState(() {
-        FichasExercicioArray = dados;
+        FichasExercicioArray = listaAchada ?? [];
       });
-    } catch (x) {
-      print("Sem dados persistidos $x");
+    } catch (e) {
+      print("Sem dados persistidos ( metodo 1 ) $e");
     }
   }
 
   @override
   void initState() {
-    carregarDados();
     super.initState();
+    carregarDados();
   }
 
   @override
@@ -69,17 +69,30 @@ class _VerfichasState extends State<Verfichas> {
             'Sabado',
             'Domingo',
           ];
+          List<String> arrayDiasSimples = [
+            'seg',
+            'ter',
+            'qua',
+            'qui',
+            'sex',
+            'sab',
+            'dom',
+          ];
 
-          String diaAtualDaSemana = arrayDias[index];
+          String diaAtualDaSemana = arrayDiasSimples[index];
 
           try {
-            final fichaExercicioSolitario = FichasExercicioArray.firstWhere(
+            final fichaExercicioDia = FichasExercicioArray.where(
               (element) => element.dias_semana == diaAtualDaSemana,
-            );
+            ).toList();
 
-            return Tabela(fichaExercicio: fichaExercicioSolitario);
+            return Tabela(
+              fichaExercicio: fichaExercicioDia,
+              dia: arrayDias[index],
+            );
           } catch (e) {
-            return Tabela(dia: diaAtualDaSemana, eDia: false);
+            print('Deu erro aqui no return de um listview builder : $e');
+            return null;
           }
         },
       ),

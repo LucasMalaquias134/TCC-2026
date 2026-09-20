@@ -1,5 +1,7 @@
+import 'package:fitflow/modelo/api/rotas.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 class cartaoPadrao extends StatelessWidget {
   const cartaoPadrao({
@@ -51,17 +53,11 @@ class cartaoPadrao extends StatelessWidget {
 }
 
 //===========================================================================================
-
+//ainda falta eu jogar o usuario para web
 class cartaoNavigator extends StatelessWidget {
   final IconData icone;
-  final Widget classe;
   final String titulo;
-  const cartaoNavigator({
-    required this.icone,
-    required this.classe,
-    required this.titulo,
-    super.key,
-  });
+  const cartaoNavigator({required this.icone, required this.titulo, super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -71,11 +67,14 @@ class cartaoNavigator extends StatelessWidget {
       children: [
         Expanded(
           child: GestureDetector(
-            onTap: () {
-              Navigator.push(
-                context,
-                MaterialPageRoute(builder: (context) => classe),
-              );
+            onTap: () async {
+              final Uri url = Uri.parse(Rotas.rota);
+
+              if (await canLaunchUrl(url)) {
+                await launchUrl(url, mode: LaunchMode.externalApplication);
+              } else {
+                throw 'Não Deu para abrir: $url';
+              }
             },
             child: Card(
               child: Container(
@@ -92,7 +91,7 @@ class cartaoNavigator extends StatelessWidget {
                         SizedBox(width: 5),
                         Container(
                           child: Text(
-                            '$titulo (web View)',
+                            '$titulo',
                             style: TextStyle(
                               color: Colors.white,
                               fontFamily: 'fredoka',

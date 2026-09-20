@@ -1,6 +1,5 @@
 import 'package:fitflow/modelo/classes/ficha.dart';
 import 'package:flutter/material.dart';
-import 'package:intl/intl.dart';
 
 class Verfichasdetalhada extends StatelessWidget {
   final Ficha ficha;
@@ -41,11 +40,11 @@ class Verfichasdetalhada extends StatelessWidget {
                   ajudaRapida(
                     titulo1: 'Datas da Ficha',
                     titulo2:
-                        'De ${DateFormat('dd/MM/yyyy').format(DateTime.tryParse(ficha.data_inicio ?? '')!)} até ${DateFormat('dd/MM/yyyy').format(DateTime.tryParse(ficha.data_fim ?? '')!)}',
+                        'De ${(ficha.data_inicio ?? '')} até ${(ficha.data_fim ?? '')}',
                   ),
                   ajudaRapida(
                     titulo1: 'Descrição da Ficha',
-                    titulo2: ficha.descricao ?? 'Não tem descrição',
+                    titulo2: ficha.descricao ?? 'Sem descrição',
                   ),
                 ],
               ),
@@ -105,7 +104,7 @@ class ajudaRapida extends StatelessWidget {
             ),
             elevation: 4,
             color: Color(0xFF1B1437),
-            margin: EdgeInsets.symmetric(horizontal: 10, vertical: 5),
+            margin: EdgeInsets.symmetric(horizontal: 15, vertical: 5),
           ),
         ),
       ],

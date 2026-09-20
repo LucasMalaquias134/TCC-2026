@@ -3,15 +3,17 @@ import 'package:fitflow/Pages/VerFichasDetalhada.dart';
 import 'package:fitflow/WidgetsPersonalizados/AppBarTodos.dart';
 import 'package:fitflow/WidgetsPersonalizados/widgetsDoEditarUser.dart';
 import 'package:fitflow/controle/fichaController.dart';
+import 'package:fitflow/controle/tokenController.dart';
+import 'package:fitflow/modelo/api/apiGeral.dart';
+import 'package:fitflow/modelo/api/usersApi.dart';
 import 'package:fitflow/modelo/classes/ficha.dart';
 import 'package:fitflow/modelo/classes/user.dart';
+import 'package:fitflow/modelo/local_storage_service.dart';
 import 'package:flutter/material.dart';
-import 'package:intl/intl.dart';
 import 'dart:math' as math;
 
 class Fichas extends StatefulWidget {
-  final User usuario;
-  const Fichas({required this.usuario, super.key});
+  const Fichas({super.key});
 
   @override
   State<Fichas> createState() => _FichasState();
@@ -21,16 +23,23 @@ class _FichasState extends State<Fichas> {
   TextEditingController pesquisaController = TextEditingController();
   bool ordem = true;
 
-  late List<Ficha> FichasClasse = [];
+  User? usuario;
+  String? token;
+
+  List<Ficha> FichasClasse = [];
 
   Future<void> carregarDados() async {
     try {
-      final dados = await Fichacontroller.listarFichas('', ordem);
+      User? usuarioAchado = await LocalStorageService.carregarUsuario();
+      String? tokenAchado = await Tokencontroller.stringTokenCarregado();
+      List<Ficha> fichasAchadas = await Fichacontroller.listarFichas('', true);
       setState(() {
-        FichasClasse = dados;
+        usuario = usuarioAchado;
+        FichasClasse = fichasAchadas;
+        token = tokenAchado;
       });
-    } catch (x) {
-      print("Sem dados persistidos $x");
+    } catch (e) {
+      print("Sem dados persistidos ( metodo 1 ) $e");
     }
   }
 
@@ -40,10 +49,41 @@ class _FichasState extends State<Fichas> {
     carregarDados();
   }
 
+  void barraDeFracasso(String texto) {
+    SnackBar minhaSnack = SnackBar(
+      content: Text(texto),
+      backgroundColor: Colors.red,
+      duration: Duration(seconds: 6),
+      showCloseIcon: true,
+    );
+    ScaffoldMessenger.of(context).showSnackBar(minhaSnack);
+  }
+
   @override
   Widget build(BuildContext context) {
+    if (usuario == null || token == null) {
+      return const Scaffold(
+        body: Center(
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              Text(
+                'Carregando suas informações...',
+                style: TextStyle(
+                  color: Color(0xFF6E5CFF),
+                  fontFamily: 'fredoka',
+                  fontSize: 16,
+                ),
+              ),
+              CircularProgressIndicator(),
+            ],
+          ),
+        ),
+      );
+    }
+
     return Scaffold(
-      appBar: Appbartodos(usuario: widget.usuario),
+      appBar: Appbartodos(usuario: usuario!),
       body: Container(
         padding: EdgeInsets.symmetric(vertical: 20, horizontal: 10),
         color: Color(0xFF130D26),
@@ -112,38 +152,84 @@ class _FichasState extends State<Fichas> {
                       ),
                     ),
                   )
-                : ListView.builder(
-                    shrinkWrap: true,
-                    padding: EdgeInsets.symmetric(horizontal: 15),
-                    itemCount: FichasClasse.length,
-                    itemBuilder: (context, index) {
-                      final ficha = FichasClasse[index];
+                : Expanded(
+                    child: RefreshIndicator(
+                      color: Color(0xFF6E5CFF),
+                      onRefresh: () async {
+                        int resultado1 = await Usersapi.atualizaDados(token!);
+                        int resultado2 = await Apigeral.atualizaInfo(
+                          token!,
+                          usuario!.id,
+                        );
+                        setState(() {
+                          carregarDados();
+                        });
+                        if (resultado1 == 0 || resultado2 == 0) {
+                          barraDeFracasso(
+                            'Erro de conexão, tente novamente mais tarde',
+                          );
+                        } else if (resultado1 != 200 && resultado2 != 200) {
+                          barraDeFracasso(
+                            'Algo deu errado, tente novamente mais tarde, codigo erro : $resultado1 e $resultado2',
+                          );
+                        }
+                      },
+                      child: ListView.builder(
+                        shrinkWrap: true,
+                        padding: EdgeInsets.symmetric(horizontal: 15),
+                        itemCount: FichasClasse.length,
+                        itemBuilder: (context, index) {
+                          final ficha = FichasClasse[index];
 
-                      return Card(
-                        shape: RoundedRectangleBorder(
-                          side: BorderSide(
-                            color: Colors.indigo.withValues(alpha: 0.3),
-                          ),
-                          borderRadius: BorderRadius.circular(10),
-                        ),
+                          return Card(
+                            shape: RoundedRectangleBorder(
+                              side: BorderSide(
+                                color: Colors.indigo.withValues(alpha: 0.3),
+                              ),
+                              borderRadius: BorderRadius.circular(10),
+                            ),
 
-                        color: Color(0xFF1B1437),
-                        elevation: 2,
-                        margin: EdgeInsets.symmetric(vertical: 6),
-                        child: ListTile(
-                          trailing: Icon(
-                            Icons.fitness_center,
-                            color: Color(0xFF6C63FF),
-                            size: 50,
-                          ),
-                          title:
-                              (ficha.data_inicio != null &&
-                                  ficha.data_fim != null)
-                              ? Column(
-                                  mainAxisAlignment: MainAxisAlignment.start,
-                                  crossAxisAlignment: CrossAxisAlignment.start,
-                                  children: [
-                                    Text(
+                            color: Color(0xFF1B1437),
+                            elevation: 2,
+                            margin: EdgeInsets.symmetric(vertical: 6),
+                            child: ListTile(
+                              trailing: Icon(
+                                Icons.fitness_center,
+                                color: Color(0xFF6C63FF),
+                                size: 50,
+                              ),
+                              title:
+                                  (ficha.data_inicio != null &&
+                                      ficha.data_fim != null)
+                                  ? Column(
+                                      mainAxisAlignment:
+                                          MainAxisAlignment.start,
+                                      crossAxisAlignment:
+                                          CrossAxisAlignment.start,
+                                      children: [
+                                        Text(
+                                          ficha.name,
+                                          style: TextStyle(
+                                            color: Colors.white,
+                                            fontFamily: 'fredoka',
+                                            fontSize: 22,
+                                          ),
+                                          maxLines: 1,
+                                          overflow: TextOverflow.ellipsis,
+                                        ),
+                                        Text(
+                                          '${ficha.data_inicio ?? ''} - ${ficha.data_fim ?? ''}',
+                                          style: TextStyle(
+                                            color: Colors.white.withValues(
+                                              alpha: 0.4,
+                                            ),
+                                            fontFamily: 'fredoka',
+                                            fontSize: 15,
+                                          ),
+                                        ),
+                                      ],
+                                    )
+                                  : Text(
                                       ficha.name,
                                       style: TextStyle(
                                         color: Colors.white,
@@ -153,60 +239,43 @@ class _FichasState extends State<Fichas> {
                                       maxLines: 1,
                                       overflow: TextOverflow.ellipsis,
                                     ),
-                                    Text(
-                                      '${DateFormat('dd/MM/yyyy').format(DateTime.tryParse(ficha.data_inicio ?? '')!)} - ${DateFormat('dd/MM/yyyy').format(DateTime.tryParse(ficha.data_fim ?? '')!)}',
+                              subtitle: ficha.descricao != null
+                                  ? Text(
+                                      ficha.descricao!,
                                       style: TextStyle(
                                         color: Colors.white.withValues(
                                           alpha: 0.4,
                                         ),
                                         fontFamily: 'fredoka',
-                                        fontSize: 15,
+                                        fontSize: 18,
                                       ),
-                                    ),
-                                  ],
-                                )
-                              : Text(
-                                  ficha.name,
-                                  style: TextStyle(
-                                    color: Colors.white,
-                                    fontFamily: 'fredoka',
-                                    fontSize: 22,
+                                      maxLines: 1,
+                                      overflow: TextOverflow.ellipsis,
+                                    )
+                                  : null,
+                              onTap: () {
+                                Navigator.push(
+                                  context,
+                                  MaterialPageRoute(
+                                    builder: (context) =>
+                                        Verfichas(ficha: ficha),
                                   ),
-                                  maxLines: 1,
-                                  overflow: TextOverflow.ellipsis,
-                                ),
-                          subtitle: ficha.descricao != null
-                              ? Text(
-                                  ficha.descricao!,
-                                  style: TextStyle(
-                                    color: Colors.white.withValues(alpha: 0.4),
-                                    fontFamily: 'fredoka',
-                                    fontSize: 18,
+                                );
+                              },
+                              onLongPress: () {
+                                Navigator.push(
+                                  context,
+                                  MaterialPageRoute(
+                                    builder: (context) =>
+                                        Verfichasdetalhada(ficha: ficha),
                                   ),
-                                  maxLines: 1,
-                                  overflow: TextOverflow.ellipsis,
-                                )
-                              : null,
-                          onTap: () async {
-                            Navigator.push(
-                              context,
-                              MaterialPageRoute(
-                                builder: (context) => Verfichas(ficha: ficha),
-                              ),
-                            );
-                          },
-                          onLongPress: () async {
-                            Navigator.push(
-                              context,
-                              MaterialPageRoute(
-                                builder: (context) =>
-                                    Verfichasdetalhada(ficha: ficha),
-                              ),
-                            );
-                          },
-                        ),
-                      );
-                    },
+                                );
+                              },
+                            ),
+                          );
+                        },
+                      ),
+                    ),
                   ),
           ],
         ),

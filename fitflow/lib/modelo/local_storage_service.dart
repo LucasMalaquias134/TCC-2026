@@ -1,16 +1,16 @@
 import 'dart:convert';
 
-import 'package:fitflow/modelo/classes/exercicio.dart';
 import 'package:fitflow/modelo/classes/ficha.dart';
 import 'package:fitflow/modelo/classes/ficha_exercicio.dart';
+import 'package:fitflow/modelo/classes/token.dart';
 import 'package:fitflow/modelo/classes/user.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 class LocalStorageService {
   static const String LISTA_USERS = 'lista_users';
-  static const String LISTA_EXERCICIOS = 'lista_exercicios';
   static const String LISTA_FICHA = 'lista_fichas';
   static const String LISTA_FICHA_EXERCICIOS = 'lista_fichas_exercicios';
+  static const String TOKEN = 'token';
 
   //===Recurso do usuario==========================================================================
   static Future<void> salvarUsuario(User usuario) async {
@@ -31,22 +31,6 @@ class LocalStorageService {
   static Future<void> deslogarUsuario() async {
     final SharedPreferences prefs = await SharedPreferences.getInstance();
     await prefs.remove(LISTA_USERS);
-  }
-
-  //===Recurso do exercicio==========================================================================
-  static Future<void> salvarExercicios(List<Exercicio> lista) async {
-    final SharedPreferences prefs = await SharedPreferences.getInstance();
-    final String encodedData = Exercicio.encode(lista);
-    await prefs.setString(LISTA_EXERCICIOS, encodedData);
-  }
-
-  static Future<List<Exercicio>> carregarExercicios() async {
-    final SharedPreferences prefs = await SharedPreferences.getInstance();
-    final String? exercicioJson = prefs.getString(LISTA_EXERCICIOS);
-
-    if (exercicioJson == null) return [];
-
-    return Exercicio.decode(exercicioJson);
   }
 
   //===Recurso de fichas==========================================================================
@@ -79,5 +63,26 @@ class LocalStorageService {
     if (fichaExercicioJson == null) return [];
 
     return FichaExercicio.decode(fichaExercicioJson);
+  }
+
+  //===Recurso do token==========================================================================
+  static Future<void> salvarToken(Token token) async {
+    final SharedPreferences prefs = await SharedPreferences.getInstance();
+    final String encodedData = json.encode(token.toMap());
+    await prefs.setString(TOKEN, encodedData);
+  }
+
+  static Future<Token?> carregarToken() async {
+    final SharedPreferences prefs = await SharedPreferences.getInstance();
+    final String? tokenJson = prefs.getString(TOKEN);
+
+    if (tokenJson == null) return null;
+
+    return Token.fromMap(json.decode(tokenJson));
+  }
+
+  static Future<void> deslogarToken() async {
+    final SharedPreferences prefs = await SharedPreferences.getInstance();
+    await prefs.remove(TOKEN);
   }
 }

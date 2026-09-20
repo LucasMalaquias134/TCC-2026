@@ -231,7 +231,7 @@
                         break;
                 
                     case 'descricao':
-                        valorASerGuardado = filho.innerText;
+                        valorASerGuardado = filho.innerText.replace("----","");
                         filho.innerHTML = 
                         `
                             <input type="text" form='meuEditarForm' class="form-control border-0 text-white" value="${valorASerGuardado}" name="descricao" style="background-color: rgba(255,255,255,0.07)!important;" placeholder="Descrição do exercício">

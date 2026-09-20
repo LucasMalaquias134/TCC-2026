@@ -24,5 +24,11 @@ class Exercicio extends Model
                     ->wherePivot('deleted_at', null)
                     ->withTimestamps();
     }
+    protected static function booted()
+    {
+        static::deleting(function ($exercicio) {
+            Ficha_exercicio::where('exercicio_id', $exercicio->id)->delete();
+        });
+    }
 
 }

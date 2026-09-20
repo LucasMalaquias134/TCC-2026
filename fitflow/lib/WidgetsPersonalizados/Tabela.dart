@@ -1,36 +1,16 @@
-import 'package:fitflow/controle/exercicioController.dart';
-import 'package:fitflow/modelo/classes/exercicio.dart';
 import 'package:fitflow/modelo/classes/ficha_exercicio.dart';
 import 'package:flutter/material.dart';
 
 class Tabela extends StatefulWidget {
-  final FichaExercicio? fichaExercicio;
-  final String? dia;
-  final bool? eDia;
+  final List<FichaExercicio> fichaExercicio;
+  final String dia;
 
-  const Tabela({this.fichaExercicio, this.dia, this.eDia = true, super.key});
+  const Tabela({required this.fichaExercicio, required this.dia, super.key});
   @override
   State<Tabela> createState() => _TabelaState();
 }
 
 class _TabelaState extends State<Tabela> {
-  late List<Exercicio> exerciciosArray = [];
-
-  Future<void> carregarDados() async {
-    try {
-      if (widget.fichaExercicio != null) {
-        final dados = await Exerciciocontroller.listarExercicios(
-          widget.fichaExercicio!,
-        );
-        setState(() {
-          exerciciosArray = dados;
-        });
-      }
-    } catch (x) {
-      print("Sem dados persistidos $x");
-    }
-  }
-
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -50,13 +30,8 @@ class _TabelaState extends State<Tabela> {
           collapsedBackgroundColor: Color(0xFF1B1437),
           iconColor: Colors.white,
           collapsedIconColor: Colors.white.withValues(alpha: 0.4),
-          onExpansionChanged: (value) async {
-            await carregarDados();
-          },
           title: Text(
-            (widget.fichaExercicio != null)
-                ? '${widget.fichaExercicio!.dias_semana}'
-                : '${widget.dia!}',
+            widget.dia,
             style: TextStyle(
               fontSize: 22,
               fontFamily: 'fredoka',
@@ -69,7 +44,7 @@ class _TabelaState extends State<Tabela> {
               padding: EdgeInsets.all(12),
               child: Column(
                 children: [
-                  !(widget.eDia == true)
+                  widget.fichaExercicio.isEmpty
                       ? Card(
                           shape: RoundedRectangleBorder(
                             side: BorderSide(
@@ -127,13 +102,21 @@ class _TabelaState extends State<Tabela> {
                                 DataColumn(label: Text('Descanso')),
                                 DataColumn(label: Text('Descrição')),
                               ],
-                              rows: exerciciosArray.map((exercicio) {
+                              rows: widget.fichaExercicio.map((exercicio) {
                                 return DataRow(
                                   cells: [
                                     DataCell(Text(exercicio.ordem.toString())),
                                     DataCell(Text(exercicio.treino)),
-                                    DataCell(Text('${exercicio.qntdSeries}')),
-                                    DataCell(Text('${exercicio.qtndRep}')),
+                                    DataCell(
+                                      Text(
+                                        '${exercicio.qntdSeries == 0 ? '-' : exercicio.qntdSeries}',
+                                      ),
+                                    ),
+                                    DataCell(
+                                      Text(
+                                        '${exercicio.qntdRep == 0 ? '-' : exercicio.qntdRep}',
+                                      ),
+                                    ),
                                     DataCell(
                                       Text(
                                         exercicio.peso != null

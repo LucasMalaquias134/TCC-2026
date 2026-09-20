@@ -1,78 +1,41 @@
-import 'dart:convert';
-
 import 'package:fitflow/modelo/classes/ficha_exercicio.dart';
+import 'package:fitflow/modelo/local_storage_service.dart';
+
 //import 'package:fitflow/modelo/local_storage_service.dart';
 
 class FichaExerciciocontroller {
-  static Future<List<FichaExercicio>> listarFichasExercicios(int id) async {
-    String guardadoNoSever = '''
-    {
-      "ficha_exercicios": [
-        {
-          "ficha_id": 101,
-          "exercicio_id": 501,
-          "dias_semana": "Segunda"
-        },
-        {
-          "ficha_id": 101,
-          "exercicio_id": 502,
-          "dias_semana": "Quarta"
-        },
-        {
-          "ficha_id": 102,
-          "exercicio_id": 502,
-          "dias_semana": "Segunda"
-        },
-        {
-          "ficha_id": 102,
-          "exercicio_id": 507,
-          "dias_semana": "Terça"
-        },
-        {
-          "ficha_id": 102,
-          "exercicio_id": 503,
-          "dias_semana": "Quarta"
-        },
-        {
-          "ficha_id": 102,
-          "exercicio_id": 503,
-          "dias_semana": "Quinta"
-        },
-        {
-          "ficha_id": 102,
-          "exercicio_id": 507,
-          "dias_semana": "Sexta"
-        },
-        {
-          "ficha_id": 102,
-          "exercicio_id": 503,
-          "dias_semana": "Sexta"
-        },
-        {
-          "ficha_id": 102,
-          "exercicio_id": 501,
-          "dias_semana": "Sexta"
-        }
-      ]
-    }
-    ''';
-
+  static Future<List<FichaExercicio>?> listarFichaExercicio(int id) async {
     try {
-      Map<String, dynamic> dadosDecodificados = json.decode(guardadoNoSever);
-      List<dynamic> listaBruta = dadosDecodificados['ficha_exercicios'];
+      List<FichaExercicio> listaDeFichaExercicio =
+          await LocalStorageService.carregarFichasExercicios();
 
-      List<FichaExercicio> fichaExercicio = listaBruta
-          .map((item) => FichaExercicio.fromMap(item))
-          .where((fichaExercicio) => fichaExercicio.ficha_id == id)
+      List<FichaExercicio> listaOrdenada = listaDeFichaExercicio
+          .where((element) => element.ficha_id == id)
           .toList();
 
-      return fichaExercicio;
+      listaOrdenada.sort((a, b) => a.ordem.compareTo(b.ordem));
+
+      return listaOrdenada;
     } catch (e) {
+      print(
+        'deu erro aqui no ficha_exercicioController.listarfichaexercicios : $e',
+      );
       return [];
     }
+  }
 
-    /*List<FichaExercicio> fichasExercicio = await LocalStorageService.carregarFichasExercicios();
+  static Future<bool> guardarFichaExercicio(
+    List<FichaExercicio> fichaExercicios,
+  ) async {
+    try {
+      await LocalStorageService.salvarFichasExercicios(fichaExercicios);
 
-    return fichasExercicio;*/
+      return true;
+    } catch (e) {
+      print(
+        'Erro aqui no fichaExercicioController ( guardar fichaExercicio ) $e',
+      );
+      return false;
+    }
   }
 }

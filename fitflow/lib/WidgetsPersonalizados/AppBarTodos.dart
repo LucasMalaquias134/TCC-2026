@@ -2,7 +2,8 @@ import 'dart:io';
 
 import 'package:fitflow/Pages/Welcome.dart';
 import 'package:fitflow/Splashes/SplashEntrouAplicativo.dart';
-import 'package:fitflow/controle/authController.dart';
+import 'package:fitflow/controle/tokenController.dart';
+import 'package:fitflow/modelo/api/usersApi.dart';
 import 'package:fitflow/modelo/classes/user.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -20,8 +21,30 @@ class Appbartodos extends StatefulWidget implements PreferredSizeWidget {
 }
 
 class _AppbartodosState extends State<Appbartodos> {
+  String? token;
+
+  Future<void> carregarDados() async {
+    try {
+      String? dado = await Tokencontroller.stringTokenCarregado();
+      setState(() {
+        token = dado;
+      });
+    } catch (e) {
+      print("Sem dados persistido $e");
+    }
+  }
+
+  @override
+  void initState() {
+    super.initState();
+    carregarDados();
+  }
+
   @override
   Widget build(BuildContext context) {
+    if (token == null) {
+      return Text('');
+    }
     return AppBar(
       automaticallyImplyLeading: false,
       toolbarHeight: 70,
@@ -70,15 +93,17 @@ class _AppbartodosState extends State<Appbartodos> {
                   color: Color(0xFF1B1437),
                   onSelected: (String valor) async {
                     if (valor == 'deslogar') {
-                      Navigator.pushAndRemoveUntil(
-                        context,
-                        MaterialPageRoute(
-                          builder: (context) =>
-                              Splashentrouaplicativo(5, Welcome()),
-                        ),
-                        (route) => false,
-                      );
-                      await Authcontroller.deslogarUsuario();
+                      int resultado = await Usersapi.logout(token!);
+                      if (resultado == 204) {
+                        Navigator.pushAndRemoveUntil(
+                          context,
+                          MaterialPageRoute(
+                            builder: (context) =>
+                                Splashentrouaplicativo(5, Welcome()),
+                          ),
+                          (route) => false,
+                        );
+                      }
                       //lógica para deslogar aqui
                     } else if (valor == 'sair') {
                       SystemNavigator.pop();

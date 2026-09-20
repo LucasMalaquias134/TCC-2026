@@ -1,11 +1,9 @@
 import 'package:fitflow/Pages/EditarUser.dart';
 import 'package:fitflow/Pages/Fichas.dart';
-import 'package:fitflow/modelo/classes/user.dart';
 import 'package:flutter/material.dart';
 
 class Home extends StatefulWidget {
-  final User usuario;
-  const Home({required this.usuario, super.key});
+  const Home({super.key});
 
   @override
   State<Home> createState() => _HomeState();
@@ -16,10 +14,7 @@ class _HomeState extends State<Home> {
 
   @override
   Widget build(BuildContext context) {
-    final List<Widget> classes = [
-      Fichas(usuario: widget.usuario),
-      Editaruser(usuario: widget.usuario),
-    ];
+    final List<Widget> classes = [Fichas(), Editaruser()];
     return Scaffold(
       backgroundColor: Colors.transparent,
       body: classes[selecionado],

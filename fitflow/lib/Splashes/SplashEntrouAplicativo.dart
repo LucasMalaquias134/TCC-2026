@@ -40,7 +40,7 @@ class _SplashentrouaplicativoState extends State<Splashentrouaplicativo> {
               height: 50,
               width: 50,
               child: CircularProgressIndicator(
-                color: Colors.white,
+                color: Color(0xFF6E5CFF),
                 backgroundColor: Colors.transparent,
                 strokeWidth: 1.5,
               ),

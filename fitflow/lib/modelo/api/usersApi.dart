@@ -1,47 +1,51 @@
 import 'dart:convert';
+import 'package:fitflow/controle/authController.dart';
 import 'package:fitflow/modelo/api/rotas.dart';
+import 'package:fitflow/modelo/classes/token.dart';
 import 'package:fitflow/modelo/classes/user.dart';
 import 'package:fitflow/modelo/local_storage_service.dart';
 import 'package:http/http.dart' as http;
 
 class Usersapi {
-  /*static Future<int> registerUser(
-    String nome,
-    String email,
-    String senha,
-  ) async {
-    String caminho = '${Rotas.rotaApi}register';
-    final url = Uri.parse(caminho);
+  static Future<int> atualizaDados(String token) async {
+    final url = Uri.parse('${Rotas.rotaApi}me');
 
-    final dadosEnviar = {'name': nome, 'email': email, 'password': senha};
-
-    final response = await http.post(
-      url,
-      headers: {
-        'Content-Type': 'application/json',
-        'Accept': 'application/json',
-      },
-      body: jsonEncode(dadosEnviar),
-    );
-
-    if (response.statusCode == 201) {
-      final Map<String, dynamic> responseData = jsonDecode(response.body);
-      print(responseData);
-
-      User usuario = User(
-        id: responseData['user']['id'],
-        name: responseData['user']['name'],
-        email: responseData['user']['email'],
-        token: responseData['access_token'],
+    try {
+      final response = await http.get(
+        url,
+        headers: {
+          'Content-Type': 'application/json',
+          'Accept': 'application/json',
+          'Authorization': 'Bearer $token',
+        },
       );
 
-      await LocalStorageService.salvarUsuario(usuario);
-      return 201;
-    } else {
-      print('Deu erro: ${response.body}');
-      return 400;
+      if (response.statusCode == 200) {
+        final userData = jsonDecode(response.body);
+        User usuario = User.fromMap(userData['data']);
+
+        String? novoCaminho = await Authcontroller.baixarESalvarImagem(
+          usuario.urlImage,
+        );
+        usuario.urlImage = novoCaminho;
+
+        await Authcontroller.cadastrarNovoUsuario(usuario);
+
+        //print('Dados do usuário: ${userData['data']}');
+        //print('Nome: ${userData['data']['name']}');
+        return 200;
+      } else if (response.statusCode == 401) {
+        print('Não autorizado: Token inválido ou expirado.');
+        return 401;
+      } else {
+        print('Erro na requisição: ${response.statusCode}');
+        return response.statusCode;
+      }
+    } catch (e) {
+      print('Erro de conexão: $e');
+      return 0;
     }
-  }*/
+  }
 
   static Future<int> login(String email, String senha) async {
     String caminho = '${Rotas.rotaApi}login';
@@ -50,33 +54,39 @@ class Usersapi {
     try {
       final dadosEnviar = {'email': email, 'password': senha};
 
-      final response = await http.post(
+      final resposta = await http.post(
         url,
         headers: {'Content-Type': 'application/json'},
         body: jsonEncode(dadosEnviar),
       );
 
-      if (response.statusCode == 200) {
-        final Map<String, dynamic> responseData = jsonDecode(response.body);
-        print(responseData);
+      //print(resposta.body);
 
-        User usuario = User(
-          id: responseData['user']['id'],
-          user_name: responseData['user']['user_name'],
-          name: responseData['user']['name'],
-          email: responseData['user']['email'],
-          idade: responseData['user']['idade'] ?? null,
-          cidadeMora: responseData['user']['cidadeMora'] ?? null,
-          token: responseData['token'],
+      if (resposta.statusCode == 200) {
+        final Map<String, dynamic> respostaDecodificada = jsonDecode(
+          resposta.body,
         );
+        //print(respostaDecodificada);
 
-        await LocalStorageService.salvarUsuario(usuario);
+        User usuario = User.fromMap(respostaDecodificada['user']);
+        Token token = Token(token: respostaDecodificada['token']);
+
+        String? novoCaminho = await Authcontroller.baixarESalvarImagem(
+          usuario.urlImage,
+        );
+        usuario.urlImage = novoCaminho;
+
+        await LocalStorageService.salvarToken(token);
+        await Authcontroller.cadastrarNovoUsuario(usuario);
         return 200;
+      } else if (jsonDecode(resposta.body).containsKey('eAdmin') &&
+          jsonDecode(resposta.body)['eAdmin'] == true) {
+        return 1;
       } else {
         print(
-          'Erro no servidor: ${response.body} (Código: ${response.statusCode})',
+          'Erro no servidor: ${resposta.body} (Código: ${resposta.statusCode})',
         );
-        return response.statusCode;
+        return resposta.statusCode;
       }
     } catch (e) {
       print('Deu erro: $e');
@@ -84,7 +94,7 @@ class Usersapi {
     }
   }
 
-  static Future<int> logout(User usuario) async {
+  static Future<int> logout(String token) async {
     String caminho = '${Rotas.rotaApi}logout';
     final url = Uri.parse(caminho);
 
@@ -93,14 +103,19 @@ class Usersapi {
       headers: {
         'Content-Type': 'application/json',
         'Accept': 'application/json',
-        'Authorization': 'Bearer ${usuario.token}',
+        'Authorization': 'Bearer $token',
       },
     );
 
     if (response.statusCode == 204) {
-      await LocalStorageService.deslogarUsuario();
+      try {
+        await Authcontroller.deslogarUsuario();
 
-      return 204;
+        return 204;
+      } catch (e) {
+        print('Algum erro $e');
+        return 0;
+      }
     } else {
       print(
         'Erro no servidor: ${response.body} (Código: ${response.statusCode})',
