@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Services\CloudinaryService;
 use Illuminate\Support\Facades\Storage;
 use App\Http\Requests\ProfileUpdateRequest;
 use Illuminate\Http\RedirectResponse;
@@ -25,7 +26,7 @@ class ProfileController extends Controller
     /**
      * Update the user's profile information.
      */
-    public function update(ProfileUpdateRequest $request): RedirectResponse
+    public function update(ProfileUpdateRequest $request,CloudinaryService $cloudinary): RedirectResponse
     {
         $dadosValidados = $request->safe()->except(['urlImage']);
 
@@ -37,9 +38,10 @@ class ProfileController extends Controller
 
         if ($request->hasFile('urlImage')) {
             if ($request->user()->urlImage) {
-                Storage::disk('public')->delete($request->user()->urlImage);
+                $cloudinary->deleteImage($request->user()->urlImage);
             }
-            $caminhoFoto = $request->file('urlImage')->store('perfis', 'public');
+            
+            $caminhoFoto = $cloudinary->uploadImage($request->file('urlImage'));
             $request->user()->urlImage = $caminhoFoto;
         }
         else{
@@ -54,7 +56,7 @@ class ProfileController extends Controller
     /**
      * Delete the user's account.
      */
-    public function destroy(Request $request): RedirectResponse
+    public function destroy(Request $request,CloudinaryService $cloudinary): RedirectResponse
     {
         $request->validateWithBag('userDeletion', [
             'password' => ['required', 'current_password'],
@@ -65,7 +67,7 @@ class ProfileController extends Controller
         Auth::logout();
 
         if ($user->urlImage) {
-            Storage::disk('public')->delete($user->urlImage);
+            $cloudinary->deleteImage($user->urlImage);
         }
 
         $user->forceDelete();

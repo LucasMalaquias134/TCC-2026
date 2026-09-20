@@ -80,8 +80,8 @@
                                     <div class="modal-header border-0 pb-0 pt-4 px-4 d-flex align-items-center justify-content-between">
                                         <div class="d-flex align-items-center gap-3">
                                             
-                                            @if($usuario->urlImage && Storage::disk('public')->exists($usuario->urlImage))
-                                                <img src="{{ asset('storage/' . $usuario->urlImage) }}" class="rounded-circle object-fit-cover shadow-sm border border-white border-opacity-10"style="width: 48px; height: 48px;">
+                                            @if($usuario->urlImage)
+                                                <img src="{{ $usuario->urlImage }}" class="rounded-circle object-fit-cover shadow-sm border border-white border-opacity-10"style="width: 48px; height: 48px;">
                                             @else
                                                 <div class="rounded-circle d-flex align-items-center justify-content-center text-white fw-bold fs-5 shadow-sm flex-shrink-0" 
                                                     style="width: 48px; height: 48px; background-color: rgb(92, 101, 192);">

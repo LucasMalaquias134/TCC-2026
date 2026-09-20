@@ -6,8 +6,8 @@
 @section('corpo')
 
     <div class="d-flex justify-content-center mb-2">
-        @if(auth()->user()->urlImage && Storage::disk('public')->exists(auth()->user()->urlImage))
-            <img src="{{ asset('storage/' . auth()->user()->urlImage) }}" class="rounded-circle object-fit-cover shadow-sm border border-white border-opacity-10"style="width: 150px; height: 150px;">
+        @if(auth()->user()->urlImage)
+            <img src="{{ auth()->user()->urlImage }}" class="rounded-circle object-fit-cover shadow-sm border border-white border-opacity-10"style="width: 150px; height: 150px;">
         @else
             <div class="rounded-circle d-flex align-items-center justify-content-center text-white fw-bold fs-1 shadow-sm flex-shrink-0" 
                 style="width: 150px; height: 150px; background-color: rgb(92, 101, 192);">

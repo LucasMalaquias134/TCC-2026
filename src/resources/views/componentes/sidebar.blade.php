@@ -13,8 +13,8 @@
                 <li class="nav-item">
                     <div class="d-flex justify-content-center mb-2">
                         <a href="{{ route('profile.edit') }}" class="text-decoration-none">
-                            @if(auth()->user()->urlImage && Storage::disk('public')->exists(auth()->user()->urlImage))
-                                <img src="{{ asset('storage/' . auth()->user()->urlImage) }}" class="rounded-circle object-fit-cover shadow-sm border border-white border-opacity-10"style="width: 100px; height: 100px;">
+                            @if(auth()->user()->urlImage)
+                                <img src="{{ auth()->user()->urlImage }}" class="rounded-circle object-fit-cover shadow-sm border border-white border-opacity-10"style="width: 100px; height: 100px;">
                             @else
                                 <div class="rounded-circle d-flex align-items-center justify-content-center text-white fw-bold fs-1 shadow-sm flex-shrink-0" 
                                     style="width: 100px; height: 100px; background-color: rgb(92, 101, 192);">

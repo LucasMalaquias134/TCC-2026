@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Auth;
 
+use App\Services\CloudinaryService;
 use App\Http\Controllers\Controller;
 use App\Models\User;
 use Illuminate\Auth\Events\Registered;
@@ -28,7 +29,7 @@ class RegisteredUserController extends Controller
      *
      * @throws ValidationException
      */
-    public function store(Request $request): RedirectResponse
+    public function store(Request $request,CloudinaryService $cloudinary): RedirectResponse
     {
         $request->validate([
             'user_name' => ['required', 'string','max:255','min:3','unique:'.User::class],
@@ -43,8 +44,7 @@ class RegisteredUserController extends Controller
         $caminhoFoto=null;
 
         if ($request->hasFile('urlImage')) {
-            $caminhoFoto = $request->file('urlImage')->store('perfis', 'public');
-            $dadosParaSalvar['urlImage'] = $caminhoFoto; 
+            $caminhoFoto = $cloudinary->uploadImage($request->file('urlImage'));
         }
 
         $user = User::create([

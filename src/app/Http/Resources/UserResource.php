@@ -22,7 +22,7 @@ class UserResource extends JsonResource
             'email' => $this->email,
             'idade' => $this->idade,
             'cidadeMora'=> $this->cidadeMora,
-            'urlImage' => ($this->urlImage && Storage::disk('public')->exists($this->urlImage)) ? asset(Storage::url($this->urlImage)) : null,
+            'urlImage' => $this->urlImage
         ];
     }
 }
