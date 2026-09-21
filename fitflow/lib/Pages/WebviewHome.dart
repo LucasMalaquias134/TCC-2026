@@ -5,14 +5,14 @@ import 'package:webview_flutter/webview_flutter.dart';
 import 'package:webview_flutter_android/webview_flutter_android.dart';
 import 'package:file_picker/file_picker.dart';
 
-class Cadastro extends StatefulWidget {
-  const Cadastro({super.key});
+class Webviewhome extends StatefulWidget {
+  const Webviewhome({super.key});
 
   @override
-  State<Cadastro> createState() => _CadastroState();
+  State<Webviewhome> createState() => _WebviewhomeState();
 }
 
-class _CadastroState extends State<Cadastro> {
+class _WebviewhomeState extends State<Webviewhome> {
   late final WebViewController _controller;
   bool _isLoading = true;
 
@@ -73,7 +73,7 @@ class _CadastroState extends State<Cadastro> {
           },
         ),
       )
-      ..loadRequest(Uri.parse('${Rotas.rota}register'));
+      ..loadRequest(Uri.parse('${Rotas.rota}home'));
   }
 
   @override

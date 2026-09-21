@@ -31,6 +31,8 @@ class LocalStorageService {
   static Future<void> deslogarUsuario() async {
     final SharedPreferences prefs = await SharedPreferences.getInstance();
     await prefs.remove(LISTA_USERS);
+    await prefs.remove(LISTA_FICHA);
+    await prefs.remove(LISTA_FICHA_EXERCICIOS);
   }
 
   //===Recurso de fichas==========================================================================

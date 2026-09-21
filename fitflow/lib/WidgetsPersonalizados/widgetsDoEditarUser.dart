@@ -1,7 +1,5 @@
-import 'package:fitflow/modelo/api/rotas.dart';
+import 'package:fitflow/Pages/WebviewHome.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
-import 'package:url_launcher/url_launcher.dart';
 
 class cartaoPadrao extends StatelessWidget {
   const cartaoPadrao({
@@ -68,13 +66,10 @@ class cartaoNavigator extends StatelessWidget {
         Expanded(
           child: GestureDetector(
             onTap: () async {
-              final Uri url = Uri.parse(Rotas.rota);
-
-              if (await canLaunchUrl(url)) {
-                await launchUrl(url, mode: LaunchMode.externalApplication);
-              } else {
-                throw 'Não Deu para abrir: $url';
-              }
+              Navigator.push(
+                context,
+                MaterialPageRoute(builder: (context) => Webviewhome()),
+              );
             },
             child: Card(
               child: Container(

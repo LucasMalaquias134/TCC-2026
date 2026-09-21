@@ -6,7 +6,6 @@ use App\Http\Controllers\Api\AuthController;
 use App\Http\Resources\UserResource;
 
 Route::post('/login', [AuthController::class, 'login']);
-Route::post('/register', [AuthController::class, 'register']);
 
 Route::middleware(['auth:sanctum', 'verified'])->group(function () {
     

@@ -53,43 +53,4 @@ class AuthController extends Controller
         }
     }
 
-    public function register(Request $request)
-    {
-        $request->validate([
-            'user_name' => ['required', 'string','max:255','min:3','unique:'.User::class],
-            'name' => ['required', 'string', 'max:255', 'min:3'],
-            'email' => ['required', 'string', 'lowercase', 'email', 'max:255', 'unique:'.User::class],
-            'password' => ['required', 'confirmed', Rules\Password::defaults()],
-            'idade' => ['nullable','integer','min:10','max:120'],
-            'cidadeMora' => ['nullable','string','max:255','min:3'],
-            'urlImage' => ['nullable','image','mimes:jpeg,png,jpg','max:2048'],
-        ]);
-
-        $caminhoFoto=null;
-
-        if ($request->hasFile('urlImage')) {
-            $caminhoFoto = $request->file('urlImage')->store('perfis', 'public');
-            $dadosParaSalvar['urlImage'] = $caminhoFoto; 
-        }
-
-        $user = User::create([
-            'user_name' => $request->user_name,
-            'name' => $request->name,
-            'email' => $request->email,
-            'password' => Hash::make($request->password),
-            'idade' => $request->idade,
-            'cidadeMora' => $request->cidadeMora,
-            'urlImage' => $caminhoFoto
-        ]);
-
-        event(new Registered($user));
-
-        $token = $user->createToken('auth_token')->plainTextToken;
-
-        return response()->json([
-            'user' => new UserResource($user),
-            'access_token' => $token,
-            'token_type' => 'Bearer',
-        ], 201);
-    }
 }

@@ -31,23 +31,35 @@ class _Splash2State extends State<Splash2> {
     int resultado2 = await Apigeral.atualizaInfo(token, usuarioAtivo!.id);
     if (resultado1 == 0 || resultado2 == 0) {
       barraDeFracasso('Erro de conexão, tente novamente mais tarde');
+      Future.delayed(Duration(seconds: 2), () {
+        Navigator.pushReplacement(
+          context,
+          MaterialPageRoute(builder: (context) => Home()),
+        );
+      });
     } else if (resultado1 != 200 && resultado2 != 200) {
       barraDeFracasso(
         'Algo deu errado, tente novamente mais tarde, codigo erro : $resultado1 e $resultado2',
       );
+      Future.delayed(Duration(seconds: 2), () {
+        Navigator.pushReplacement(
+          context,
+          MaterialPageRoute(builder: (context) => Home()),
+        );
+      });
     }
-  }
-
-  @override
-  void initState() {
-    super.initState();
-    atualizaInfo();
     Future.delayed(Duration(seconds: 2), () {
       Navigator.pushReplacement(
         context,
         MaterialPageRoute(builder: (context) => Home()),
       );
     });
+  }
+
+  @override
+  void initState() {
+    super.initState();
+    atualizaInfo();
   }
 
   @override

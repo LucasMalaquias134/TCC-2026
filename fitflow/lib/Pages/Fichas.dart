@@ -137,17 +137,47 @@ class _FichasState extends State<Fichas> {
               ],
             ),
             FichasClasse.isEmpty
-                ? Padding(
-                    padding: EdgeInsets.all(15),
-                    child: Center(
-                      child: Text(
-                        (pesquisaController.text.trim().isEmpty)
-                            ? 'Nenhuma ficha cadastrada'
-                            : 'Nenhuma ficha cadastrada com esse nome \'${pesquisaController.text}\' ',
-                        style: TextStyle(
-                          color: Color(0xFF6E5CFF),
-                          fontFamily: 'fredoka',
-                          fontSize: 16,
+                ? Expanded(
+                    child: RefreshIndicator(
+                      color: Color(0xFF6E5CFF),
+                      onRefresh: () async {
+                        int resultado1 = await Usersapi.atualizaDados(token!);
+                        int resultado2 = await Apigeral.atualizaInfo(
+                          token!,
+                          usuario!.id,
+                        );
+                        setState(() {
+                          carregarDados();
+                        });
+                        if (resultado1 == 0 || resultado2 == 0) {
+                          barraDeFracasso(
+                            'Erro de conexão, tente novamente mais tarde',
+                          );
+                        } else if (resultado1 != 200 && resultado2 != 200) {
+                          barraDeFracasso(
+                            'Algo deu errado, tente novamente mais tarde, codigo erro : $resultado1 e $resultado2',
+                          );
+                        }
+                      },
+                      child: SingleChildScrollView(
+                        physics: const AlwaysScrollableScrollPhysics(),
+                        child: ConstrainedBox(
+                          constraints: BoxConstraints(
+                            minHeight: MediaQuery.of(context).size.height,
+                          ),
+                          child: Padding(
+                            padding: EdgeInsets.all(0),
+                            child: Text(
+                              (pesquisaController.text.trim().isEmpty)
+                                  ? 'Nenhuma ficha cadastrada'
+                                  : 'Nenhuma ficha cadastrada com esse nome \'${pesquisaController.text}\' ',
+                              style: TextStyle(
+                                color: Color(0xFF6E5CFF),
+                                fontFamily: 'fredoka',
+                                fontSize: 16,
+                              ),
+                            ),
+                          ),
                         ),
                       ),
                     ),

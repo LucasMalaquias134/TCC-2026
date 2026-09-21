@@ -23,7 +23,7 @@ class UserSeeder extends Seeder
             'user_name'=>'admin',
             'is_admin'=>'1'
         ]);
-        User::factory()->count(50)->create();
+        //User::factory()->count(50)->create();
 
     }
 }
