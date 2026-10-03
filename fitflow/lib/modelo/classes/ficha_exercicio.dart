@@ -36,7 +36,7 @@ class FichaExercicio {
       'dias_semana': dias_semana,
       'ordem': ordem,
       'qntdSeries': qntdSeries,
-      'qtndRep': qntdRep,
+      'qntdRep': qntdRep,
       'peso': peso,
       'descanso': descanso,
       'descricao': descricao,
