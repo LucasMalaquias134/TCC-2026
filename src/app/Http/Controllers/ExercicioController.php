@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\Exercicio;
+use App\Models\Ficha_exercicio;
 use Illuminate\Support\Facades\Auth;
 
 class ExercicioController extends Controller
@@ -84,19 +85,39 @@ class ExercicioController extends Controller
     public function destroy(string $id)
     {
         $user = Auth::user();
-        if($user->is_admin===true){
+        if ($user->is_admin === true) {
             try {
-
-                $exercicio = Exercicio::findOrFail(decrypt($id));
+                $exercicio = Exercicio::findOrFail(decrypt($id)); 
                 $nomeexercicio = $exercicio->treino;
+
+                $pivotsAfetados = Ficha_exercicio::where('exercicio_id', $exercicio->id)->get();
+
+                $fichasDiasAfetadas = $pivotsAfetados->unique(function ($item) {
+                    return $item->ficha_id . '-' . $item->dias_semana;
+                });
+
                 $exercicio->delete();
+
+                foreach ($fichasDiasAfetadas as $afetado) {
+
+                    $exerciciosRestantes = Ficha_exercicio::where('ficha_id', $afetado->ficha_id)
+                        ->where('dias_semana', $afetado->dias_semana)
+                        ->orderBy('ordem')
+                        ->get();
+
+                    $novaOrdem = 1;
+                    foreach ($exerciciosRestantes as $itemPivot) {
+                        $itemPivot->update(['ordem' => $novaOrdem]);
+                        $novaOrdem++;
+                    }
+                }
+
                 return redirect()->route('exercicio.index')->with('msg', "Exercicio $nomeexercicio apagado com Sucesso!");
 
             } catch (\Throwable $th) {
                 throw $th;
-            }    
-        }
-        else{
+            }
+        } else {
             abort(403, 'Acesso não autorizado.');
         }
     }
