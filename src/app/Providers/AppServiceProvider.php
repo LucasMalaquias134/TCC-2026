@@ -21,8 +21,8 @@ class AppServiceProvider extends ServiceProvider
      */
     public function boot(): void
     {
-        if (env('RUN_SEEDER', false) === true) {
+        /*if (env('RUN_SEEDER', false) === true) {
             Artisan::call('db:seed');
-        }
+        }*/
     }
 }

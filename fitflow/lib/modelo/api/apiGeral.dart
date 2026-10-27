@@ -8,8 +8,8 @@ import 'package:fitflow/modelo/classes/ficha_exercicio.dart';
 import 'package:http/http.dart' as http;
 
 class Apigeral {
-  static Future<int> atualizaInfo(String token, int id) async {
-    final url = Uri.parse('${Rotas.rotaApi}pegaDados/$id');
+  static Future<int> atualizaInfo(String token) async {
+    final url = Uri.parse('${Rotas.rotaApi}pegaDados/');
     try {
       final response = await http.get(
         url,

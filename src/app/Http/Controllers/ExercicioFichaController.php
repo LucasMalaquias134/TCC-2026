@@ -23,18 +23,6 @@ class ExercicioFichaController extends Controller
         $exercicios = Exercicio::all();
         return view('fichasExercicioCrud.listafilhaEditar',['ficha'=>$ficha,'exercicios'=>$exercicios]);
     }
-
-    /**
-     * Show the form for creating a new resource.
-     */
-    public function create()
-    {
-        //
-    }
-
-    /**
-     * Store a newly created resource in storage.
-     */
     public function store(Request $request, string $id)
     {
         try {
@@ -105,14 +93,6 @@ class ExercicioFichaController extends Controller
     public function show()
     {
         return redirect()->route('home')->with('msg', "Ficha de Atualizada Com Sucesso!");
-    }
-
-    /**
-     * Show the form for editing the specified resource.
-     */
-    public function edit(string $id)
-    {
-        //
     }
 
     /**

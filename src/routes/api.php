@@ -15,6 +15,6 @@ Route::middleware(['auth:sanctum', 'verified'])->group(function () {
         return response()->json(null, 204);
     });
 
-    Route::get('/pegaDados/{id}', [AuthController::class, 'pegaDados']);
+    Route::get('/pegaDados', [AuthController::class, 'pegaDados']);
     
 });

@@ -79,7 +79,7 @@ class _EditaruserState extends State<Editaruser> {
           color: Color(0xFF6E5CFF),
           onRefresh: () async {
             int resultado1 = await Usersapi.atualizaDados(token!);
-            int resultado2 = await Apigeral.atualizaInfo(token!, usuario!.id);
+            int resultado2 = await Apigeral.atualizaInfo(token!);
             setState(() {
               carregarDados();
             });

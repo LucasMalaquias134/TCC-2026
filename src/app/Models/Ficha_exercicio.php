@@ -13,6 +13,6 @@ class Ficha_exercicio extends Pivot
     use SoftDeletes, HasFactory;
 
     protected $table = 'ficha_exercicio';
-    public $timestamp = true;
+    public $timestamps = true;
 }
 

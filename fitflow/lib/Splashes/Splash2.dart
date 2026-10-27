@@ -2,8 +2,6 @@ import 'package:fitflow/Pages/Home.dart';
 import 'package:fitflow/controle/tokenController.dart';
 import 'package:fitflow/modelo/api/apiGeral.dart';
 import 'package:fitflow/modelo/api/usersApi.dart';
-import 'package:fitflow/modelo/classes/user.dart';
-import 'package:fitflow/modelo/local_storage_service.dart';
 import 'package:flutter/material.dart';
 
 class Splash2 extends StatefulWidget {
@@ -25,10 +23,9 @@ class _Splash2State extends State<Splash2> {
   }
 
   Future<void> atualizaInfo() async {
-    User? usuarioAtivo = await LocalStorageService.carregarUsuario();
     String? token = await Tokencontroller.stringTokenCarregado();
     int resultado1 = await Usersapi.atualizaDados(token!);
-    int resultado2 = await Apigeral.atualizaInfo(token, usuarioAtivo!.id);
+    int resultado2 = await Apigeral.atualizaInfo(token);
     if (resultado1 == 0 || resultado2 == 0) {
       barraDeFracasso('Erro de conexão, tente novamente mais tarde');
       Future.delayed(Duration(seconds: 2), () {

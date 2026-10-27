@@ -14,7 +14,7 @@ class Exercicio extends Model
     use SoftDeletes, HasFactory;
 
     protected $table = 'exercicio';
-    public $timestamp = true;
+    public $timestamps = true;
 
     public function fichas(): BelongsToMany
     {

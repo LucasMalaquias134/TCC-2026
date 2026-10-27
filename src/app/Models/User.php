@@ -21,7 +21,7 @@ class User extends Authenticatable implements MustVerifyEmail
     use HasFactory, Notifiable , SoftDeletes, HasApiTokens;
 
     protected $table = 'users';
-    public $timestamp = true;
+    public $timestamps = true;
 
     /**
      * Get the attributes that should be cast.

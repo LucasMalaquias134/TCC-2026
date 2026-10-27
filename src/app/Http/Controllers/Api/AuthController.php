@@ -10,7 +10,6 @@ use Illuminate\Validation\Rules;
 use App\Http\Resources\UserResource;
 use Illuminate\Auth\Events\Registered;
 use App\Http\Resources\ExercicioResource;
-use App\Http\Resources\FichaExercicioResource;
 use App\Http\Resources\FichasResource;
 
 class AuthController extends Controller
@@ -36,9 +35,10 @@ class AuthController extends Controller
         return response()->json(['token' => $token, 'user' => new UserResource($user)]);
     }
 
-    public function pegaDados(String $id){
+    public function pegaDados(Request $request){
         try {
-            $user = User::with('fichas.exercicios')->findOrFail($id);
+            $user = $request->user();
+            $user->load('fichas.exercicios');
             $fichas = $user->fichas;
 
             $exercicios = $fichas->pluck('exercicios')->collapse();

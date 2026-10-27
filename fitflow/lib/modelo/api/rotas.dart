@@ -1,4 +1,6 @@
 class Rotas {
-  static final String rotaApi = "https://fitflow.wasmer.app/api/";
-  static final String rota = "https://fitflow.wasmer.app/";
+  static final String rotaApi = "http://127.0.0.1:8000/api/";
+  static final String rota = "http://127.0.0.1:8000/";
 }
+//fitflow.wasmer.app/api/
+//fitflow.wasmer.app/

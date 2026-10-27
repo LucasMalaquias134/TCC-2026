@@ -133,17 +133,27 @@ class FichaController extends Controller
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(Ficha $ficha)
+    public function destroy(string $id)
     {
-        if ($ficha->user_id !== Auth::user()->id) {
-            abort(403, 'Acesso não autorizado.');
-        }
-        $nomeFicha = $ficha->name;
+        try {
+            $ficha = Ficha::findOrFail(decrypt($id));
 
-        foreach ($ficha->exercicios as $exercicio) {
-            $exercicio->pivot->delete();
+            if ($ficha->user_id !== Auth::user()->id) {
+                abort(403, 'Acesso não autorizado.');
+            }
+
+            $nomeFicha = $ficha->name;
+
+            foreach ($ficha->exercicios as $exercicio) {
+                $exercicio->pivot->delete();
+            }
+
+            $ficha->delete();
+
+            return redirect()->route('home')->with('msg', "Ficha $nomeFicha apagada com Sucesso!");
+            
+        } catch (\Throwable $th) {
+            throw $th;
         }
-        $ficha->delete();
-        return redirect()->route('home')->with('msg', "Ficha $nomeFicha apagada com Sucesso!");
     }
 }

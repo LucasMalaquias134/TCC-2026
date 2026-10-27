@@ -15,7 +15,7 @@ class Ficha extends Model
     use SoftDeletes, HasFactory;
 
     protected $table = 'ficha';
-    public $timestamp = true;
+    public $timestamps = true;
 
     public function user(): BelongsTo
     {

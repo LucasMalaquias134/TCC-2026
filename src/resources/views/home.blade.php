@@ -173,7 +173,7 @@
                     <div class="modal-dialog modal-dialog-centered">
                         <div class="modal-content border-0 rounded-4 shadow-lg" style="background-color: #1b1437;">
                             
-                            <form method="POST" action="{{ route('fichas.destroy',$ficha) }}" class="m-0">
+                            <form method="POST" action="{{ route('fichas.destroy',encrypt($ficha->id)) }}" class="m-0">
                                 @csrf
                                 @method('delete')
 
